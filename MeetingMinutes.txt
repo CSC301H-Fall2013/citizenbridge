@@ -1,0 +1,16 @@
+Meeting Minutes 2013-09-26 
+
+Members present: All 
+
+Decisions made:
+ - Regular meet ups:
+	• Tuesdays after Lecture  
+	• Wednesdays 3pm onwards if necessary. 
+ 	• Friday evening 6pm only if abs 
+
+- Tasks for next time:	
+	[] Narrow down to specific tasks, requirements. 
+		- some features not all
+		- better to underpromise 	
+	[] add more user stories 
+	[] finish team charter 
