@@ -20,7 +20,6 @@
 				//$current .= "John Smith\n";
 				// Write the contents back to the file
 				file_put_contents($file, $homepage);
-				echo $homepage;
 				?> 
 
 				<script type="text/javascript">
