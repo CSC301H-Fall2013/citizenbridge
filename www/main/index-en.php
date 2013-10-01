@@ -31,6 +31,9 @@
 	<!--<![endif]-->
 
 	<!-- CustomCSSStart -->
+
+	<!-- ATHA__Style_sheet  -->
+
 	<style>
 	#components td {vertical-align: middle;}
 	</style>
@@ -158,19 +161,35 @@
 				Hello world!
 
 				<?php
-				$homepage = file_get_contents('http://www.example.com/');
-				echo $homepage;
-				?>
+				$homepage = file_get_contents('http://api.parliamentdata.ca/representatives/');
 
+				$file = 'tmp/RepresentativeDownload.json';
+				file_put_contents($file, $homepage);
+				?> 
+
+
+				<table id="rep-table"> </table>
 				<script type="text/javascript">
-	
+					
+					$.getJSON( "tmp/RepresentativeDownload.json", function( data ) {
+						$.each(data.results, function (i, item) {
+							imgID = item.image_id;
+							given = item.name.given;
+							family = item.name.family;
+							constituency = item.constituency.name.en;
+							province = item.constituency.province.name.en;
+							imgUrl = "http://www.parl.gc.ca/Parlinfo/images/Picture.aspx?Item=";
+							
+							html  = "<th>" + '<img style="height:120px; width:77px" src="' + imgUrl + imgID + '"">' + "</th>"; 
+							html += "<th>" + given + " " + family + "</th>";
+							html += "<th>" + constituency + ", " + province + "</th>";
 
-
-
-					//http://api.parliamentdata.ca/representatives
-					// $.getJSON("http://api.parliamentdata.ca/representatives", function(data) {
-					//     alert(data.results);
-					// });
+							
+							$("#rep-table").append("<tr>"+ html +"</tr>");
+							// console.log("Name: " + given + " " + family + "\n");
+							// console.log(constituency + ", " + province);
+						})
+					});
 
 				</script>
 				<!-- http://api.parliamentdata.ca/representatives -->
