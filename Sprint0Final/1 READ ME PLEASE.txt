@@ -1,0 +1,43 @@
+Hello, 
+
+▇▇▇▇▇▇▇►  Project Details
+Most of our details can be found on the homepage:
+http://csc301h-fall2013.github.io/citizenbridge/  
+This includes:
+• Team / Vision  /Technology 
+• links to: Meeting Minutes/ Attendence Spread sheet. 
+
+
+▇▇▇▇▇▇▇►  1st Build
+In the first build, we implemented the first user story. Users get to see a list of their representatives. 
+
+The source code can be found in the 'www' section of our homepage, a hosted version can be found here:
+http://levu.ca/citizenbridge/main/index-en.php
+
+
+
+▇▇▇▇▇▇▇►  Goals 
+
+This tuesday (1st october)
+We spoke with our product champions about specific goals and targets. 
+
+Their goal was as following: 
+ - A user who never used the site before should be able to figure out how to access a bill within 3 minutes. 
+
+They said that how we implement the goal will be compleatley up to us. 
+
+So we broke it down into 3 sections: 
+ - Representative view	 (This is where users will be able to get a view of the representatives)
+ - Bills view 			 (This is where users will be able to see information about current bills)
+ - Committees 			 (This is where peoplew will be able to see information about committees that are being held)
+
+Our user stories revolve around adding features to these 3 categories. 
+
+▇▇▇▇▇▇▇►  User Stories
+We have re-done most of our user stories. We broke them down into smaller more digestable chunks. 
+We also added a lot more user stories. 
+
+▇▇▇▇▇▇▇►  Note on representatives 
+As per conversation with our Product Champion, this project will be primarily 
+focused on implementing the user side features. It will be less focused on implementing features for representatives
+for the time being. Thus we don't have a persona for a Representative just yet.

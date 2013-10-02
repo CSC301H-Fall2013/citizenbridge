@@ -1,0 +1,91 @@
+
+Daet: 24th sept. 
+----
+A platform for communicating with your representative. 
+
+8 volunteers 
+Create relation ship between citizens and representatives
+ - Citizens talk to reps and reps talk to citizen
+ - online town halls 
+ - explain why their bills were created. 
+
+built on a transparent platform 
+ - asks:
+ 		- Real Name
+ 		- Email address 
+ 		- Post Code 
+
+ User 	
+ 	- see 3 levels 
+ 		- federal   			<-federal level 
+ 		- provincial	
+ 		- municipal (?) 
+
+ Current problem 
+  - existing site is very complex to use. Things hidden away under a complex structure. 
+
+
+Stages 
+ 	1- pre-planning. 			
+ 	2- Spoken on the house of comments,   <<reporters pick up on this. 
+
+users:
+ - focus on users who are already engaged
+ - sporadically engadegd, with specific intrests  (specific bill)  (only for their intrest)
+ 			- don't care about rep, don't care about foreign policy 
+
+ intrests
+  - Time Line: track bill progress. Graph that shows it's progress. (date stamps)
+  - Time line: passes though 1 day, 1 week, often longer. Push though in winter break. 
+
+  Bill Examples 
+  	- change laws
+  	- change copy right laws  
+  	- change licensing 
+  	- budget bills (1 -2 paragraphs)
+
+ Privacy 
+  - User data base is not made public. 
+
+
+User Cases:
+  - When I come back to the site, I would like to be notified about : Billl, comments, reps spoke in house of comments 
+
+  		test caes:
+  			- Does the user see a circle 
+
+  - Log in is not required. "I want to see data without having to give data"
+
+  - voting 
+  - following
+  - notifications of 
+  - commitee work, (usually hidden, not visible): see what commitee are doing, and what products they generate. 
+  		Official Commitee reports. 
+  		Unofficial reports (often not shown) <- users want to see.. 
+  	 ^- Want to contribute to those reports.  Uber user, 
+  	  - know who is on which commitee 
+  - users want to reach the commitee, because rep is only 1 vote. 
+  - How would rep use it: 
+   	- find out what citizens are intrested in 
+
+  - users: 
+  	 	- know when their reps are in town. (rep in ottowa or missasagua)
+  	 	- see the calendar of the rep .
+  	 	- tool to create meetings between reps and citizens 
+
+
+
+Understanding 
+ 1) House of commers, elected 
+ 2) House  Sanitor, appointed
+
+not a voting place, but pure information. Not a flaming war place. 
+Site is neutral, not biasaed thoward one party or the other. Avoid "propoganda tool thing"
+
+
+Tech 
+php, codeignitor, use a bit of Bootstrap 
+check: WET web experience toolkit . 
+ • Info needs to be very accessible 
+ • Eventually bi-lingual 
+
