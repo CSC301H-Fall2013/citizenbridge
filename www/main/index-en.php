@@ -160,6 +160,8 @@
 			<div class="span-8"> 
 				Hello world!
 
+
+				<!-- This bit of code downloads the list of representatives.  -->
 				<?php
 				$homepage = file_get_contents('http://api.parliamentdata.ca/representatives/');
 
@@ -167,7 +169,7 @@
 				file_put_contents($file, $homepage);
 				?> 
 
-
+				<!-- The below parses the downloaded text file and presents it in the table -->
 				<table id="rep-table"> </table>
 				<script type="text/javascript">
 					
@@ -183,11 +185,9 @@
 							html  = "<th>" + '<img style="height:120px; width:77px" src="' + imgUrl + imgID + '"">' + "</th>"; 
 							html += "<th>" + given + " " + family + "</th>";
 							html += "<th>" + constituency + ", " + province + "</th>";
-
 							
 							$("#rep-table").append("<tr>"+ html +"</tr>");
-							// console.log("Name: " + given + " " + family + "\n");
-							// console.log(constituency + ", " + province);
+
 						})
 					});
 				</script>
