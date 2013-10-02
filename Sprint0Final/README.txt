@@ -8,7 +8,8 @@ This includes:
 • links to: Meeting Minutes/ Attendence Spread sheet. 
 
 ▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇►  1st Build
-In the first build, we implemented the first user story. 'Users get to see a list of their representatives.'
+In the first build, we implemented the first user story, which is that users get to see a list of their representatives.
+We estimate that the size of the story is about a 2.
 
 We started on this story to get us going with the W.E.T framework and starting to use the parlimentdata.ca api. 
 
