@@ -59,7 +59,7 @@ http://levu.ca/citizenbridge/main/index-en.php
 
 
 
-▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇►   Goals 
+▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇►   Goals
 
 This tuesday (1st october)
 We spoke with our product champions about specific goals and targets. 
@@ -76,7 +76,6 @@ So we broke it down into 3 sections:
 
 Our user stories revolve around adding features to 2 of these 3 categories. 
 Dealing with committies will be an additional feature if time and resources are available.
-
 
 ▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇►   User Stories
 We have re-done most of our user stories. We broke them down into smaller more digestable chunks. 
