@@ -190,7 +190,6 @@
 							// console.log(constituency + ", " + province);
 						})
 					});
-
 				</script>
 				<!-- http://api.parliamentdata.ca/representatives -->
 
