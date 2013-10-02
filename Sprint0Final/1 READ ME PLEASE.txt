@@ -9,11 +9,15 @@ This includes:
 
 
 ▇▇▇▇▇▇▇►  1st Build
-In the first build, we implemented the first user story. Users get to see a list of their representatives. 
+In the first build, we implemented the first user story. 'Users get to see a list of their representatives.'
+
+We started on this story to get us going with the W.E.T framework and starting to use the parlimentdata.ca api. 
 
 The source code can be found in the 'www' section of our homepage, a hosted version can be found here:
 http://levu.ca/citizenbridge/main/index-en.php
 
+Testing:
+- Manual testing was performed by visual inspection. When opening the page, it shows a list of representatives.
 
 
 ▇▇▇▇▇▇▇►  Goals 
