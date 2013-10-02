@@ -74,7 +74,9 @@ So we broke it down into 3 sections:
  - Bills view 			 (This is where users will be able to see information about current bills)
  - Committees 			 (This is where peoplew will be able to see information about committees that are being held)
 
-Our user stories revolve around adding features to these 3 categories. 
+Our user stories revolve around adding features to 2 of these 3 categories. 
+Dealing with committies will be an additional feature if time and resources are available.
+
 
 ▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇►   User Stories
 We have re-done most of our user stories. We broke them down into smaller more digestable chunks. 
