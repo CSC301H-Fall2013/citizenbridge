@@ -1,3 +1,10 @@
+/****************************************************************
+ * 																*
+ * The source of this file is http://parliamentdata.ca/example/	*
+ * 																*
+ ****************************************************************/
+
+
 // Create the global variable for calling anywhere
 var ParlData = ParlData || {};
 
