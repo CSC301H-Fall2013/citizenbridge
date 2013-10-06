@@ -63,19 +63,19 @@
 					<!-- HeaderStart -->
 					<!-- sh__Language_selection_top_left -->
 					<!--LEO: DISABLING LANGUAGE SUPPORT FOR THE TIME BEING -->
-					<!--
+					
 					<section>
 						<div id="wet-fullhd">
 						<div id="wet-fullhd-in">
 								<ul>
 								
-								<li id="wet-fullhd-lang-2"><a href="index-fr.html" lang="fr">Français</a></li>
+								<!-- <li id="wet-fullhd-lang-2"><a href="index-fr.html" lang="fr">Français</a></li> -->
 								<li id="wet-fullhd-lang-current">English</li>
 								</ul>
 						</div>
 						</div>
 					</section>
-					-->
+					
 
 
 <!-- sh__Banner -->
