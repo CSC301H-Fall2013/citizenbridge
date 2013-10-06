@@ -31,6 +31,9 @@
 	<!--<![endif]-->
 
 	<!-- CustomCSSStart -->
+
+	<!-- ATHA__Style_sheet  -->
+
 	<style>
 	#components td {vertical-align: middle;}
 	</style>
@@ -156,6 +159,40 @@
 			<!-- sh__Main_Body starts here -->
 			<div class="span-8"> 
 				Hello world!
+
+
+				<!-- This bit of code downloads the list of representatives.  -->
+				<?php
+				$homepage = file_get_contents('http://api.parliamentdata.ca/representatives/');
+
+				$file = 'tmp/RepresentativeDownload.json';
+				file_put_contents($file, $homepage);
+				?> 
+
+				<!-- The below parses the downloaded text file and presents it in the table -->
+				<table id="rep-table"> </table>
+				<script type="text/javascript">
+					
+					$.getJSON( "tmp/RepresentativeDownload.json", function( data ) {
+						$.each(data.results, function (i, item) {
+							imgID = item.image_id;
+							given = item.name.given;
+							family = item.name.family;
+							constituency = item.constituency.name.en;
+							province = item.constituency.province.name.en;
+							imgUrl = "http://www.parl.gc.ca/Parlinfo/images/Picture.aspx?Item=";
+							
+							html  = "<th>" + '<img style="height:120px; width:77px" src="' + imgUrl + imgID + '"">' + "</th>"; 
+							html += "<th>" + given + " " + family + "</th>";
+							html += "<th>" + constituency + ", " + province + "</th>";
+							
+							$("#rep-table").append("<tr>"+ html +"</tr>");
+
+						})
+					});
+				</script>
+				<!-- http://api.parliamentdata.ca/representatives -->
+
 
 				
 				
