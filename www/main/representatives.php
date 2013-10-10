@@ -39,6 +39,10 @@
 	#components td {vertical-align: middle;}
 	</style>
 	<!-- CustomCSSEnd -->
+
+	<!-- JOHN : This is where the Datatables function resides for the representative table -->
+	<script class="jsbin" src="http://datatables.net/download/build/jquery.dataTables.nightly.js"></script>
+
 </head>
 
 <!-- 
@@ -158,8 +162,11 @@
 						<!-- sh__Main_Body starts here -->
 						<div class="span-8"> 
 							<h3> Representatives stuff goes here </h3>
-							Hello world!
-							<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+	
+						<!-- JOHN Rep Table -->
+						<div id="main" >
+							
+						</div>
 
 
 
@@ -180,7 +187,12 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		</div>  <!-- Main end -->
+
+
+		<!-- JOHN: script to create the table -->
+		<script type="text/javascript" src="ParlData.js"></script>
+		<script type="text/javascript" src="script.js"></script>
 
 
 
