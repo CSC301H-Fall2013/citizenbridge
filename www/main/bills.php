@@ -157,9 +157,12 @@
 
 						<!-- sh__Main_Body starts here -->
 						<div class="span-8"> 
-							<h3> Bill stuff goes here</h3>
+							<h3> Bill stuff goes asdasdasdasdhere</h3>
 
-							<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+							<!--<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>-->
+						<div id="main" >
+							
+						</div>
 
 
 
@@ -180,7 +183,10 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		</div> <!-- Main End -->
+		<!-- Abe: copied/based off of the representitives page -->
+		<script type="text/javascript" src="ParlData.js"></script>
+		<script type="text/javascript" src="script2.js"></script>
 
 
 
