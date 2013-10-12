@@ -39,6 +39,8 @@
 	#components td {vertical-align: middle;}
 	</style>
 	<!-- CustomCSSEnd -->
+    
+    <script class="jsbin" src="http://datatables.net/download/build/jquery.dataTables.nightly.js"></script>
 </head>
 
 <!-- 
