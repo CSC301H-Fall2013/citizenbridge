@@ -43,6 +43,9 @@
 	<!-- JOHN : This is where the Datatables function resides for the representative table -->
 	<script class="jsbin" src="http://datatables.net/download/build/jquery.dataTables.nightly.js"></script>
 
+	<!-- LEO: Adding style sheet -->
+	<link type="text/css" rel="stylesheet" href="stylesheet.css"/>
+	
 </head>
 
 <!-- 
@@ -167,8 +170,6 @@
 						<div id="main" >
 							
 						</div>
-
-
 
 
 						</div>

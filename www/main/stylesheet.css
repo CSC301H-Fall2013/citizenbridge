@@ -1,0 +1,13 @@
+#repBlock {
+	 display: inline-block;
+}
+
+#repImg {
+	height : 180px; 
+	width : 110px;
+	float : left;
+}
+
+#repInfoBox {
+	float  : left;
+}
