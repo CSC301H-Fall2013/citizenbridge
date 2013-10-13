@@ -12,16 +12,17 @@
 	 */
 	var parseBills = function(data) {
 		//Create the table and the header
-		var html = "<table id='bill-table' class='wet-boew-tables'><thead><tr role='row'><th>Bill</th><th>Title</th><th>Type</th><th>Status</th><th>Sponsor</th><th>Updated</th></tr></thead><tbody>";
+		var html = "<table id='bill-table' class='wet-boew-tables'><thead><tr role='row'><th>Bill</th><th>Language</th><th>Title</th><th>Type</th><th>Status</th><th>Sponsor</th><th>Updated</th></tr></thead><tbody>";
 
 		// Create a row for each bill
 		for (var i = 0; i < data.results.length; i++) {
 
 			// Get all the required data from the JSON
-			var result, prefixnum, title, updated, type, sponsor, status;
+			var result, prefixnum, title, updated, type, sponsor, status, lang;
 
 			result = data.results[i];
 			prefixnum = result.prefix + result.number;
+			lang = result.language;
 			title = result.short_title.EN;
 			if (title == null) { //short_title may not always be available.
 				title = result.title.EN;
@@ -58,6 +59,7 @@
 			// Create the row
 			html += "<tr>";
 			html += "<td>" + prefixnum + "</td>";
+			html += "<td>" + lang + "</td>";
 			html += "<td>" + title + "</td>";
 			html += "<td>" + type + "</td>";
 			html += "<td>" + status + "</td>";
