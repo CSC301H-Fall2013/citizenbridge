@@ -161,15 +161,12 @@
 
 						<!-- sh__Main_Body starts here -->
 						<div class="span-8"> 
-							<h3> Representatives stuff goes here </h3>
+							<h3> Representatives stuff goes herez </h3>
 	
 						<!-- JOHN Rep Table -->
 						<div id="main" >
 							
 						</div>
-
-
-
 
 
 
