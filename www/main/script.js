@@ -142,7 +142,9 @@
 				html += "</div>";*/
 				
 							
-				template = "<button onclick='loadRepList()'>Back</button><br><div class='span-1'><img src={{imgUrl}}></img></div><div class='span-5'><b>Name: </b>{{given}} {{family}}<b>&nbsp;&nbsp;&nbsp;&nbsp;Titles   </b>{{suffix}}<br><b> Constituency: </b>{{constituency}}&nbsp;&nbsp;&nbsp; <b>Election date: </b>{{election}}<br><b>Caucus: </b>{{caucus}}<br>{{links}}</div>";
+				templateMain = "<button onclick='loadRepList()'>Back</button><br><div class='span-1'><img src={{imgUrl}}></img></div><div class='span-5'><summary>Overview</summary><b>Name: </b>{{given}} {{family}}<b>&nbsp;&nbsp;&nbsp;&nbsp;Titles   </b>{{suffix}}<br><b> Constituency: </b>{{constituency}}&nbsp;&nbsp;&nbsp; <b>Election date: </b>{{election}}<br><b>Caucus: </b>{{caucus}}<br>{{links}}<br> {{contacts}}</div>";
+				
+				templateContact = "<details><summary class='background-medium'>Contacts</summary>{{details}}</details>"
 				
 				result = data.results[0];
 
@@ -170,8 +172,20 @@
 					links += '<a href="' + result.links[i] + '"><b>' + i + "</b></a><br>";
 				}
 				
+				contacts = "";
+				for (i in result.offices)
+				{
+					for (j in result.offices[i]) 
+					{
+						//alert(JSON.stringify((result.offices[i])[j]));
+						contacts += "<b>" + j + "</b>: " + (result.offices[i])[j] + "<br>";
+					}
+				}
+				//alert(contacts);
+				contacts = contacts.replace("_", "&nbsp;");
+				contacts = "<details><summary class='background-medium'>Contacts</summary>" + contacts + "</details>";
 				
-				html = template
+				html = templateMain
 					.replace("{{imgUrl}}", imgUrl)
 					.replace("{{given}}", given)
 					.replace("{{family}}", family)
@@ -179,22 +193,24 @@
 					.replace("{{constituency}}", constituency)
 					.replace("{{election}}", electDate.toLocaleDateString())
 					.replace("{{caucus}}", caucus)
-					.replace("{{links}}", links);
+					.replace("{{links}}", links)
+					.replace("{{contacts}}", contacts);
 					
 
 				//Replace the content of the webpage with new html. 
 				$("#main").html(html);
 				
-				html = '<details class="span-4 example2"><summary class="background-medium">Example 2</summary><div><p>Example content that provides more details.</p></div></details>';
-				$("#main").html(html);
+				
+				//html = '<details class="span-4 example2"><summary class="background-medium">Example 2</summary><div><p>Example content that provides more details.</p></div></details>';
+				//$("#main").append(html);
 			}
 			ParlData.reps(repID, "all", parseReps);
 			
 	}
 
 	//▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇►  Auto_execution_start.
-	loadRepList();
-	//loadRep(78554); //http://api.parliamentdata.ca/representatives/78554/all
+	//loadRepList();
+	loadRep(78554); //http://api.parliamentdata.ca/representatives/78554/all
 	//loadRep(128110)  //http://api.parliamentdata.ca/representatives/128110/all
 	
 
