@@ -41,6 +41,9 @@
 	<!-- CustomCSSEnd -->
     
     <script class="jsbin" src="http://datatables.net/download/build/jquery.dataTables.nightly.js"></script>
+
+    <!-- ABE: Adding style sheet, copied from LEO -->
+	<link type="text/css" rel="stylesheet" href="stylesheet.css"/>
 </head>
 
 <!-- 
@@ -159,7 +162,7 @@
 
 						<!-- sh__Main_Body starts here -->
 						<div class="span-8"> 
-							<h3> Bill stuff goes asdasdasdasdhere</h3>
+							<h3> Bills</h3>
 
 							<!--<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>-->
 						<div id="main" >
