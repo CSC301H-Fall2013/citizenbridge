@@ -27,8 +27,8 @@ $(document).ready(function(){
 			failure('t1')
 	}
 
+
 	//▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇►  Test cases. 
 	exampleTest();
-	exampleTest2();
 
 });
