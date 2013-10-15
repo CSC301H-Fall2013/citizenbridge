@@ -1,0 +1,11 @@
+.success {
+    color: green;
+}
+
+.failure {
+	color : red;
+}
+
+#tableStyle {
+	 border: 1px solid blue;
+}
