@@ -12,3 +12,7 @@
 #repInfoBox {
 	float  : left;
 }*/
+
+.row {
+	cursor: pointer;
+}

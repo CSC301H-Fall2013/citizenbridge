@@ -40,9 +40,9 @@
 					imgUrl = "http://www.parl.gc.ca/Parlinfo/images/Picture.aspx?Item=";
 
 				// Create the row
-				html += "<tr>";
+				html += "<tr class='row' onclick='loadRep(" + repId + ")'>";
 				html += "<td style='background-position: center 35%; background-size: cover; margin: -5px; background-image: url(" + imgUrl + imgID + ")'>" + "</td>"; 
-				html += "<td onclick='loadRep(" + repId + ")'>" + given + "</td>";
+				html += "<td>" + given + "</td>";
 				html += "<td>" + family + "</td>";
 				html += "<td class='center'>" + caucus + "</td>";
 				html += "<td class='center'>" + constituency + "</td>";
