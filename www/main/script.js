@@ -180,9 +180,11 @@
 						//alert(JSON.stringify((result.offices[i])[j]));
 						contacts += "<b>" + j + "</b>: " + (result.offices[i])[j] + "<br>";
 					}
+					
+					contacts += "<br>";
+					contacts = contacts.replace("_", "&nbsp;");
 				}
 				//alert(contacts);
-				contacts = contacts.replace("_", "&nbsp;");
 				contacts = "<details><summary class='background-medium'>Contacts</summary>" + contacts + "</details>";
 				
 				html = templateMain
@@ -209,8 +211,8 @@
 	}
 
 	//▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇►  Auto_execution_start.
-	//loadRepList();
-	loadRep(78554); //http://api.parliamentdata.ca/representatives/78554/all
+	loadRepList();
+	//loadRep(78554); //http://api.parliamentdata.ca/representatives/78554/all
 	//loadRep(128110)  //http://api.parliamentdata.ca/representatives/128110/all
 	
 
