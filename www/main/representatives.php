@@ -165,10 +165,9 @@
 						<!-- sh__Main_Body starts here -->
 						<div class="span-8"> 
 							<h3> Representatives stuff goes herez </h3>
-	
+							
 						<!-- JOHN Rep Table -->
 						<div id="main" >
-							
 						</div>
 
 
@@ -186,8 +185,16 @@
 				</div>
 			</div>
 		</div>  <!-- Main end -->
-
-
+		
+		
+		
+		<!--appends a details thingy into page
+		<script>
+		html = '<details class="span-4 example2"><summary class="background-medium">Example 2</summary><div><p>Example content that provides more details.</p></div></details>';
+		$('#hel').append(html);
+							
+		</script>-->
+		
 		<!-- JOHN: script to create the table -->
 		<script type="text/javascript" src="ParlData.js"></script>
 		<script type="text/javascript" src="script.js"></script>

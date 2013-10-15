@@ -142,7 +142,7 @@
 				html += "</div>";*/
 				
 							
-				template = "<button onclick='loadRepList()'>Back</button><br><div class='span-1'><img src={{imgUrl}}></img></div><div class='span-5'><b>Name: </b>{{given}} {{family}}<b>&nbsp;&nbsp;&nbsp;&nbsp;Titles   </b>{{suffix}}<br><b> Constituency: </b>{{constituency}}&nbsp;&nbsp;&nbsp; <b>Election date: </b>{{election}}<br><b>Caucus: </b>{{caucus}}<br></div>"
+				template = "<button onclick='loadRepList()'>Back</button><br><div class='span-1'><img src={{imgUrl}}></img></div><div class='span-5'><b>Name: </b>{{given}} {{family}}<b>&nbsp;&nbsp;&nbsp;&nbsp;Titles   </b>{{suffix}}<br><b> Constituency: </b>{{constituency}}&nbsp;&nbsp;&nbsp; <b>Election date: </b>{{election}}<br><b>Caucus: </b>{{caucus}}<br>{{links}}</div>";
 				
 				result = data.results[0];
 
@@ -152,11 +152,18 @@
 				constituency = result.constituencies[0].name.en;
 				electDate = new Date(parseInt(result.constituencies[0].date_elected + "100"));
 				caucus = result.constituencies[0].caucus.name.en;
+				
+				// get all the suffixes
 				suffixes = "";
 				for (i in result.name.suffixes) 
 				{
 						suffixes += result.name.suffixes[i] + ",&nbsp;";
 				}
+				// remove last comma
+				
+				//suffixes = suffixes.substring(0, str.length - 1);
+				
+				// get all the links
 				links = "";
 				for (i in result.links)
 				{
@@ -172,12 +179,14 @@
 					.replace("{{constituency}}", constituency)
 					.replace("{{election}}", electDate.toLocaleDateString())
 					.replace("{{caucus}}", caucus)
-					.replace("{{link}}", links);
+					.replace("{{links}}", links);
 					
 
 				//Replace the content of the webpage with new html. 
 				$("#main").html(html);
 				
+				html = '<details class="span-4 example2"><summary class="background-medium">Example 2</summary><div><p>Example content that provides more details.</p></div></details>';
+				$("#main").html(html);
 			}
 			ParlData.reps(repID, "all", parseReps);
 			
