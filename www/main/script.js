@@ -7,6 +7,10 @@
 	//▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇►  sh__Load_representatives_onto_main_page
 	loadRepList = function() 
 	{
+
+
+		
+
 		/**
 		 * A parsing function that parses the JSON data from the
 		 * parliamentData API and appends a table to the html
@@ -39,7 +43,7 @@
 				// Create the row
 				html += "<tr>";
 				html += "<td style='background-position: center 35%; background-size: cover; margin: -5px; background-image: url(" + imgUrl + imgID + ")'>" + "</td>"; 
-				html += "<td>" + given + "</td>";
+				html += "<td >" + given + "</td>";
 				html += "<td>" + family + "</td>";
 				html += "<td class='center'>" + caucus + "</td>";
 				html += "<td class='center'>" + constituency + "</td>";
