@@ -1,13 +1,18 @@
-#repBlock {
+/*#repBlock {
 	 display: inline-block;
-}
+	 clear : both;
+}*/
 
-#repImg {
+/*#repImg {
 	height : 180px; 
 	width : 110px;
 	float : left;
-}
-
+}*/
+/*
 #repInfoBox {
 	float  : left;
+}*/
+
+.row {
+	cursor: pointer;
 }
