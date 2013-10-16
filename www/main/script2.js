@@ -115,13 +115,25 @@
 
 				//alert(JSON.stringify(result))
 				title = result.title.EN;
-				description = result.summary.en;
+				description = result.summary.EN;
+				prefixnum = result.prefix + result.number;
+				summary = result.legislative_summary.EN;
+				sponsor = result.sponsor;
+
+				intro = new Date(result.introduction);
+				introdate = intro.toUTCString();
+
+				up = new Date(result.last_updated);
+				updated = up.toUTCString();
 
 				html = "<div id='billBlock'>"
 					html += "<div id='billInfo'>"
-						html += title;
-						html += "<br>";
-						html += description;
+						html += "Overview <br>";
+						html += "<b>Bill " + prefixnum + "</b>: " + title + "<br>";
+						html += "<b>Introduced</b>: " + introdate + " by " + sponsor + "<br>";
+						html += "<b>Updated</b>: " + updated + "<br>";
+						html += "<b>Description</b>: " + description + "<br>";
+						html += "<b>Summary</b>: " + summary + "<br>";
 					html += "</div>";
 
 				html += "</div>";
