@@ -5,14 +5,27 @@
 		<meta charset="UFT-8">
 		<script src="js/jquery-1.10.2.js"></script>
 		<link type="text/css" rel="stylesheet" href="autotest.css"/>
-		<script src="autotest.js"> </script>
+
 	</head>
 	<body>
 		<table border="1">
-			<tr> <th> Test case </th>   <th> result</th>  </tr>
-			<tr> <td> Example test </td> <td id="t1"> </td> </tr>
-			<!-- More test cases added here -->
+			<tr> <th> Test cases </th>   <th> Result</th>  </tr>
+			<tr> <td> Example test </td> <td id="t1"> </td> In Progress </tr> <!-- Copy & paste for additional test cases -->
+
+
+			<tr> <td> <b> Load Rep list </b> (this takes time) <br> 
+				This test tests whether we are able to retrieve the<br> 
+				list of representatives from the parliment website. <br>
+				If this test fails than there is an issue accessing the api. <br>
+				Note, the test auto-fails if the list is not retrieved within 4 seconds <br>
+				or if you are not connected to the internet during testing. </td> <td id="t2"> In Progress </td> </tr>
+
+
 
 		</table>
+
 	</body>
+	<script src="ParlData.js"> </script>
+			<!-- LEO: NOTE, the autotest.js script should be placed at the very bottom of the document. All other script should go above it -->
+	<script src="autotest.js"> </script>
 </html>

@@ -214,20 +214,6 @@
 	loadRepList();
 	//loadRep(78554); //http://api.parliamentdata.ca/representatives/78554/all
 	//loadRep(128110)  //http://api.parliamentdata.ca/representatives/128110/all
-	
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
