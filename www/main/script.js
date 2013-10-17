@@ -1,6 +1,5 @@
 //SCRIPT START
-( function() 
-{
+(function () {
 	//▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇►  sh__Load_representatives_onto_main_page
 	loadRepList = function() 
 	{
