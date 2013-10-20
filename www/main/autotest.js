@@ -50,11 +50,30 @@ t2_acquire_rep_list = function()
    }, 4000)
 }
 
+t3_acquire_bill_list = function()
+{
+	test_downloaded_bills = function(data)
+	{
+		if (data.results.length > 10)
+			succes('t3')
+	}
+	
+	//Call the API to get the list.
+	ParlData.bbls(test_downloaded_bills);
+	
+	//Time out after 4 seconds. 
+	setTimeout(function () {
+		x = document.getElementById('t3').innerHTML
+		if (x != 'success')
+			failure('t3')
+	}, 4000)
+}
+
 
 //▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇►  Test the test cases. 
 exampleTest();
 t2_acquire_rep_list();
-
+t3_acquire_bill_list();
 
 
 
