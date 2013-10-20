@@ -41,7 +41,6 @@
                 updated = up.toUTCString();
     
     
-    
                 switch (result.type){
                     case 1: type = "House bill"; break;
                     case 2: type = "Senate bill"; break;
@@ -51,7 +50,8 @@
                     default: type = "Unknown"; break;
                 }
     
-                sponsor = result.sponsor; //TODO: Link to a name/pic/something that isn't just a number. 
+                sponsor = result.sponsor; //TODO: Link to a name/pic/something that isn't just a number.			
+				//sponsor = getRep(result.sponsor); //Failed function to get rep name.
     
                 switch(result.status){
                     case 0: status = "Bill defeated / not proceeded with"; break;
@@ -108,12 +108,24 @@
         }
         ParlData.bbls(parseBills);
     }
+	
+	// Failed function to get rep name.
+	/*
+	getRep = function(repID) {
+			var repName;
+			var parseReps = function(data) {
+				var rep = data.results[0];
+				repName = rep.name.given + " " + rep.name.family;
+			}
+			ParlData.reps(repID, "all", parseReps);
+			return repName;
+	}*/
 
 	//▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇►  sh__Load_Rep_info
 	loadBills = function(billID) {
 			/**
 			 * A parsing function that parses the JSON data from the
-			 * parliamentData API and appends a table to the html
+			 * parliamentData API and loads the information of a bill.
 			 * 
 			 * parseReps(data)
 			 * 
@@ -124,15 +136,24 @@
 			var parseBills = function(data) {
 				// Create the table and header
                 
-                template = "<button onclick='loadBillList()'>Back</button><br><div class='span-5'><summary>Overview</summary><b>Bill: </b>{{prefixnum}}&nbsp;{{title}}<br><b>Introduced: </b>{{introdate}}<br><b>Updated: </b>{{updated}}<br><b>Introduced by: </b>{{sponsor}}<br><b>Description: </b>{{description}}<br><b>Summary: </b>{{summary}}<br></div>";
+                template = "<button onclick='loadBillList()'>Back</button><br><div class='span-5'><summary>Overview</summary><br><b>{{prefixnum}}:&nbsp;{{title}}</b><br><br><b>Introduced: </b>{{introdate}}<br><b>Updated: </b>{{updated}}<br><b>Sponsor: </b>{{sponsor}}<br><br><b>Description: </b>{{description}}<br><br><b>Link to Parliament of Canada: </b>{{summary}}<br></div>";
 
 				result = data.results[0];
 
 				//alert(JSON.stringify(result))
 				title = result.title.EN;
-				description = result.summary.EN;
+				if ((description = result.summary.EN) == null) {
+					description = "N/A";
+				} else {
+					description = "<br>" + description.split("\n").join("<br><br>");
+				}
 				prefixnum = result.prefix + result.number;
-				summary = result.legislative_summary.EN;
+				if ((summary = result.legislative_summary.EN) == null) {
+					summary = "N/A";
+				} else {
+					summary = "<a href=\"" + result.legislative_summary.EN + "\">" + 
+								result.legislative_summary.EN + "</a>";
+				}
 				sponsor = result.sponsor;
 
 				intro = new Date(result.introduction);
@@ -162,7 +183,6 @@
 			ParlData.bbls(billID, "all", parseBills);
 			
 	}
-	
 
 
 
