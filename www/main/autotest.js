@@ -52,7 +52,7 @@ t2_acquire_rep_list = function()
       x = document.getElementById('t2').innerHTML
       if (x != 'success')
          failure('t2')
-   }, 4000)
+   }, 7000)
 }
 
 t3_acquire_bill_list = function()
@@ -71,7 +71,7 @@ t3_acquire_bill_list = function()
 		x = document.getElementById('t3').innerHTML
 		if (x != 'success')
 			failure('t3')
-	}, 4000)
+	}, 7000)
 }
 
 
@@ -96,7 +96,7 @@ t4_acquire_induvidual_rep = function()
       x = document.getElementById('t4').innerHTML
       if (x != 'success')
          failure('t4')
-   }, 4000)
+   }, 7000)
 }
 
 
@@ -122,7 +122,7 @@ t5_acquire_induvidual_bill = function()
       x = document.getElementById('t5').innerHTML
       if (x != 'success')
          failure('t5')
-   }, 4000)
+   }, 7000)
 }
 
 t6_= function() 
