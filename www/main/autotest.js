@@ -13,6 +13,13 @@ failure = function(id)
          x.className='failure';
 }
 
+failureNotImplemented = function(id)
+{
+         x = document.getElementById(id);
+         x.innerHTML='failure test case not implemented';
+         x.className='failure';
+}
+
 
 //▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇►  Test Case definitions. 
 
@@ -118,6 +125,19 @@ t5_acquire_induvidual_bill = function()
    }, 4000)
 }
 
+t6_= function() 
+{
+         failureNotImplemented('t6')
+}
+t7_= function() 
+{
+         failureNotImplemented('t7')
+}
+t8_= function() 
+{
+         failureNotImplemented('t8')
+}
+
 
 
 //▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇►  Test the test cases. 
@@ -126,3 +146,6 @@ t2_acquire_rep_list();
 t3_acquire_bill_list();
 t4_acquire_induvidual_rep();
 t5_acquire_induvidual_bill();
+t6_();
+t7_();
+t8_();
