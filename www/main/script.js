@@ -15,6 +15,7 @@
 		 */
 		var parseReps = function(data) {
 			
+
 			// Template for representative rows
 			var template = "<tr class='row' onclick='loadRep({{repId}})'><td style='background-position: center 35%; background-size: cover; margin: -5px; background-image: url({{imgUrl}})'></td><td>{{given}}</td><td>{{family}}</td><td class='center'>{{caucus}}</td><td class='center'>{{constituency}}</td></tr>";
 			
@@ -79,6 +80,9 @@
 	//▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇►  sh__Load_Rep_info
 	loadRep = function(repID) 
 	{
+
+
+
 			/**
 			 * A parsing function that parses the JSON data from the
 			 * parliamentData API and loads the information of a single representative. 
@@ -90,57 +94,8 @@
 			 * 					API 
 			 */
 			var parseReps = function(data) {
-				/* John -- Old Code
-				
-				// Create the table and header
 
-				result = data.results[0];
-
-				//alert(JSON.stringify(result))
-
-				repImg = "http://www.parl.gc.ca/Parlinfo/images/Picture.aspx?Item=" + result.image_id; 
-				given = result.name.given;
-				family = result.name.family;
-
-				html = "<button onclick='loadRepList()'> Back </button><br>"
-
-				html += "<div class='span-1'> <img src=" + repImg + "> </img> </div>";
-				html += "<div class='span-5'>" 
-					html += '<b>Name: </b>'  + given +  " " +  family + "    ";
-
-					//handle titles
-					html += '<b>&nbsp;&nbsp;&nbsp;&nbsp;Titles   </b>'
-					for (i in result.name.suffixes) 
-					{
-						html += result.name.suffixes[i] + "&nbsp;,&nbsp;";
-					}
-					html += "<br>";
-
-					/////////Current Consitiuency
-					//En name 
-					constEnName = result.constituencies[0].name.en;
-					electDate = new Date(parseInt(result.constituencies[0].date_elected + "100"));
-
-					html += "<b> Constituency: </b> " + constEnName;
-					html += "&nbsp;&nbsp;&nbsp; <b>Election date: </b>" +  electDate.toLocaleDateString() + "<br>";
-
-					//caucus
-					caucusName = result.constituencies[0].caucus.name.en;
-					html += "<b>Caucus: </b>" + caucusName + "<br>"
-
-					//Links
-					//html += JSON.stringify(result.links);
-					for (i in result.links)
-					{
-						tmpLink = result.links[i]
-						html += '<a href="' + tmpLink + '"><b>' + i + "</b></a><br>"
-					}
-
-
-
-				html += "</div>";*/
-				
-							
+						
 				templateMain = "<button onclick='loadRepList()'>Back</button><br><div class='span-1'><img src={{imgUrl}}></img></div><div class='span-5'><summary>Overview</summary><b>Name: </b>{{given}} {{family}}<b>&nbsp;&nbsp;&nbsp;&nbsp;Titles   </b>{{suffix}}<br><b> Constituency: </b>{{constituency}}&nbsp;&nbsp;&nbsp; <b>Election date: </b>{{election}}<br><b>Caucus: </b>{{caucus}}<br>{{links}}<br> {{contacts}}</div>";
 				
 				templateContact = "<details><summary class='background-medium'>Contacts</summary>{{details}}</details>"
@@ -198,14 +153,20 @@
 					.replace("{{contacts}}", contacts);
 					
 
+				//localStorage.replistObj = html;	
 				//Replace the content of the webpage with new html. 
 				$("#main").html(html);
 				
 				
-				//html = '<details class="span-4 example2"><summary class="background-medium">Example 2</summary><div><p>Example content that provides more details.</p></div></details>';
-				//$("#main").append(html);
 			}
+
 			ParlData.reps(repID, "all", parseReps);
+			//localStorage.replistObj;
+
+			// if (localStorage.replistObj != 'undefined')
+			// 	ParlData.reps(repID, "all", parseReps);
+			// else 
+			// 	$("#main").html(localStorage.replistObj);
 			
 	}
 
