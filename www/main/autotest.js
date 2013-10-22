@@ -1,6 +1,4 @@
 
-
-
 //▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇►  helper functions. 
 succes = function(id) 
 {  
@@ -70,16 +68,61 @@ t3_acquire_bill_list = function()
 }
 
 
+
+t4_acquire_induvidual_rep = function() 
+{
+
+   //This function is only reached if the downloaded rep list is successfull. 
+   test_downloaded_rep = function (data) 
+   {
+      result = data.results[0];
+      given  = result.name.given;
+      if (given == "Mike")  //usually there are 300+ members. If there are less then there is a problem.
+           succes('t4')
+   }
+
+   //Call the API to get the list. 
+   ParlData.reps("78554", "all", test_downloaded_rep);
+
+   //Time out after 4 seconds. 
+   setTimeout(function () {
+      x = document.getElementById('t4').innerHTML
+      if (x != 'success')
+         failure('t4')
+   }, 4000)
+}
+
+
+t5_acquire_induvidual_bill = function() 
+{
+
+   thisTestCaseID = "t5";
+
+   //This function is only reached if the downloaded rep list is successfull. 
+   test_downloaded_bill = function (data) 
+   {
+      result = data.results[0];
+      title = result.title.EN;
+      if (title != null)  //usually there are 300+ members. If there are less then there is a problem.
+            succes('t5')
+   }
+
+   //Call the API to get the list. 
+   ParlData.bbls("5079843", "all", test_downloaded_bill);
+
+   //Time out after 4 seconds. 
+   setTimeout(function () {
+      x = document.getElementById('t5').innerHTML
+      if (x != 'success')
+         failure('t5')
+   }, 4000)
+}
+
+
+
 //▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇►  Test the test cases. 
 exampleTest();
 t2_acquire_rep_list();
 t3_acquire_bill_list();
-
-
-
-
-
-
-
-
-
+t4_acquire_induvidual_rep();
+t5_acquire_induvidual_bill();
