@@ -1,0 +1,4 @@
+Database name: account
+
+Type: InnoDB
+Collation: utf8_unicode_ci
