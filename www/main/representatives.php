@@ -1,4 +1,20 @@
-<!DOCTYPE html>
+<?php
+$rep = isset($_GET["rep"]) ? (int)$_GET["rep"] : 0;
+	
+switch ($rep) {
+	case 0:
+	case "all":
+		$json = file_get_contents("http://api.parliamentdata.ca/representatives/");
+		$json = json_decode($json);
+		$all = 1;
+		break;
+	default:
+		$json = file_get_contents("http://api.parliamentdata.ca/representatives/" . $rep . "/all");
+		$json = json_decode($json);
+		$all = 0;
+}
+?>
+						
 <!--[if IE 7]><html lang="en" class="no-js ie7"><![endif]-->
 <!--[if IE 8]><html lang="en" class="no-js ie8"><![endif]-->
 <!--[if gt IE 8]><!-->
@@ -40,8 +56,9 @@
 	</style>
 	<!-- CustomCSSEnd -->
 
-	<!-- JOHN : This is where the Datatables function resides for the representative table -->
-	<script class="jsbin" src="http://datatables.net/download/build/jquery.dataTables.nightly.js"></script>
+	<!-- JOHN : This is the script file -->
+
+	<script type="text/javascript" src="script.js"></script>
 
 	<!-- LEO: Adding style sheet -->
 	<link type="text/css" rel="stylesheet" href="stylesheet.css"/>
@@ -168,6 +185,8 @@
 							
 						<!-- JOHN Rep Table -->
 						<div id="main" >
+						
+
 						</div>
 
 
@@ -196,12 +215,18 @@
 		</script>-->
 		
 		<!-- JOHN: script to create the table -->
-		<script type="text/javascript" src="ParlData.js"></script>
-		<script type="text/javascript" src="script.js"></script>
+		<script type="text/javascript">
+		if (<?php echo $all?> == 1) {
+			loadRepList(<?php echo json_encode($json)?>);
+		}
+		else {
+			loadRep(<?php echo json_encode($json)?>);
+		}
+		</script>
 
 
 
-<!-- 	888888  dP"Yb   dP"Yb  888888 888888 88""Yb 
+<!-- 	888888  dP"Yb   dP"Yb  888888 888888 88""Yb <script type="text/javascript" src="script.js">
 		88__   dP   Yb dP   Yb   88   88__   88__dP 
 		88""   Yb   dP Yb   dP   88   88""   88"Yb  
 		88      YbodP   YbodP    88   888888 88  Yb  -->
