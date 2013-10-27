@@ -216,11 +216,12 @@ switch ($rep) {
 		
 		<!-- JOHN: script to create the table -->
 		<script type="text/javascript">
+		json = <?php echo json_encode($json)?>;
 		if (<?php echo $all?> == 1) {
-			loadRepList(<?php echo json_encode($json)?>);
+			loadRepList(json);
 		}
 		else {
-			loadRep(<?php echo json_encode($json)?>);
+			loadRep(json);
 		}
 		</script>
 

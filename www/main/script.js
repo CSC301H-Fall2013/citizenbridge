@@ -192,7 +192,6 @@ function loadRepList(data) {
 			 * 					representative JSON data from the parliamentData
 			 * 					API 
 			 */
-<<<<<<< HEAD
 			/*var parseReps = function(data) {
 			
 				templateMain = "<button onclick='loadRepList()'>Back</button><br><div class='span-1'><img src={{imgUrl}}></img></div><div class='span-5'>Overview<b>Name: </b>{{given}} {{family}}<b>&nbsp;&nbsp;&nbsp;&nbsp;Titles   </b>{{suffix}}<br><b> Constituency: </b>{{constituency}}&nbsp;&nbsp;&nbsp; <b>Election date: </b>{{election}}<br><b>Caucus: </b>{{caucus}}<br>{{links}}<br> {{Contacts-tab}} <br> {{Caucus-tab}}</div>";
@@ -202,7 +201,6 @@ function loadRepList(data) {
 
 						
 				templateMain = "<button onclick='loadRepList()'>Back</button><br><div class='span-1'><img src={{imgUrl}}></img></div><div class='span-5'><summary>Overview</summary><b>Name: </b>{{given}} {{family}}<b>&nbsp;&nbsp;&nbsp;&nbsp;Titles   </b>{{suffix}}<br><b> Constituency: </b>{{constituency}}&nbsp;&nbsp;&nbsp; <b>Election date: </b>{{election}}<br><b>Caucus: </b>{{caucus}}<br>{{links}}<br> {{contacts}}</div>";
->>>>>>> b7c0747e30a1a999d92a17b7471edcd561ef35d7
 				
 				templateContact = "<details><summary class='background-medium'>Contacts</summary>{{details}}</details>"
 				
