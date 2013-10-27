@@ -13,46 +13,35 @@
 	 */
         parseBills = function(data) {
             // Template for bill rows
-            var template = "<tr class='row' onclick='loadBills({{billId}})'></td><td>{{prefixnum}}</td><td>{{lang}}</td><td>{{title}}</td><td>{{type}}</td><td>{{status}}</td><td>{{sponsor}}</td><td>{{introdate}}</td><td>{{updated}}</td></tr>";
+            var template = "<tr class='row' onclick='loadBills({{billId}})'></td><td>{{prefixnum}}</td><td>{{title}}</td><td>{{status}}</td><td>{{sponsor}}</td><td>{{introdate}}</td><td>{{updated}}</td></tr>";
             
             //Create the table and the header
-            var html = "<table id='bill-table' class='wet-boew-tables'><thead><tr role='row'><th>Bill</th><th>Language</th><th>Title</th><th>Type</th><th>Status</th><th>Sponsor</th><th>Introduced</th><th>Updated</th></tr></thead><tbody>";
+            var html = "<table id='bill-table' class='wet-boew-tables'><thead><tr role='row'><th>Bill</th><th>Title</th><th>Type</th><th>Sponsor</th><th>Introduced</th><th>Updated</th></tr></thead><tbody>";
             
             // Create a row for each bill
             for (var i = 0; i < data.results.length; i++) {
     
                 // Get all the required data from the JSON
-                var result, prefixnum, title, up, update, type, sponsor, status, lang, intro, introdate;
+                var result, prefixnum, title, up, update, sponsor, status, intro, introdate;
     
                 result = data.results[i];
                 billId = result.id;
                 prefixnum = result.prefix + result.number;
-                lang = result.language;
                 title = result.short_title.EN;
                 if (title == null) { //short_title may not always be available.
                     title = result.title.EN;
                 };
     
     
-                // Times
-                intro = new Date(result.introduction);
-                introdate = intro.getFullYear() + "-" + (intro.getMonth()+1) + "-" + intro.getDate();
+                // Convert date data into readable string
+                intro = new Date(result.introduction * 1000);
+                introdate = intro.toUTCString(); 
                 up = new Date(result.last_updated);
                 updated = up.toUTCString();
     
-    
-                switch (result.type){
-                    case 1: type = "House bill"; break;
-                    case 2: type = "Senate bill"; break;
-                    case 3: type = "Senate public bill"; break;
-                    case 4: type = "Senate private bill"; break;
-                    case 5: type = "Private member’s bill"; break;
-                    default: type = "Unknown"; break;
-                }
-    
                 sponsor = result.sponsor; //TODO: Link to a name/pic/something that isn't just a number.			
 				//sponsor = getRep(result.sponsor); //Failed function to get rep name.
-    
+
                 switch(result.status){
                     case 0: status = "Bill defeated / not proceeded with"; break;
                     case 1: status = "Pre-study of the commons bill"; break;
@@ -72,25 +61,12 @@
                 html += template
                         .replace("{{billId}}", billId)
                         .replace("{{prefixnum}}", prefixnum)
-                        .replace("{{lang}}", lang)
                         .replace("{{title}}", title)
-                        .replace("{{type}}", type)
                         .replace("{{status}}", status)
                         .replace("{{sponsor}}", sponsor)
                         .replace("{{introdate}}", introdate)
                         .replace("{{updated}}", updated);
                 
-                // Create the row
-                //html += "<tr>";
-                //html += "<td>" + prefixnum + "</td>";
-                //html += "<td>" + lang + "</td>";
-                //html += "<td>" + title + "</td>";
-                //html += "<td>" + type + "</td>";
-                //html += "<td>" + status + "</td>";
-                //html += "<td>" + sponsor + "</td>";
-                //html += "<td>" + introdate + "</td>";
-                //html += "<td>" + updated + "</td>";
-                //html += "</tr>";
             }
     
             // Close the table
@@ -104,7 +80,6 @@
             $(document).ready( function () {
                 $('#bill-table').dataTable()
             });
-            //ParlData.bbls(parseBills);
         }
         ParlData.bbls(parseBills);
     }
