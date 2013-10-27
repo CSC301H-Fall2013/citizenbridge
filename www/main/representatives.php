@@ -188,17 +188,17 @@ switch ($rep) {
 						<!-- sh__Main_Body starts here -->
 						<div class="span-8"> 
 							<h3> Representatives stuff goes herez </h3>
-							
+						
 						<!-- JOHN Rep Table -->
 						<div id="main" >
 						
 
 						</div>
 
-
+	
 						</div>
 						<div class="clear"></div>
-
+						
 						
 						<!-- sh__date_Modified  LEO:Leaving out for now -->
 <!-- 						<dl id="wet-date-mod" role="contentinfo">
