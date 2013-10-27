@@ -1,14 +1,20 @@
 <?php
+/*
+Checks if the GET variable rep is set else set it to 0
+NOTE: the get variable is the "rep=170545" in the url http://localhost/main/representatives.php?rep=170545
+*/
 $rep = isset($_GET["rep"]) ? (int)$_GET["rep"] : 0;
 	
 switch ($rep) {
 	case 0:
 	case "all":
+		// if the value of the get variable is 0 or all then set $all to 1 and get the json data for all reps
 		$json = file_get_contents("http://api.parliamentdata.ca/representatives/");
 		$json = json_decode($json);
 		$all = 1;
 		break;
 	default:
+		// if the value of the get variable is not 0 or all then set $all to 0 and get the json data for one rep
 		$json = file_get_contents("http://api.parliamentdata.ca/representatives/" . $rep . "/all");
 		$json = json_decode($json);
 		$all = 0;
@@ -216,11 +222,14 @@ switch ($rep) {
 		
 		<!-- JOHN: script to create the table -->
 		<script type="text/javascript">
+		//get the json data by encoding the php global variable then echoing it
 		json = <?php echo json_encode($json)?>;
 		if (<?php echo $all?> == 1) {
+			// if $all is 1 then create a rep table
 			loadRepList(json);
 		}
 		else {
+			// else create a rep page
 			loadRep(json);
 		}
 		</script>
