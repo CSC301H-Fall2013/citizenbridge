@@ -5,6 +5,7 @@ Setup in phpMyAdmin:
 1: Create User:
 User name: abc
 Password: abc
+Permissions: Select, Insert, Update
 
 2: Create Database:
 Database name: accounts
