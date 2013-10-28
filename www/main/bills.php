@@ -1,3 +1,26 @@
+<?php
+/*
+Checks if the GET variable bill is set else set it to 0
+NOTE: the get variable is the "bill=170545" in the url http://localhost/main/bills.php?bill=170545
+*/
+$bill = isset($_GET["bill"]) ? (int)$_GET["bill"] : 0;
+	
+switch ($bill) {
+	case 0:
+	case "all":
+		// if the value of the get variable is 0 or all then set $all to 1 and get the json data for all reps
+		$json = file_get_contents("http://api.parliamentdata.ca/bills/");
+		$json = json_decode($json);
+		$all = 1;
+		break;
+	default:
+		// if the value of the get variable is not 0 or all then set $all to 0 and get the json data for one rep
+		$json = file_get_contents("http://api.parliamentdata.ca/bills/" . $bill . "/all");
+		$json = json_decode($json);
+		$all = 0;
+}
+?>
+
 <!DOCTYPE html>
 <!--[if IE 7]><html lang="en" class="no-js ie7"><![endif]-->
 <!--[if IE 8]><html lang="en" class="no-js ie8"><![endif]-->
@@ -41,7 +64,8 @@
 	<!-- CustomCSSEnd -->
     
     <script class="jsbin" src="http://datatables.net/download/build/jquery.dataTables.nightly.js"></script>
-
+    <!-- SHELTON: Script file for bills -->
+    <script type="text/javascript" src="script2.js"></script>
     <!-- ABE: Adding style sheet, copied from LEO -->
 	<link type="text/css" rel="stylesheet" href="stylesheet.css"/>
 </head>
@@ -162,7 +186,6 @@
 
 						<!-- sh__Main_Body starts here -->
 						<div class="span-8"> 
-							<h3> Bills</h3>
 
 							<!--<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>-->
 						<div id="main" >
@@ -189,10 +212,19 @@
 				</div>
 			</div>
 		</div> <!-- Main End -->
-		<!-- Abe: copied/based off of the representitives page -->
-		<script type="text/javascript" src="ParlData.js"></script>
-		<script type="text/javascript" src="script2.js"></script>
-
+            
+		<script type="text/javascript">
+		//get the json data by encoding the php global variable then echoing it
+		json = <?php echo json_encode($json)?>;
+		if (<?php echo $all?> == 1) {
+			// if $all is 1 then create a bill table
+			loadBillList(json);
+		}
+		else {
+			// else create a bill page
+			loadBill(json);
+		}
+		</script>
 
 
 <!-- 	888888  dP"Yb   dP"Yb  888888 888888 88""Yb 
