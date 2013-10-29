@@ -3,9 +3,27 @@
 //NEW AND BETTER CODE
 
 function loadRep(data) {
-	templateMain = "<a href='representatives.php'><button onclick='loadRepList()'>Back</button></a><br><div class='span-1'><img src={{imgUrl}}></img></div><div class='span-5'>Overview<b>Name: </b>{{given}} {{family}}<b>&nbsp;&nbsp;&nbsp;&nbsp;Titles   </b>{{suffix}}<br><b> Constituency: </b>{{constituency}}&nbsp;&nbsp;&nbsp; <b>Election date: </b>{{election}}<br><b>Caucus: </b>{{caucus}}<br>{{links}}<br> {{Contacts-tab}} <br> {{Caucus-tab}}</div>";
+
+   /* <div class="wet-boew-tabbedinterface tabs-style-2">
+    <ul class="tabs">
+    <li><a href="#tabs1_1">Tab 1</a></li>
+    <li class="default"><a href="#tabs1_2">Tab 2</a></li>
+    <li><a href="#tabs1_3">Tab3</a></li>
+    </ul>
+    <div class="tabs-panel">
+    <div id="tabs1_1">
+    ...
+    </div>
+    <div id="tabs1_2">
+    ...
+    </div>
+    <div id="tabs1_3">
+    ...
+    </div>
+    </div>
+    </div> */
 	
-	templateContact = "<details><summary class='background-medium'>Contacts</summary>{{details}}</details>"
+	templateMain = "<a href='representatives.php'><button onclick='loadRepList()'>Back</button></a><br><div class='span-1'><img src={{imgUrl}}></img></div><div class='span-5'><div class='wet-boew-tabbedinterface'><ul class='tabs'><li><a href='#overview'>Overview</a></li><li><a href='#contacts'>Contacts</a></li><li><a href='#caucus'>Caucus</a></li></ul><div class='tabs-panel'><div id='overview'><b>Name: </b>{{given}} {{family}}<b>&nbsp;&nbsp;&nbsp;&nbsp;Titles   </b>{{suffix}}<br><b> Constituency: </b>{{constituency}}&nbsp;&nbsp;&nbsp; <b>Election date: </b>{{election}}<br><b>Caucus: </b>{{caucus}}<br>{{links}}</div><div id='contacts'><br> {{Contacts-tab}}</div><div id='caucus'> {{Caucus-tab}}</div></div></div></div>";
 	
 	result = data.results[0];
 
@@ -39,14 +57,12 @@ function loadRep(data) {
 		for (j in result.offices[i]) 
 		{
 			//alert(JSON.stringify((result.offices[i])[j]));
-			contacts += "<b>" + j + "</b>: " + (result.offices[i])[j] + "<br>";
+			contacts = "<b>" + j + "</b>: " + (result.offices[i])[j] + "<br>" + contacts;
 		}
 		
 		contacts += "<br>";
 		contacts = contacts.replace("_", "&nbsp;");
 	}
-
-	contacts = "<details><summary class='background-medium'>Contacts</summary>" + contacts + "</details>";
 	
 	html = templateMain
 		.replace("{{imgUrl}}", imgUrl)
