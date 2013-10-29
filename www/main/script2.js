@@ -19,7 +19,7 @@ function loadBill(data) {
     }
     sponsor = result.sponsor;
 
-    intro = new Date(result.introduction);
+    intro = new Date(result.introduction * 1000);
     introdate = intro.toUTCString();
     
     up = new Date(result.last_updated);
@@ -54,7 +54,13 @@ function loadBillList (data) {
     
         result = data.results[i];
         billId = result.id;
-        prefixnum = result.prefix + result.number;
+        prefixnum = result.prefix + "-";
+		if (result.number < 10) {
+			prefixnum += "00";
+		} else if (result.number < 100) {
+			prefixnum += "0";
+		}
+		prefixnum += result.number;
         title = result.short_title.EN;
         if (title == null) { //short_title may not always be available.
             title = result.title.EN;
@@ -66,10 +72,12 @@ function loadBillList (data) {
         introdate = intro.toUTCString(); 
         up = new Date(result.last_updated);
         updated = up.toUTCString();
-    
+		//sponsor = result.id; //to delete later, for checking purposes
         sponsor = result.sponsor; //TODO: Link to a name/pic/something that isn't just a number.			
+		
+		last_event = result.events.pop();
 
-        switch(result.status){
+        switch(last_event.status){
             case 0: status = "Bill defeated / not proceeded with"; break;
             case 1: status = "Pre-study of the commons bill"; break;
             case 2: status = "Introduction and first reading"; break;
