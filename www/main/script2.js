@@ -44,7 +44,7 @@ function loadBillList (data) {
     var template = "<tr class='row'></td><td><a href='bills.php?bill={{billId}}'>{{prefixnum}}</a></td><td><a href='bills.php?bill={{billId}}'>{{title}}</a></td><td><a href='bills.php?bill={{billId}}'>{{status}}</a></td><td><a href='bills.php?bill={{billId}}'>{{sponsor}}</a></td><td><a href='bills.php?bill={{billId}}'>{{introdate}}</a></td><td><a href='bills.php?bill={{billId}}'>{{updated}}</a></td></tr>";
             
     //Create the table and the header
-    var html = "<table id='bill-table' class='wet-boew-tables'><thead><tr role='row'><th>Bill</th><th>Title</th><th>Type</th><th>Sponsor</th><th>Introduced</th><th>Updated</th></tr></thead><tbody>";
+    var html = "<table id='bill-table' class='wet-boew-tables'><thead><tr role='row'><th>Bill</th><th>Title</th><th>Status</th><th>Sponsor</th><th>Introduced</th><th>Updated</th></tr></thead><tbody>";
             
     // Create a row for each bill
     for (var i = 0; i < data.results.length; i++) {
