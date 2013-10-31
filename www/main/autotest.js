@@ -139,6 +139,13 @@ t8_= function()
 }
 
 
+t9_traverse_rep_list = function ()
+{
+   
+
+}
+
+
 
 //▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇►  Test the test cases. 
 exampleTest();
@@ -149,3 +156,4 @@ t5_acquire_induvidual_bill();
 t6_();
 t7_();
 t8_();
+t9_traverse_rep_list();
