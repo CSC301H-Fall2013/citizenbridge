@@ -1,59 +1,51 @@
 
-//▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇►  helper functions. 
+
+
+
+
+
+//-----------------------  helper functions. 
 succes = function(id) 
 {  
          x = document.getElementById(id);
          x.innerHTML='success';
          x.className='success';
-}
+};
 failure = function(id)
 {  
          x = document.getElementById(id);
          x.innerHTML='failure';
          x.className='failure';
-}
+};
 
 failureNotImplemented = function(id)
 {
          x = document.getElementById(id);
          x.innerHTML='failure test case not implemented';
          x.className='failure';
-}
+};
 
 
-//▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇►  Test Case definitions. 
+//-----------------------  Test Case definitions. 
 
-//▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇►  This is just an example test case
+//----------------------- This is just an example test case
 exampleTest = function() 
 {
    if (1 == 1) 
-      succes('t1')
+      succes('t1');
    else 
-      failure('t1')
-}
+      failure('t1');
+};
 
 
-//▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇►  Test if we are able to download the representative list. 
-t2_acquire_rep_list = function() 
+//-----------------------  Test if we are able to download the representative list. 
+t2_acquire_rep_list = function(data) 
 {
-
-   //This function is only reached if the downloaded rep list is successfull. 
-   test_downloaded_reps = function (data) 
-   {
-      if (data.results.length > 10)  //usually there are 300+ members. If there are less then there is a problem.
-         succes('t2')
-   }
-
-   //Call the API to get the list. 
-   ParlData.reps(test_downloaded_reps);
-
-   //Time out after 4 seconds. 
-   setTimeout(function () {
-      x = document.getElementById('t2').innerHTML
-      if (x != 'success')
-         failure('t2')
-   }, 7000)
-}
+  if (data != null)  //usually there are 300+ members. If there are less then there is a problem.
+     succes('t2');
+  else
+	 failure('t2');
+};
 
 t3_acquire_bill_list = function()
 {
@@ -146,10 +138,9 @@ t9_traverse_rep_list = function ()
 }
 
 
-
-//▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇►  Test the test cases. 
+//�----------------------  Test the test cases. 
 exampleTest();
-t2_acquire_rep_list();
+t2_acquire_rep_list(JS_AllRepList);
 t3_acquire_bill_list();
 t4_acquire_induvidual_rep();
 t5_acquire_induvidual_bill();
@@ -157,3 +148,5 @@ t6_();
 t7_();
 t8_();
 t9_traverse_rep_list();
+
+

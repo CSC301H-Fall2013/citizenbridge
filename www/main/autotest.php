@@ -1,3 +1,21 @@
+<?php
+
+
+$ctx = stream_context_create(array( 
+    'http' => array( 
+        'timeout' => 7   //time out is now set to 7 seconds. 
+        ))); 
+
+//Get data about all reps. This is used by the javascript below. 
+$php_AllRepList = json_decode(file_get_contents("http://api.parliamentdata.ca/representatives/", 0, $ctx));
+
+		
+//get data about a specific rep 
+// 		$json = file_get_contents("http://api.parliamentdata.ca/representatives/" . $rep . "/all");
+// 		$json = json_decode($json);
+
+?>
+
 <!DOCTYPE html>
 <html>
 	<head>
@@ -8,6 +26,9 @@
 
 	</head>
 	<body>
+		
+	
+	
 		<table border="1">
 			<tr> <th> Test cases </th>   <th> Result</th>  </tr>
 			<tr> <td> Example test </td> <td id="t1">In Progress </td>  </tr> <!-- Copy & paste for additional test cases -->
@@ -46,17 +67,20 @@
 			<tr> <td> <b> (10) See Progress of a bill </b> <br> 
 					Retrieve the status of an induviual bill  </td> <td id="t8"> In Progress </td> </tr>
 
-			<tr> <td> <b>  test index of Representatives </b> <br> 
+			<tr> <td> <b> Test first index of Representatives </b> <br> 
 					Download the rep list, and traverse the list from start to finish. </td> <td id="t9"> In Progress </td> </tr>
-
-
-
-
 
 		</table>
 
 	</body>
+	
+	<script type="text/javascript">
+
+	//Load the downloaded list of reps into a global variable. Used by subsequent function calls
+	var JS_AllRepList = <?php echo json_encode($php_AllRepList)?>;
+	</script>
+	
 	<script src="ParlData.js"> </script>
-			<!-- LEO: NOTE, the autotest.js script should be placed at the very bottom of the document. All other script should go above it -->
+	<!-- LEO: NOTE, the autotest.js script should be placed at the very bottom of the document. All other script should go above it -->
 	<script src="autotest.js"> </script>
 </html>
