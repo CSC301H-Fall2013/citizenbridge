@@ -11,12 +11,16 @@ switch ($bill) {
 		// if the value of the get variable is 0 or all then set $all to 1 and get the json data for all reps
 		$json = file_get_contents("http://api.parliamentdata.ca/bills/");
 		$json = json_decode($json);
+		$jsonrep = file_get_contents("http://api.parliamentdata.ca/representatives/");
+		$jsonrep = json_decode($jsonrep);
 		$all = 1;
 		break;
 	default:
 		// if the value of the get variable is not 0 or all then set $all to 0 and get the json data for one rep
 		$json = file_get_contents("http://api.parliamentdata.ca/bills/" . $bill . "/all");
 		$json = json_decode($json);
+		$jsonrep = file_get_contents("http://api.parliamentdata.ca/representatives/");
+		$jsonrep = json_decode($jsonrep);
 		$all = 0;
 }
 ?>
@@ -216,13 +220,14 @@ switch ($bill) {
 		<script type="text/javascript">
 		//get the json data by encoding the php global variable then echoing it
 		json = <?php echo json_encode($json)?>;
+		jsonrep = <?php echo json_encode($jsonrep)?>;
 		if (<?php echo $all?> == 1) {
 			// if $all is 1 then create a bill table
-			loadBillList(json);
+			loadBillList(json, jsonrep);
 		}
 		else {
 			// else create a bill page
-			loadBill(json);
+			loadBill(json, jsonrep);
 		}
 		</script>
 

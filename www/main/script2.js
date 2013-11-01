@@ -1,4 +1,4 @@
-function loadBill(data) {
+function loadBill(data, data2) {
     
     template = "<div class='span-5'><h3>Overview</h3><br><b>{{prefixnum}}:&nbsp;{{title}}</b><br><br><b>Introduced: </b>{{introdate}}<br><b>Updated: </b>{{updated}}<br><b>Sponsor: </b>{{sponsor}}<br><br><b>Description: </b>{{description}}<br><br><b>Link to Parliament of Canada: </b>{{summary}}<br></div>";
 
@@ -17,7 +17,14 @@ function loadBill(data) {
         summary = "<a href=\"" + result.legislative_summary.EN + "\">" + 
             result.legislative_summary.EN + "</a>";
     }
-    sponsor = result.sponsor;
+
+    sponsor = "N/A"
+    for (var j = 0; j < data2.results.length; j ++){
+        if (data2.results[j].id == result.sponsor){
+            sponsor = data2.results[j].name.given + " " + data2.results[j].name.family;
+            break;
+        }
+    }
 
     intro = new Date(result.introduction * 1000);
     introdate = intro.toUTCString();
@@ -39,18 +46,25 @@ function loadBill(data) {
     
 }
 
-function loadBillList (data) {
+function loadBillList (data, data2) {
     // Template for bill rows
     var template = "<tr class='row'></td><td><a href='bills.php?bill={{billId}}'>{{prefixnum}}</a></td><td><a href='bills.php?bill={{billId}}'>{{title}}</a></td><td><a href='bills.php?bill={{billId}}'>{{status}}</a></td><td><a href='bills.php?bill={{billId}}'>{{sponsor}}</a></td><td><a href='bills.php?bill={{billId}}'>{{introdate}}</a></td><td><a href='bills.php?bill={{billId}}'>{{updated}}</a></td></tr>";
             
     //Create the table and the header
     var html = "<table id='bill-table' class='wet-boew-tables'><thead><tr role='row'><th>Bill</th><th>Title</th><th>Status</th><th>Sponsor</th><th>Introduced</th><th>Updated</th></tr></thead><tbody>";
-            
+    
+    var sponsorIdList = new Array();
+    for (var j = 0; j < data2.results.length; j ++){
+        sponsorIdList[j] = data2.results[j].id;
+    }
+
+
+
     // Create a row for each bill
     for (var i = 0; i < data.results.length; i++) {
     
         // Get all the required data from the JSON
-        var result, prefixnum, title, up, update, sponsor, status, intro, introdate;
+        var result, prefixnum, title, up, update, /*sponsor,*/ status, intro, introdate;
     
         result = data.results[i];
         billId = result.id;
@@ -63,7 +77,7 @@ function loadBillList (data) {
 		prefixnum += result.number;
         title = result.short_title.EN;
         if (title == null) { //short_title may not always be available.
-            title = result.title.EN;
+            title = result.title.EN; // Hopefully is not null.
         };
     
     
@@ -73,8 +87,26 @@ function loadBillList (data) {
         up = new Date(result.last_updated);
         updated = up.toUTCString();
 		//sponsor = result.id; //to delete later, for checking purposes
-        sponsor = result.sponsor; //TODO: Link to a name/pic/something that isn't just a number.			
+        sponsorId = result.sponsor; //TODO: Link to a name/pic/something that isn't just a number.			
 		
+        
+        /*for (var j = 0; j < data2.results.length; j ++){
+            if (data2.results[j].id == sponsorId){
+                sponsor = data2.results[j].name.given + " " + data2.results[j].name.family;
+                break;
+            }
+        }*/
+        sponsorIndex = sponsorIdList.indexOf(sponsorId);
+        if (sponsorIndex == -1){
+            sponsor = "Unknown";
+        } else {
+            //Prints the first and last name of sponsor (enabled)
+            sponsor = data2.results[sponsorIndex].name.given + " " + data2.results[sponsorIndex].name.family;
+            //displays the image of the sponsor (disabled/does not work)
+            //sponsor = "http://www.parl.gc.ca/Parlinfo/images/Picture.aspx?Item=" + data2.results[sponsorIndex].image_id;
+
+        }
+
 		last_event = result.events.pop();
 
         switch(last_event.status){
