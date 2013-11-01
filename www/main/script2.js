@@ -1,6 +1,6 @@
 function loadBill(data, data2) {
     
-    template = "<div class='span-5'><h3>Overview</h3><br><b>{{prefixnum}}:&nbsp;{{title}}</b><br><br><b>Introduced: </b>{{introdate}}<br><b>Updated: </b>{{updated}}<br><b>Sponsor: </b>{{sponsor}}<br><br><b>Description: </b>{{description}}<br><br><b>Link to Parliament of Canada: </b>{{summary}}<br></div>";
+    template = "<div class='span-5'><h3>Overview</h3><br><b>{{prefixnum}}:&nbsp;{{title}}</b><br><br><b>Introduced: </b>{{introdate}}<br><b>Updated: </b>{{updated}}<br><b>Sponsor: </b><div style='width:142px;height:230px;'><img src={{imgUrl}}></div></img>{{sponsor}}<br><br><b>Description: </b>{{description}}<br><br><b>Link to Parliament of Canada: </b>{{summary}}<br></div>";
 
     result = data.results[0];
 
@@ -22,6 +22,7 @@ function loadBill(data, data2) {
     for (var j = 0; j < data2.results.length; j ++){
         if (data2.results[j].id == result.sponsor){
             sponsor = data2.results[j].name.given + " " + data2.results[j].name.family;
+            imgUrl = "http://www.parl.gc.ca/Parlinfo/images/Picture.aspx?Item=" + data2.results[j].image_id;
             break;
         }
     }
@@ -39,7 +40,8 @@ function loadBill(data, data2) {
         .replace("{{updated}}", updated)
         .replace("{{description}}", description)
         .replace("{{summary}}", summary)
-        .replace("{{sponsor}}", sponsor);
+        .replace("{{sponsor}}", sponsor)
+        .replace("{{imgUrl}}", imgUrl);
                 
     // Append the html to the web page
     $("#main").html(html);
