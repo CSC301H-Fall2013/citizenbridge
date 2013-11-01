@@ -6,6 +6,10 @@
 	color : red;
 }
 
+.notImplemented {
+	color : #FF8000;
+}
+
 #tableStyle {
 	 border: 1px solid blue;
 }
