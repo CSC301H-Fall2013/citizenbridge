@@ -73,7 +73,7 @@ function loadBillList (data) {
         up = new Date(result.last_updated);
         updated = up.toUTCString();
 		//sponsor = result.id; //to delete later, for checking purposes
-        sponsor = result.sponsor; //TODO: Link to a name/pic/something that isn't just a number.			
+        sponsor = result.sponsor; //2TODO: Link to a name/pic/something that isn't just a number.			
 		
 		last_event = result.events.pop();
 
@@ -159,7 +159,7 @@ function loadBillList (data) {
 //                up = new Date(result.last_updated);
 //                updated = up.toUTCString();
 //    
-//                sponsor = result.sponsor; //TODO: Link to a name/pic/something that isn't just a number.			
+//                sponsor = result.sponsor; //2TODO: Link to a name/pic/something that isn't just a number.			
 //				//sponsor = getRep(result.sponsor); //Failed function to get rep name.
 //
 //                switch(result.status){

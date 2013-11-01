@@ -3,8 +3,9 @@
 
 
 
-
+//----------------------- ----------------------- -----------------------
 //-----------------------  helper functions. 
+//----------------------- ----------------------- -----------------------
 
 var success_count = 0;
 succes = function(id,msg)   //msg par is optional. 
@@ -44,13 +45,18 @@ failureNotImplemented = function(id)
 };
 
 
+
+
+//----------------------- ----------------------- ----------------------- 
 //-----------------------  Test Case definitions. 
+//----------------------- ----------------------- ----------------------- 
+
 
 //----------------------- This is just an example test case
 exampleTest = function() 
 {
    if (1 == 1) 
-      succes('t1');
+      succes('t1', "all is well");
    else 
       failure('t1');
 };
@@ -70,7 +76,7 @@ t2_acquire_rep_list = function(data)
 t3_acquire_bill_list = function(data)
 {
 	
-  if (data != null){  //usually there are 300+ members. If there are less then there is a problem.
+  if (data != null){  
 	  msg = "Bills count: " +  data.results.length;
 	  succes('t3',msg);
   }
@@ -82,20 +88,19 @@ t3_acquire_bill_list = function(data)
 
 t4_acquire_induvidual_rep = function(data) 
 {
-  if (data != null){ //usually there are 300+ members. If there are less then there is a problem.
+  if (data != null){ 
      
 	  result = data.results[0];
 	  given = result.name.given;
 	  imgUrl = "http://www.parl.gc.ca/Parlinfo/images/Picture.aspx?Item=" + result.image_id; 
 	  
-	  msg = given + " " + "<img src='" + imgUrl + "'height='42' width='32'>";
-	  
+	  msg = given + " " + "<img src='" + imgUrl + "'height='42' width='25'>";
 	  succes('t4', msg);
   }
   else
 	 failure('t4');
 	
-	
+	//Older JS implementation. Useful for reference:
 //   //This function is only reached if the downloaded rep list is successfull. 
 //   test_downloaded_rep = function (data) 
 //   {
@@ -114,33 +119,25 @@ t4_acquire_induvidual_rep = function(data)
 //      if (x != 'success')
 //         failure('t4')
 //   }, 7000)
-}
+};
 
 
-t5_acquire_induvidual_bill = function() 
+t5_acquire_induvidual_bill = function(data) 
 {
-
    thisTestCaseID = "t5";
 
-   //This function is only reached if the downloaded rep list is successfull. 
-   test_downloaded_bill = function (data) 
-   {
-      result = data.results[0];
-      title = result.title.EN;
-      if (title != null)  //usually there are 300+ members. If there are less then there is a problem.
-            succes('t5')
-   }
+   if (data != null){ //usually there are 300+ members. If there are less then there is a problem.
+	      result = data.results[0];
+	      title = result.title.EN;
+	      prefixnum = result.prefix + result.number;
+		  msg = prefixnum + " " + title;
+		  succes(thisTestCaseID, msg);
+	  }
+	  else
+		 failure(thisTestCaseID);
+};
+  
 
-   //Call the API to get the list. 
-   ParlData.bbls("5079843", "all", test_downloaded_bill);
-
-   //Time out after 4 seconds. 
-   setTimeout(function () {
-      x = document.getElementById('t5').innerHTML
-      if (x != 'success')
-         failure('t5')
-   }, 7000)
-}
 
 t6_= function() 
 {
@@ -156,29 +153,85 @@ t8_= function()
 }
 
 
-t9_traverse_rep_list = function ()
+t9_first_rep = function (data)
 {
-   
+	  if (data != null){
+		  result = data.results[0];
+		  given = result.name.given;
+		  imgUrl = "http://www.parl.gc.ca/Parlinfo/images/Picture.aspx?Item=" + result.image_id;   
+		  msg = given + " " + "<img src='" + imgUrl + "'height='42' width='25'>";
+		  succes('t9', msg);
+	  }
+	  else
+		 failure('t9');
+};
 
-}
+t10_last_rep = function (data)
+{
+	  if (data != null){
+		     
+		  result = data.results[data.results.length -1];
+		  given = result.name.given;
+		  imgUrl = "http://www.parl.gc.ca/Parlinfo/images/Picture.aspx?Item=" + result.image_id;   
+		  msg = given + " " + "<img src='" + imgUrl + "'height='42' width='25'>";
+		  succes('t10', msg);
+	  }
+	  else
+		 failure('t10');
+};
 
 
-//â----------------------  Test the test cases. 
+t11_test_first_bill_in_index = function(data) 
+{
+   thisTestCaseID = "t11";
+
+   if (data != null){ 
+	      result = data.results[0];
+	      title = result.title.EN;
+	      prefixnum = result.prefix + result.number;
+		  msg = prefixnum + " " + title;
+		  succes(thisTestCaseID, msg);
+	  }
+	  else
+		 failure(thisTestCaseID);
+};
+
+
+t12_test_last_bill_in_index = function(data) 
+{
+   thisTestCaseID = "t12";
+
+   if (data != null){
+	      result = data.results[data.results.length -1];
+	      title = result.title.EN;
+	      prefixnum = result.prefix + result.number;
+		  msg = prefixnum + " " + title;
+		  succes(thisTestCaseID, msg);
+	  }
+	  else
+		 failure(thisTestCaseID);
+};
+
+
+
+
+//----------------------- ----------------------- -----------------------
+//â----------------------  Call the test cases. 
+//----------------------- ----------------------- -----------------------
 exampleTest();
 t2_acquire_rep_list(JS_AllRepList);
 t3_acquire_bill_list(JS_AllBillList);
 t4_acquire_induvidual_rep(JS_SingleRep);
-t5_acquire_induvidual_bill();
+t5_acquire_induvidual_bill(JS_SingleBill);
 t6_();
 t7_();
 t8_();
-t9_traverse_rep_list();
+t9_first_rep(JS_AllRepList);
+t10_last_rep(JS_AllRepList);
+t11_test_first_bill_in_index(JS_AllBillList);
+t12_test_last_bill_in_index(JS_AllBillList);
 
-
-
-
-
-//<!--LEO: Pie char business  -->
+//<!--LEO: Pie char code, runs at the end  -->
 var pieData = [
 		{
 			value: success_count,
