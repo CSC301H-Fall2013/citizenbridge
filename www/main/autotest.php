@@ -8,6 +8,8 @@ $ctx = stream_context_create(array(
 
 //Get data about all reps. This is used by the javascript below. 
 $php_AllRepList = json_decode(file_get_contents("http://api.parliamentdata.ca/representatives/", 0, $ctx));
+$php_AllBillList = json_decode(file_get_contents("http://api.parliamentdata.ca/bills/", 0, $ctx));
+
 
 		
 //get data about a specific rep 
@@ -78,6 +80,8 @@ $php_AllRepList = json_decode(file_get_contents("http://api.parliamentdata.ca/re
 
 	//Load the downloaded list of reps into a global variable. Used by subsequent function calls
 	var JS_AllRepList = <?php echo json_encode($php_AllRepList)?>;
+	var JS_AllBillList = <?php echo json_encode($php_AllBillList)?>;
+	
 	</script>
 	
 	<script src="ParlData.js"> </script>
