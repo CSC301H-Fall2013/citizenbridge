@@ -21,7 +21,8 @@ function loadBill(data, data2) {
     sponsor = "N/A";
     for (var j = 0; j < data2.results.length; j ++){
         if (data2.results[j].id == result.sponsor){
-            sponsor = data2.results[j].name.given + " " + data2.results[j].name.family;
+            name = data2.results[j].name.given + " " + data2.results[j].name.family;
+            sponsor = "<a href='representatives.php?rep=" + result.sponsor + "'>" + name + "</a>";
             imgUrl = "http://www.parl.gc.ca/Parlinfo/images/Picture.aspx?Item=" + data2.results[j].image_id;
             image = "<div style='width:142px;height:230px;'><img src=" + imgUrl +"></img></div>";
             break;
