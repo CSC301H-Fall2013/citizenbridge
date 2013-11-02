@@ -17,8 +17,22 @@ function loadBill(data) {
         summary = "<a href=\"" + result.legislative_summary.EN + "\">" + 
             result.legislative_summary.EN + "</a>";
     }
+<<<<<<< HEAD
     sponsor = result.sponsor;
 
+=======
+    image = "";
+    sponsor = "N/A";
+    for (var j = 0; j < data2.results.length; j ++){
+        if (data2.results[j].id == result.sponsor){
+            sponsor = data2.results[j].name.given + " " + data2.results[j].name.family;
+            imgUrl = "http://www.parl.gc.ca/Parlinfo/images/Picture.aspx?Item=" + data2.results[j].image_id;
+            image = "<div style='width:142px;height:230px;'><img src=" + imgUrl +"></img></div>";
+            break;
+        }
+    }
+    
+>>>>>>> parent of 0d46c6b... Link sponsor from bill to their rep page
     intro = new Date(result.introduction * 1000);
     introdate = intro.toUTCString();
     
