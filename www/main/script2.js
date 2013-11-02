@@ -55,8 +55,9 @@ function loadBillList (data, data2) {
     var template = "<tr class='row'></td><td><a href='bills.php?bill={{billId}}'>{{prefixnum}}</a></td><td><a href='bills.php?bill={{billId}}'>{{title}}</a></td><td><a href='bills.php?bill={{billId}}'>{{status}}</a></td><td><a href='bills.php?bill={{billId}}'>{{sponsor}}</a></td><td><a href='bills.php?bill={{billId}}'>{{introdate}}</a></td><td><a href='bills.php?bill={{billId}}'>{{updated}}</a></td></tr>";
             
     //Create the table and the header
-    var html = "<table id='bill-table' class='wet-boew-tables'><thead><tr role='row'><th>Bill</th><th>Title</th><th>Status</th><th>Sponsor</th><th>Introduced</th><th>Updated</th></tr></thead><tbody>";
+    var html = "<table id='bill-table' class='wet-boew-tables'><thead><tr role='row'><th width='50'>Bill</th><th>Title</th><th>Status</th><th>Sponsor</th><th>Introduced</th><th>Updated</th></tr></thead><tbody>";
     
+       
     var sponsorIdList = new Array();
     for (var j = 0; j < data2.results.length; j ++){
         sponsorIdList[j] = data2.results[j].id;
@@ -149,8 +150,16 @@ function loadBillList (data, data2) {
     html += "</tbody></table>";
             
     // Append the html to the web page
-    $("#main").html(html);
-            
+	 $("#main").html(html);
+    
+//    //TODO change it so that 100 entries are displayed. @Leo, note, an error pops up if we use the code below. 
+//    $(document).ready( function() {
+//    	  $('#bill-table').dataTable( {
+//    	    "iDisplayLength": 100
+//    	  } );
+//    	} );
+    	
+   
 }
 
 
