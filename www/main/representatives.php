@@ -185,19 +185,17 @@ switch ($rep) {
 						<!-- MainContentStart -->
 						<h1 id="wb-cont">Representatives</h1>
 
-						<!-- sh__Main_Body starts here -->
-						<div class="span-8"> 
-							<h3> Representatives stuff goes herez </h3>
-						
+						<!-- sh__Main_Body starts here
+						<div class="span-8"> -->
+						<h3> Representatives stuff goes herez </h3>
+						<!-- JOHN Filter-->
 						<!-- JOHN Rep Table -->
-						<div id="main" >
-						
+						<div class='span-8' id="main"></div>
+							
+							
+							
 
-						</div>
-
-	
-						</div>
-						<div class="clear"></div>
+						<!--<div class="clear"></div> -->
 						
 						
 						<!-- sh__date_Modified  LEO:Leaving out for now -->
