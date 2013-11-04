@@ -52,7 +52,7 @@ function loadBill(data, data2) {
 
 function loadBillList (data, data2) {
     // Template for bill rows
-    var template = "<tr class='row'></td><td><a href='bills.php?bill={{billId}}'>{{prefixnum}}</a></td><td><a href='bills.php?bill={{billId}}'>{{title}}</a></td><td><a href='bills.php?bill={{billId}}'>{{status}}</a></td><td><a href='bills.php?bill={{billId}}'>{{sponsor}}</a></td><td><a href='bills.php?bill={{billId}}'>{{introdate}}</a></td><td><a href='bills.php?bill={{billId}}'>{{updated}}</a></td></tr>";
+    var template = "<tr class='row'></td><td><a href='bills.php?bill={{billId}}'>{{prefixnum}}</a></td><td><a href='bills.php?bill={{billId}}'>{{title}}</a></td><td><a href='bills.php?bill={{billId}}'>{{status}}</a></td><td>{{sponsor}}</td><td><a href='bills.php?bill={{billId}}'>{{introdate}}</a></td><td><a href='bills.php?bill={{billId}}'>{{updated}}</a></td></tr>";
             
     //Create the table and the header
     var html = "<table id='bill-table' class='wet-boew-tables'><thead><tr role='row'><th width='50'>Bill</th><th>Title</th><th>Status</th><th>Sponsor</th><th>Introduced</th><th>Updated</th></tr></thead><tbody>";
@@ -103,10 +103,11 @@ function loadBillList (data, data2) {
         }*/
         sponsorIndex = sponsorIdList.indexOf(sponsorId);
         if (sponsorIndex == -1){
-            sponsor = "Unknown";
+            sponsor = "N/A";
         } else {
             //Prints the first and last name of sponsor (enabled)
-            sponsor = data2.results[sponsorIndex].name.given + " " + data2.results[sponsorIndex].name.family;
+            sponsor = "<a href='representatives.php?rep=" + sponsorId + "'>" + 
+				data2.results[sponsorIndex].name.given + " " + data2.results[sponsorIndex].name.family + "</a>";
             //displays the image of the sponsor (disabled/does not work)
             //sponsor = "http://www.parl.gc.ca/Parlinfo/images/Picture.aspx?Item=" + data2.results[sponsorIndex].image_id;
 
