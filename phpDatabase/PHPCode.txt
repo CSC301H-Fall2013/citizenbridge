@@ -2,26 +2,28 @@ Code modified from tutorial at: http://forums.devshed.com/php-faqs-and-stickies-
 
 Setup in phpMyAdmin:
 
-1: Create User:
+1: Create Database User:
 User name: abc
 Password: abc
 Permissions: Select, Insert, Update
+
+Use localhost as host
 
 2: Create Database:
 Database name: accounts
 Collation: utf8_unicode_ci
 
 
-3: Create Table: Use this SQL code
+3: Create Table: Use this SQL code (SQL Tab)
 
 CREATE TABLE `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `username` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `first` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `last`varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `password` char(64) COLLATE utf8_unicode_ci NOT NULL,
   `salt` char(16) COLLATE utf8_unicode_ci NOT NULL,
   `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `postalcode` char(6) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `username` (`username`),
   UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;

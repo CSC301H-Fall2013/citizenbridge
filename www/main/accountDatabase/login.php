@@ -1,7 +1,7 @@
 <h3>Login</h3> 
 <form action="index.php" method="post"> 
-    Username:<br /> 
-    <input type="text" name="username" value="<?php echo $submitted_username; ?>" /> 
+    Email:<br /> 
+    <input type="text" name="email" value="<?php echo $submitted_email; ?>" /> 
     <br /><br /> 
     Password:<br /> 
     <input type="password" name="password" value="" /> 

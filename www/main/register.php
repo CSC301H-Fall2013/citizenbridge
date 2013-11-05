@@ -1,4 +1,7 @@
 <?php 
+
+	//TODO : Change failures from die() to appropriate error message
+
 	// First we execute our common code to connection to the database and start the session 
     require("accountDatabase/common.php"); 						 
 	// This if statement checks to determine whether the registration form has been submitted 
@@ -6,13 +9,21 @@
 	if(!empty($_POST)) 
 	{ 
 		// Ensure that the user has entered a non-empty username 
-		if(empty($_POST['username'])) 
+		if(empty($_POST['first'])) 
 		{ 
 			// Note that die() is generally a terrible way of handling user errors 
 			// like this.  It is much better to display the error with the form 
 			// and allow the user to correct their mistake.  However, that is an 
 			// exercise for you to implement yourself. 
-			die("Please enter a username."); 
+			die("Please enter a first name."); 
+		}
+		if(empty($_POST['last'])) 
+		{ 
+			// Note that die() is generally a terrible way of handling user errors 
+			// like this.  It is much better to display the error with the form 
+			// and allow the user to correct their mistake.  However, that is an 
+			// exercise for you to implement yourself. 
+			die("Please enter a last name."); 
 		} 
 		 
 		// Ensure that the user has entered a non-empty password 
@@ -25,23 +36,24 @@
 			die("Please enter a postal code."); 
 		}
 		
+		//Used to check for valid postal code
 		$country_code="CA";
 		
 		$zip_postal= $_POST['postalcode'];
 		 
 		$ZIPREG=array(
-			"US"=>"^\d{5}([\-]?\d{4})?$",
-			"UK"=>"^(GIR|[A-Z]\d[A-Z\d]??|[A-Z]{2}\d[A-Z\d]??)[ ]??(\d[A-Z]{2})$",
-			"DE"=>"\b((?:0[1-46-9]\d{3})|(?:[1-357-9]\d{4})|(?:[4][0-24-9]\d{3})|(?:[6][013-9]\d{3}))\b",
+			//"US"=>"^\d{5}([\-]?\d{4})?$",
+			//"UK"=>"^(GIR|[A-Z]\d[A-Z\d]??|[A-Z]{2}\d[A-Z\d]??)[ ]??(\d[A-Z]{2})$",
+			//"DE"=>"\b((?:0[1-46-9]\d{3})|(?:[1-357-9]\d{4})|(?:[4][0-24-9]\d{3})|(?:[6][013-9]\d{3}))\b",
 			"CA"=>"^([ABCEGHJKLMNPRSTVXY]\d[ABCEGHJKLMNPRSTVWXYZ])\ {0,1}(\d[ABCEGHJKLMNPRSTVWXYZ]\d)$",
-			"FR"=>"^(F-)?((2[A|B])|[0-9]{2})[0-9]{3}$",
-			"IT"=>"^(V-|I-)?[0-9]{5}$",
-			"AU"=>"^(0[289][0-9]{2})|([1345689][0-9]{3})|(2[0-8][0-9]{2})|(290[0-9])|(291[0-4])|(7[0-4][0-9]{2})|(7[8-9][0-9]{2})$",
-			"NL"=>"^[1-9][0-9]{3}\s?([a-zA-Z]{2})?$",
-			"ES"=>"^([1-9]{2}|[0-9][1-9]|[1-9][0-9])[0-9]{3}$",
-			"DK"=>"^([D-d][K-k])?( |-)?[1-9]{1}[0-9]{3}$",
-			"SE"=>"^(s-|S-){0,1}[0-9]{3}\s?[0-9]{2}$",
-			"BE"=>"^[1-9]{1}[0-9]{3}$"
+			//"FR"=>"^(F-)?((2[A|B])|[0-9]{2})[0-9]{3}$",
+			//"IT"=>"^(V-|I-)?[0-9]{5}$",
+			//"AU"=>"^(0[289][0-9]{2})|([1345689][0-9]{3})|(2[0-8][0-9]{2})|(290[0-9])|(291[0-4])|(7[0-4][0-9]{2})|(7[8-9][0-9]{2})$",
+			//"NL"=>"^[1-9][0-9]{3}\s?([a-zA-Z]{2})?$",
+			//"ES"=>"^([1-9]{2}|[0-9][1-9]|[1-9][0-9])[0-9]{3}$",
+			//"DK"=>"^([D-d][K-k])?( |-)?[1-9]{1}[0-9]{3}$",
+			//"SE"=>"^(s-|S-){0,1}[0-9]{3}\s?[0-9]{2}$",
+			//"BE"=>"^[1-9]{1}[0-9]{3}$"
 		);
 		 
 		if ($ZIPREG[$country_code]) {
@@ -61,52 +73,6 @@
 			die("Invalid E-Mail Address"); 
 		} 
 		 
-		// We will use this SQL query to see whether the username entered by the 
-		// user is already in use.  A SELECT query is used to retrieve data from the database. 
-		// :username is a special token, we will substitute a real value in its place when 
-		// we execute the query. 
-		$query = " 
-			SELECT 
-				1 
-			FROM users 
-			WHERE 
-				username = :username 
-		"; 
-		 
-		// This contains the definitions for any special tokens that we place in 
-		// our SQL query.  In this case, we are defining a value for the token 
-		// :username.  It is possible to insert $_POST['username'] directly into 
-		// your $query string; however doing so is very insecure and opens your 
-		// code up to SQL injection exploits.  Using tokens prevents this. 
-		// For more information on SQL injections, see Wikipedia: 
-		// http://en.wikipedia.org/wiki/SQL_Injection 
-		$query_params = array( 
-			':username' => $_POST['username'] 
-		); 
-		 
-		try 
-		{ 
-			// These two statements run the query against your database table. 
-			$stmt = $db->prepare($query); 
-			$result = $stmt->execute($query_params); 
-		} 
-		catch(PDOException $ex) 
-		{ 
-			// Note: On a production website, you should not output $ex->getMessage(). 
-			// It may provide an attacker with helpful information about your code.  
-			die("Failed to run query: " . $ex->getMessage()); 
-		} 
-		 
-		// The fetch() method returns an array representing the "next" row from 
-		// the selected results, or false if there are no more rows to fetch. 
-		$row = $stmt->fetch(); 
-		 
-		// If a row was returned, then we know a matching username was found in 
-		// the database already and we should not allow the user to continue. 
-		if($row) 
-		{ 
-			die("This username is already in use"); 
-		} 
 		 
 		// Now we perform the same type of check for the email address, in order 
 		// to ensure that it is unique. 
@@ -138,7 +104,6 @@
 		{ 
 			die("This email address is already registered"); 
 		} 
-		
 
 		
 		// An INSERT query is used to add new rows to a database table. 
@@ -146,13 +111,15 @@
 		// protect against SQL injection attacks. 
 		$query = " 
 			INSERT INTO users ( 
-				username, 
+				first, 
+				last,
 				password, 
 				salt, 
 				email,
 				postalcode
 			) VALUES ( 
-				:username, 
+				:first, 
+				:last,
 				:password, 
 				:salt, 
 				:email,
@@ -193,7 +160,8 @@
 		// store the original password; only the hashed version of it.  We do store 
 		// the salt (in its plaintext form; this is not a security risk). 
 		$query_params = array( 
-			':username' => $_POST['username'], 
+			':first' => $_POST['first'],
+			':last' => $_POST['last'], 			
 			':password' => $password, 
 			':salt' => $salt, 
 			':email' => $_POST['email'],
@@ -214,7 +182,7 @@
 			die("Failed to run query: " . $ex->getMessage()); 
 		} 
 		 
-		// This redirects the user back to the login page after they register 
+		// This redirects the user back to the index page after they register 
 		header("Location: index.php"); 
 		 
 		// Calling die or exit after performing a redirect using the header function 
@@ -388,9 +356,12 @@
 							<!-- JIE: Registration Form -->
 							
 							<form action="register.php" method="post"> 
-								Username:<br /> 
-								<input type="text" name="username" value="" /> 
-								<br /><br /> 
+								First Name:<br /> 
+								<input type="text" name="first" value="" /> 
+								<br /><br />
+								Last Name:<br /> 
+								<input type="text" name="last" value="" /> 
+								<br /><br /> 								
 								E-Mail:<br /> 
 								<input type="text" name="email" value="" /> 
 								<br /><br /> 

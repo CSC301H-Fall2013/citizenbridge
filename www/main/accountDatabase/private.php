@@ -1,4 +1,4 @@
-Username: <?php echo htmlentities($_SESSION['user']['username'], ENT_QUOTES, 'UTF-8'); ?><br /> 
+Email: <?php echo htmlentities($_SESSION['user']['email'], ENT_QUOTES, 'UTF-8'); ?><br /> 
 
 <!--
 <a href="memberlist.php">Memberlist</a><br />

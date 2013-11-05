@@ -72,10 +72,33 @@
 					<section>
 						<div id="wet-fullhd">
 						<div id="wet-fullhd-in">
+								
 								<ul>
 								
 								<!-- <li id="wet-fullhd-lang-2"><a href="index-fr.html" lang="fr">Français</a></li> -->
+								
 								<li id="wet-fullhd-lang-current">English</li>
+								
+								</ul>
+								
+								<ul>
+								<li> 
+								<!--
+								<?php 
+									//TODO : Fix when it loads
+									//W.E.T Framework : This is part is not refreshed when page is refreshed
+									if(empty($_SESSION['user'])) 
+									{ 
+										echo 'Not logged in';
+									} else 
+									{
+										//If logged in show the user form (currently just shows email)
+										echo 'Logged in As:';
+										echo htmlentities($_SESSION['user']['email'], ENT_QUOTES, 'UTF-8');
+									}
+								?> 
+								-->
+								</li>
 								</ul>
 						</div>
 						</div>
@@ -166,32 +189,33 @@
 							
 							<!-- JIE: Login form -->
 							<?php
-														// This variable will be used to re-display the user's username to them in the 
+														// This variable will be used to re-display the user's e-mail to them in the 
 								// login form if they fail to enter the correct password.  It is initialized here 
 								// to an empty value, which will be shown if the user has not submitted the form. 
-								$submitted_username = ''; 
+								$submitted_email = ''; 
 								 
 								// This if statement checks to determine whether the login form has been submitted 
 								// If it has, then the login code is run, otherwise the form is displayed 
 								if(!empty($_POST)) 
 								{ 
 									// This query retreives the user's information from the database using 
-									// their username. 
+									// their email. 
 									$query = " 
 										SELECT 
 											id, 
-											username, 
+											first,
+											last,
 											password, 
 											salt, 
 											email 
 										FROM users 
 										WHERE 
-											username = :username 
+											email = :email 
 									"; 
 									 
 									// The parameter values 
 									$query_params = array( 
-										':username' => $_POST['username'] 
+										':email' => $_POST['email'] 
 									); 
 									 
 									try 
@@ -204,6 +228,7 @@
 									{ 
 										// Note: On a production website, you should not output $ex->getMessage(). 
 										// It may provide an attacker with helpful information about your code.  
+										// TODO :
 										die("Failed to run query: " . $ex->getMessage()); 
 									} 
 									 
@@ -212,7 +237,7 @@
 									// If we determine that they have entered the right details, then we switch it to true. 
 									$login_ok = false; 
 									 
-									// Retrieve the user data from the database.  If $row is false, then the username 
+									// Retrieve the user data from the database.  If $row is false, then the email 
 									// they entered is not registered. 
 									$row = $stmt->fetch(); 
 									if($row) 
@@ -233,8 +258,8 @@
 										} 
 									} 
 									 
-									// If the user logged in successfully, then we send them to the private members-only page 
-									// Otherwise, we display a login failed message and show the login form again 
+									// If the user logged in successfully, then we refresh the page
+									// Otherwise, we display a login failed message and refresh the page
 									if($login_ok) 
 									{ 
 										// Here I am preparing to store the $row array into the $_SESSION by 
@@ -251,23 +276,25 @@
 										// the user's details. 
 										$_SESSION['user'] = $row; 
 										 
-										// Redirect the user to the private members-only page. 
-										echo '<script type="text\javascript">location.reload(forceGet);</script>';
-										//header("Location: accountDatabase/blank.php"); 
-										//die("Redirecting to: accountDatabase/blank.php"); 
+										// TODO : Refresh the page
+										echo '<script type="text\javascript">location.reload(true);</script>';
+
 									} 
 									else 
 									{ 
-										// Tell the user they failed 
+										//TODO : Fix failure message
+										// Tell the user they failed and refresh the page
 										echo '<script type="text\javascript">alert("Login Failed.");</script>';
-
+										//echo '<script type="text\javascript">location.reload(forceGet);</script>';
 										 
 										// Show them their username again so all they have to do is enter a new 
 										// password.  The use of htmlentities prevents XSS attacks.  You should 
 										// always use htmlentities on user submitted values before displaying them 
 										// to any users (including the user that submitted them).  For more information: 
 										// http://en.wikipedia.org/wiki/XSS_attack 
-										$submitted_username = htmlentities($_POST['username'], ENT_QUOTES, 'UTF-8'); 
+										$submitted_email = htmlentities($_POST['email'], ENT_QUOTES, 'UTF-8'); 
+										
+										
 									} 
 								} 
 							?>
@@ -275,11 +302,14 @@
 							
 							
 							<?php 
+							
 							if(empty($_SESSION['user'])) 
 							{ 
+								//If not logged in, show the login form
 								include 'accountDatabase/login.php';
 							} else 
 							{
+								//If logged in show the user form (currently just shows email)
 								include 'accountDatabase/private.php';
 							}
 							?>
