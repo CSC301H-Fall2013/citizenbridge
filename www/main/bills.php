@@ -1,4 +1,8 @@
 <?php
+	require("accountDatabase/common.php");
+
+?>
+<?php
 /*
 Checks if the GET variable bill is set else set it to 0
 NOTE: the get variable is the "bill=170545" in the url http://localhost/main/bills.php?bill=170545
@@ -104,6 +108,24 @@ switch ($bill) {
 								
 								<!-- <li id="wet-fullhd-lang-2"><a href="index-fr.html" lang="fr">Français</a></li> -->
 								<li id="wet-fullhd-lang-current">English</li>
+								</ul>
+								<ul>
+								<li> 
+								
+								<?php 
+									//This is part is not refreshed when page is refreshed
+									if(empty($_SESSION['user'])) 
+									{ 
+										echo '<a href="index.php">Login</a>';
+									} else 
+									{
+										//If logged in show the user form (currently just shows email)
+										echo 'Logged in As:';
+										echo htmlentities($_SESSION['user']['email'], ENT_QUOTES, 'UTF-8');
+									}
+								?> 
+								
+								</li>
 								</ul>
 						</div>
 						</div>

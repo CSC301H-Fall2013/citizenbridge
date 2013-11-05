@@ -20,6 +20,12 @@ switch ($rep) {
 		$all = 0;
 }
 ?>
+
+<?php
+	require("accountDatabase/common.php");
+
+?>
+
 						
 <!--[if IE 7]><html lang="en" class="no-js ie7"><![endif]-->
 <!--[if IE 8]><html lang="en" class="no-js ie8"><![endif]-->
@@ -101,6 +107,24 @@ switch ($rep) {
 								
 								<!-- <li id="wet-fullhd-lang-2"><a href="index-fr.html" lang="fr">Français</a></li> -->
 								<li id="wet-fullhd-lang-current">English</li>
+								</ul>
+								<ul>
+								<li> 
+								
+								<?php 
+									//This is part is not refreshed when page is refreshed
+									if(empty($_SESSION['user'])) 
+									{ 
+										echo '<a href="index.php">Login</a>';
+									} else 
+									{
+										//If logged in show the user form (currently just shows email)
+										echo 'Logged in As:';
+										echo htmlentities($_SESSION['user']['email'], ENT_QUOTES, 'UTF-8');
+									}
+								?> 
+								
+								</li>
 								</ul>
 						</div>
 						</div>
