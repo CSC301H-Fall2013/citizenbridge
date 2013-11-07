@@ -1,6 +1,6 @@
 function loadRep(data) {
 	
-	templateMain = "<a href='representatives.php'><button onclick='loadRepList()'>Back</button></a><br><div class='span-1'><img src={{imgUrl}}></img></div><div class='span-5'><div class='wet-boew-tabbedinterface'><ul class='tabs'><li><a href='#overview'>Overview</a></li><li><a href='#contacts'>Contacts</a></li><li><a href='#caucus'>Caucus</a></li></ul><div class='tabs-panel'><div id='overview'><h1>{{given}} {{family}}</h1> {{suffix}}<br><b>MP for: </b><h2>{{constituency}}</h2><b>Elected: </b>{{election}}<br><b>Caucus: </b>{{caucus}}</div><div id='contacts'><br> {{Contacts-tab}}{{links}}</div><div id='caucus'> {{Caucus-tab}}</div></div></div></div>";
+	templateMain = "<a href='representatives.php'></a><br><div class='span-1'><img src={{imgUrl}}></img></div><div class='span-5'><div class='wet-boew-tabbedinterface'><ul class='tabs'><li><a href='#overview'>Overview</a></li><li><a href='#contacts'>Contacts</a></li><li><a href='#caucus'>Caucus</a></li></ul><div class='tabs-panel'><div id='overview'><h1>{{given}} {{family}}</h1> {{suffix}}<br><b>MP for: </b><h2>{{constituency}}</h2><b>Elected: </b>{{election}}<br><b>Caucus: </b>{{caucus}}</div><div id='contacts'><br> {{Contacts-tab}}{{links}}</div><div id='caucus'> {{Caucus-tab}}</div></div></div></div>";
 	
 	result = data.results[0];
 

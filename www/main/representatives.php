@@ -208,7 +208,7 @@ switch ($rep) {
 
 						<!-- sh__Main_Body starts here
 						<div class="span-8"> -->
-						<h3> Representatives stuff goes herez </h3>
+						
 						<!-- JOHN Filter-->
 						<!-- JOHN Rep Table -->
 						<div class='span-8' id="main"></div>
