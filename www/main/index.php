@@ -93,7 +93,7 @@
 			$_SESSION['user'] = $row; 
 			 
 			// TODO : Refresh the page
-			echo '<script type="text\javascript">location.reload(true);</script>';
+			echo '<script type="text/javascript">location.reload(true);</script>';
 
 		} 
 		else 
@@ -102,9 +102,7 @@
 			// Tell the user they failed and refresh the page
 			
 			
-			echo '<script type="text\javascript">alert("Login Failed.");</script>';
-			//echo '<script type="text\javascript">window.onload=function(){alert("Login Failed.");</script>';
-			//echo '<script type="text\javascript">location.reload(forceGet);</script>';
+			echo '<script type="text/javascript">alert("Invalid E-mail or Password.");</script>';
 			
 			file_put_contents('debug.txt', "Login Failed.");
 			// Show them their username again so all they have to do is enter a new 
@@ -113,7 +111,6 @@
 			// to any users (including the user that submitted them).  For more information: 
 			// http://en.wikipedia.org/wiki/XSS_attack 
 			$submitted_email = htmlentities($_POST['email'], ENT_QUOTES, 'UTF-8'); 
-			
 			
 		} 
 	} 
@@ -201,15 +198,13 @@
 								<li> 
 								
 								<?php 
-									//This is part is not refreshed when page is refreshed
 									if(empty($_SESSION['user'])) 
 									{ 
 										echo '<a href="register.php"> Register </a>';
 									} else 
 									{
-										//If logged in show the user form (currently just shows email)
-										echo 'Logged in As:';
-										echo htmlentities($_SESSION['user']['email'], ENT_QUOTES, 'UTF-8');
+										//If logged in
+										echo '<a href="accountDatabase/logout.php"> Logout </a>';
 									}
 								?> 
 								

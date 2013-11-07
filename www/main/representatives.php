@@ -112,15 +112,12 @@ switch ($rep) {
 								<li> 
 								
 								<?php 
-									//This is part is not refreshed when page is refreshed
 									if(empty($_SESSION['user'])) 
 									{ 
 										echo '<a href="index.php">Login</a>';
 									} else 
 									{
-										//If logged in show the user form (currently just shows email)
-										echo 'Logged in As:';
-										echo htmlentities($_SESSION['user']['email'], ENT_QUOTES, 'UTF-8');
+										echo '<a href="accountDatabase/logout.php"> Logout </a>';
 									}
 								?> 
 								
