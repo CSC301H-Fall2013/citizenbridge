@@ -3,8 +3,8 @@ Code modified from tutorial at: http://forums.devshed.com/php-faqs-and-stickies-
 Setup in phpMyAdmin:
 
 1: Create Database User:
-User name: abc
-Password: abc
+username = levuca_citizen
+password = citizenbridge
 Permissions: Select, Insert, Update
 
 Use localhost as host
