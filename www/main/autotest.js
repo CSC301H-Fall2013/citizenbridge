@@ -212,8 +212,15 @@ t12_test_last_bill_in_index = function(data)
 		 failure(thisTestCaseID);
 };
 
+t13 = function() 
+{         failureNotImplemented('t13');
+}
 
+t14 = function() 
+{
 
+         failureNotImplemented('t14');
+}
 
 //----------------------- ----------------------- -----------------------
 //â----------------------  Call the test cases. 
@@ -230,6 +237,8 @@ t9_first_rep(JS_AllRepList);
 t10_last_rep(JS_AllRepList);
 t11_test_first_bill_in_index(JS_AllBillList);
 t12_test_last_bill_in_index(JS_AllBillList);
+t13();
+t14();
 
 //<!--LEO: Pie char code, runs at the end  -->
 var pieData = [

@@ -109,7 +109,14 @@ $php_singleBill = json_decode(file_get_contents("http://api.parliamentdata.ca/bi
 		Download the bills list, and read the last entry </td> <td id="t11"> In Progress </td> <td id="t11_data"></td> </tr>
 		
 			<tr> <td> 12</td> <td> <b> Test last index of bills list </b> <br> 
-		Download the bills list, and read the last entry </td> <td id="t12"> In Progress </td> <td id="t12_data"></td> </tr>							
+		Download the bills list, and read the last entry </td> <td id="t12"> In Progress </td> <td id="t12_data"></td> </tr>						
+			<tr> <td> 13</td> <td> <b> Find Represtenative in my area , given valid rep-id </b> <br> 
+			This test will receive an ID of a representative, it should return the post code of the representative </td> <td id="t13"> In Progress </td> <td id="t13_data"></td> </tr>	
+
+			<tr> <td> 14</td> <td> <b> Find Represtenative in my area , given invalid rep-id </b> <br> 
+			Given an invalid rep-id, the function should return a null value. <br> 
+			It should not generate an error as some reps may not have their location information </td> 
+			<td id="t14"> In Progress </td> <td id="t14_data"></td> </tr>	
 							
 			<!--   Implement more test cases -->
 					
