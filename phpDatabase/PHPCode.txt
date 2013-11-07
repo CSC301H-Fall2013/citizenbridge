@@ -2,6 +2,12 @@ Code modified from tutorial at: http://forums.devshed.com/php-faqs-and-stickies-
 
 Setup in phpMyAdmin:
 
+
+0 Create Database:
+Database name: levuca_account
+Collation: utf8_unicode_ci
+
+
 1: Create Database User:
 username = levuca_citizen
 password = citizenbridge
@@ -9,9 +15,6 @@ Permissions: Select, Insert, Update
 
 Use localhost as host
 
-2: Create Database:
-Database name: accounts
-Collation: utf8_unicode_ci
 
 
 3: Create Table: Use this SQL code (SQL Tab)
