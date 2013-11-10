@@ -153,8 +153,12 @@ function loadMyRep(data){
 			.replace("{{party}}", party);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     document.write(html);
 =======
      document.write(html);
 >>>>>>> c40c710d0d82540a3a4f007069f65abb7509a4ba
+=======
+    $("#main").html(html);
+>>>>>>> d81b3c16c12b381cd81b04fa122d92cb6965d50a
 } 

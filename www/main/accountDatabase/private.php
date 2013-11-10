@@ -6,10 +6,10 @@ Postal Code: <?php echo $postalcode; ?> <br />
 $json = file_get_contents("http://represent.opennorth.ca/postcodes/" . $postalcode);
 $json = json_decode($json);
 ?>
+<div id="main" >
 <script type="text/javascript">
 		//get the json data by encoding the php global variable then echoing it
 		json = <?php echo json_encode($json)?>;
         loadMyRep(json);
 </script>
-<div id="main" >
 </div>
