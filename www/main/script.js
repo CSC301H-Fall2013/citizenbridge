@@ -118,3 +118,29 @@ function loadRepList(data) {
 	// Make the table sortable, searchable and customizable using
 	// the WET framework
 }
+
+function loadMyRep(data){
+    templateMyRep = "<h3>My Representative</h3><div> Name: {{name}} <br>{{image}}<br> District: {{district}} <br> Party: {{party}}";
+    var result, rep, fname, lname, picture, party, district, name, image;
+    result = data.results;
+    rep = result.representatives_centroid;
+    for (var i = 0; i < rep.length; i++){
+        if (rep[i].elected_office == "MP"){
+            fname = rep[i].first_name;
+            lname = rep[i].last_name;
+            picture = rep[i].photo_url;
+            party = rep[i].party_name;
+            district = rep[i].district;
+            break;
+        }
+    }
+    name = first + " " + last;
+    image = "<div style='width:142px;height:230px;'><img src=" + picture +"></img></div>";
+    html += templateMyRep
+			.replace("{{name}}", name)
+			.replace("{{image}}", image)
+			.replace("{{district}}", district)
+			.replace("{{party}}", party);
+
+    $("#main").html(html);
+} 
