@@ -1,9 +1,4 @@
-Email: <?php echo htmlentities($_SESSION['user']['email'], ENT_QUOTES, 'UTF-8'); ?><br /> 
+Name: <?php echo htmlentities($_SESSION['user']['first'], ENT_QUOTES, 'UTF-8'); ?> <?php echo htmlentities($_SESSION['user']['last'], ENT_QUOTES, 'UTF-8'); ?><br />
+Email: <?php echo htmlentities($_SESSION['user']['email'], ENT_QUOTES, 'UTF-8'); ?> <br />
+Postal Code: <?php echo htmlentities($_SESSION['user']['postalcode'], ENT_QUOTES, 'UTF-8'); ?> <br />
 
-<!--
-<a href="memberlist.php">Memberlist</a><br />
--->
-<!--
-<a href="edit_account.php">Edit Account</a><br /> 
--->
-<a href="accountDatabase/logout.php">Logout</a>
