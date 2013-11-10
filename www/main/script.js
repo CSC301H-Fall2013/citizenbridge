@@ -122,8 +122,7 @@ function loadRepList(data) {
 function loadMyRep(data){
     templateMyRep = "<h3>My Representative</h3><div> Name: {{name}} <br>{{image}}<br> District: {{district}} <br> Party: {{party}}";
     var result, rep, fname, lname, picture, party, district, name, image;
-    result = data.results;
-    rep = result.representatives_centroid;
+    rep = data.representatives_centroid;
     for (var i = 0; i < rep.length; i++){
         if (rep[i].elected_office == "MP"){
             fname = rep[i].first_name;
@@ -134,13 +133,13 @@ function loadMyRep(data){
             break;
         }
     }
-    name = first + " " + last;
+    name = fname + " " + lname;
     image = "<div style='width:142px;height:230px;'><img src=" + picture +"></img></div>";
-    html += templateMyRep
+    html = templateMyRep
 			.replace("{{name}}", name)
 			.replace("{{image}}", image)
 			.replace("{{district}}", district)
 			.replace("{{party}}", party);
 
-    $("#main").html(html);
+    document.write(html);
 } 
