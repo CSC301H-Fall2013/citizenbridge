@@ -299,10 +299,7 @@
 
 						<!-- sh__Main_Body starts here -->
 						<div class="span-8">
-							
-							
-							
-							
+
 							<?php 
 							
 							if(empty($_SESSION['user'])) 

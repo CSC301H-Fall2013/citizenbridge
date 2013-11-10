@@ -120,8 +120,9 @@ function loadRepList(data) {
 }
 
 function loadMyRep(data){
-    templateMyRep = "<h3>My Representative</h3><div> Name: {{name}} <br>{{image}}<br> District: {{district}} <br> Party: {{party}}";
+    templateMyRep = "<h3>My Representative</h3><br><div> Name: {{name}}</div><br>{{image}}<br><div>District: {{district}}</div><br><div>Party: {{party}}</div>";
     var result, rep, fname, lname, picture, party, district, name, image;
+<<<<<<< HEAD
     rep = data.representatives_centroid;
     for (var i = 0; i < rep.length; i++){
         if (rep[i].elected_office == "MP"){
@@ -130,6 +131,16 @@ function loadMyRep(data){
             picture = rep[i].photo_url;
             party = rep[i].party_name;
             district = rep[i].district;
+=======
+    result = data.representatives_centroid;
+    for (var i = 0; i < result.length; i++){
+        if (result[i].elected_office == "MP"){
+            fname = result[i].first_name;
+            lname = result[i].last_name;
+            picture = result[i].photo_url;
+            party = result[i].party_name;
+            district = result[i].district_name;
+>>>>>>> c40c710d0d82540a3a4f007069f65abb7509a4ba
             break;
         }
     }
@@ -141,5 +152,9 @@ function loadMyRep(data){
 			.replace("{{district}}", district)
 			.replace("{{party}}", party);
 
+<<<<<<< HEAD
     document.write(html);
+=======
+     document.write(html);
+>>>>>>> c40c710d0d82540a3a4f007069f65abb7509a4ba
 } 

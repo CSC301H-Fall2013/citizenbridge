@@ -11,3 +11,5 @@ $json = json_decode($json);
 		json = <?php echo json_encode($json)?>;
         loadMyRep(json);
 </script>
+<div id="main" >
+</div>
