@@ -23,8 +23,8 @@
 				last,
 				password, 
 				salt, 
-				email
-				postalcode 
+				email,
+                postalcode
 			FROM users 
 			WHERE 
 				email = :email 
