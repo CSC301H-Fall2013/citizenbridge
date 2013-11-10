@@ -141,5 +141,5 @@ function loadMyRep(data){
 			.replace("{{district}}", district)
 			.replace("{{party}}", party);
 
-     document.write(html);
+    $("#main").html(html);
 } 
