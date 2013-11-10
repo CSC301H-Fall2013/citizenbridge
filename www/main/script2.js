@@ -55,55 +55,55 @@ function loadBillList (data, data2) {
     var template = "<tr class='row'></td><td><a href='bills.php?bill={{billId}}'>{{prefixnum}}</a></td><td><a href='bills.php?bill={{billId}}'>{{title}}</a></td><td><a href='bills.php?bill={{billId}}'>{{status}}</a></td><td>{{sponsor}}</td><td><a href='bills.php?bill={{billId}}'>{{introdate}}</a></td><td><a href='bills.php?bill={{billId}}'>{{updated}}</a></td></tr>";
             
     //Create the table and the header
-    var html = "<table id='bill-table' class='wet-boew-tables'><thead><tr role='row'><th width='50'>Bill</th><th>Title</th><th>Status</th><th>Sponsor</th><th>Introduced</th><th>Updated</th></tr></thead><tbody>";
+    var html = "<table id='bill-table' class='wet-boew-tables' data-wet-boew='{\"aaSorting\": [[5, \"desc\"]], \"iDisplayLength\": 50}'><thead><tr role='row'><th width='50'>Bill</th><th>Title</th><th>Status</th><th>Sponsor</th><th>Introduced</th><th>Updated</th></tr></thead><tbody>";
     
-       
+    // Create a list of sponsors to access their information by their id
     var sponsorIdList = new Array();
     for (var j = 0; j < data2.results.length; j ++){
         sponsorIdList[j] = data2.results[j].id;
     }
 
-
-
     // Create a row for each bill
     for (var i = 0; i < data.results.length; i++) {
-    
         // Get all the required data from the JSON
         var result, prefixnum, title, up, update, /*sponsor,*/ status, intro, introdate;
     
         result = data.results[i];
+		
         billId = result.id;
-        prefixnum = result.prefix + "-";
+        
+		// Bill number
+		prefixnum = result.prefix + "-";
 		if (result.number < 10) {
 			prefixnum += "00";
 		} else if (result.number < 100) {
 			prefixnum += "0";
 		}
 		prefixnum += result.number;
+		
+		// Title of the bill
         title = result.short_title.EN;
         if (title == null) { //short_title may not always be available.
             title = result.title.EN; // Hopefully is not null.
         };
     
-    
-        // Convert date data into readable string
+        // Introduction date
         intro = new Date(result.introduction * 1000);
-        introdate = intro.toUTCString(); 
-        up = new Date(result.last_updated);
-        updated = up.toUTCString();
-		//sponsor = result.id; //to delete later, for checking purposes
-        sponsorId = result.sponsor; //TODO: Link to a name/pic/something that isn't just a number.			
+		introdate = (intro.toJSON()).slice(0,10);
+		//introdate = intro.getUTCFullYear() + "-" + intro.getUTCMonth() + "-" + intro.getUTCDate();
+        //introdate = intro.toUTCString();
 		
-        
-        /*for (var j = 0; j < data2.results.length; j ++){
-            if (data2.results[j].id == sponsorId){
-                sponsor = data2.results[j].name.given + " " + data2.results[j].name.family;
-                break;
-            }
-        }*/
+		// Updated date
+        up = new Date(result.last_updated);
+		updated = (up.toJSON()).slice(0,10) + " " + up.toLocaleTimeString();//+ up.toTimeString();//(up.toJSON()).slice(12,19);
+		//updated = up.getUTCFullYear() + "-" + up.getUTCMonth() + "-" + up.getUTCDate()
+        //updated = up.toUTCString();
+
+		// Bill sponsor
+        sponsorId = result.sponsor;					
         sponsorIndex = sponsorIdList.indexOf(sponsorId);
         if (sponsorIndex == -1){
-            sponsor = "N/A";
+            sponsor = "-";
         } else {
             //Prints the first and last name of sponsor (enabled)
             sponsor = "<a href='representatives.php?rep=" + sponsorId + "'>" + 
@@ -113,8 +113,8 @@ function loadBillList (data, data2) {
 
         }
 
-		last_event = result.events.pop();
-
+		// Status of a bill by looking at the status from the last event
+		last_event = result.events[result.events.length - 1];
         switch(last_event.status){
             case 0: status = "Bill defeated / not proceeded with"; break;
             case 1: status = "Pre-study of the commons bill"; break;
@@ -155,9 +155,9 @@ function loadBillList (data, data2) {
     
 //    //TODO change it so that 100 entries are displayed. @Leo, note, an error pops up if we use the code below. 
 //    $(document).ready( function() {
-//    	  $('#bill-table').dataTable( {
+//   	  $('#bill-table').dataTable( {
 //    	    "iDisplayLength": 100
-//    	  } );
+//   	  } );
 //    	} );
     	
    
