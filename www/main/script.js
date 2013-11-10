@@ -120,27 +120,26 @@ function loadRepList(data) {
 }
 
 function loadMyRep(data){
-    templateMyRep = "<h3>My Representative</h3><div> Name: {{name}} <br>{{image}}<br> District: {{district}} <br> Party: {{party}}";
+    templateMyRep = "<h3>My Representative</h3><br><div> Name: {{name}}</div><br>{{image}}<br><div>District: {{district}}</div><br><div>Party: {{party}}</div>";
     var result, rep, fname, lname, picture, party, district, name, image;
-    result = data.results;
-    rep = result.representatives_centroid;
-    for (var i = 0; i < rep.length; i++){
-        if (rep[i].elected_office == "MP"){
-            fname = rep[i].first_name;
-            lname = rep[i].last_name;
-            picture = rep[i].photo_url;
-            party = rep[i].party_name;
-            district = rep[i].district;
+    result = data.representatives_centroid;
+    for (var i = 0; i < result.length; i++){
+        if (result[i].elected_office == "MP"){
+            fname = result[i].first_name;
+            lname = result[i].last_name;
+            picture = result[i].photo_url;
+            party = result[i].party_name;
+            district = result[i].district_name;
             break;
         }
     }
-    name = first + " " + last;
+    name = fname + " " + lname;
     image = "<div style='width:142px;height:230px;'><img src=" + picture +"></img></div>";
-    html += templateMyRep
+    html = templateMyRep
 			.replace("{{name}}", name)
 			.replace("{{image}}", image)
 			.replace("{{district}}", district)
 			.replace("{{party}}", party);
 
-    $("#main").html(html);
+     document.write(html);
 } 
