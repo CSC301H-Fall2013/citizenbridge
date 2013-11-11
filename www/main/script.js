@@ -119,27 +119,35 @@ function loadRepList(data) {
 	// the WET framework
 }
 
-function loadMyRep(data){
-    templateMyRep = "<h3>My Representative</h3><br><div> Name: {{name}}</div><br>{{image}}<br><div>District: {{district}}</div><br><div>Party: {{party}}</div>";
-    var result, rep, fname, lname, picture, party, district, name, image;
+function loadMyRep(data, data2){
+    var templateMyRep = "<h3>My Representative</h3><b>Name:</b> <a href='representatives.php?rep={{repId}}'>{{name}}</a><br><div style='width:107px;height:173px;'><img src=\"{{image}}\"></img></div><b>District:</b> {{district}}<br><b>Party:</b> {{party}}";
+    var result, rep, fname, lname, picture, party, district, name, image, repId;
+	
     result = data.representatives_centroid;
     for (var i = 0; i < result.length; i++){
         if (result[i].elected_office == "MP"){
-            fname = result[i].first_name;
-            lname = result[i].last_name;
-            picture = result[i].photo_url;
-            party = result[i].party_name;
             district = result[i].district_name;
             break;
         }
     }
-    name = fname + " " + lname;
-    image = "<div style='width:142px;height:230px;'><img src=" + picture +"></img></div>";
+	
+	// Find the rep's id to link to their page by matching district name
+	for (var i = 0; i < data2.results.length; i++) {
+		if (data2.results[i].constituency.name.en == district) {
+			repId = data2.results[i].id;
+			name = data2.results[i].name.given + " " + data2.results[i].name.family;
+			image = "http://www.parl.gc.ca/Parlinfo/images/Picture.aspx?Item=" + data2.results[i].image_id;
+			caucus = data2.results[i].constituency.caucus.name.en;
+			break;
+		}
+	}
+	
     html = templateMyRep
+			.replace("{{repId}}", repId)
 			.replace("{{name}}", name)
 			.replace("{{image}}", image)
 			.replace("{{district}}", district)
-			.replace("{{party}}", party);
+			.replace("{{party}}", caucus);
 
     $("#main").html(html);
 } 
