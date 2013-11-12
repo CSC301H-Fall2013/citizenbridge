@@ -1,6 +1,6 @@
 function loadBill(data, data2) {
     
-    template = "<div class='span-5'><h3>Overview</h3><br><b>{{prefixnum}}:&nbsp;{{title}}</b><br><br><b>Introduced: </b>{{introdate}}<br><b>Updated: </b>{{updated}}<br><b>Sponsor: </b>{{image}}{{sponsor}}<br><br><b>Description: </b>{{description}}<br><br><b>Link to Parliament of Canada: </b>{{summary}}<br></div>";
+    template = "<div class='span-5'><h3>Overview</h3><br><b>{{prefixnum}}:&nbsp;{{title}}</b><br><br><b>Introduced: </b>{{introdate}}<br><b>Updated: </b>{{updated}}<br><b>Sponsor: </b>{{image}}{{sponsor}}<br><br><b>Description: </b>{{description}}<br><br><b>Link to Parliament of Canada: </b>{{summary}}<br><br><button onclick=\"voteBill()\">Upvote</button> <button onclick=\"voteBill()\">Downvote</button></div>";
 
     result = data.results[0];
 
@@ -48,6 +48,10 @@ function loadBill(data, data2) {
     // Append the html to the web page
     $("#main").html(html);
     
+}
+
+function voteBill () {
+
 }
 
 function loadBillList (data, data2) {
