@@ -25,33 +25,45 @@ echo "hello world<br>";
 
 
 
-$query = "
-		  SELECT bid, updatedate 
-		  FROM vbills 
-		  WHERE bid = :BID
-		  ";
 
 foreach ($json_decode['results'] as $js) 
 {
-	//echo $js['id'] . " " . $js['last_updated'] . "<br>";
-
-	//do a query on id
-	$query_params = array( 
-		':BID' => $js['id'] 
-	); 
 
 	try 
 	{ 
-		$stmt = $db->prepare($query); 
-		$result = $stmt->execute($query_params); 
+	
 
-		$count = $result->rowCount();
-		echo $js['id'] . $count . "<br>";
-
-
-	//if exists in database 
-
+		//if exists in database
+		$sth = $db->prepare('SELECT bid, updatedate FROM vbills WHERE bid = :bid');
+		$result = $sth->execute(array(':bid' => $js['id']));
+		if (! $result) 
+		{
+			echo "Database access error";
+			die; 
+		}
+		
+		$fetchResult = $sth->fetch();
+		
+		
+		//if false,  (I.e, if the bill is not present in our database) then insert the new bill into datbase. 
+		if($fetchResult == false)
+		{
+			//Insert bid and date into db. 
+			$insertStatment = $db->prepare('INSERT INTO vbills (bid, updatedate) VALUES (:bid, :last_updated)');
+			$result = $insertStatment->execute(array(':bid' => $js['id'], ':last_updated' => $js['last_updated']));
+		}
+	
+		
 		//compare update status 
+		if ($fetchResult['updatedate'] != $js['last_updated'])
+		{
+			//if old db entry is out of date, update it with the new one
+			$updateStatement = $db->prepare("UPDATE vbills SET updatedate=:updatedate WHERE bid=:bid");
+			$result = $updateStatement->execute(array(':bid' => $js['id'], ':updatedate' => $js['last_updated']));
+			
+			//todo -- send email to all users who signed up for email notifications for this bill
+			
+		}
 
 			//if downloaded one is different, update 
 
@@ -63,7 +75,7 @@ foreach ($json_decode['results'] as $js)
 		die("Failed to run query: " . $ex->getMessage()); 
 	}
 
-
+	echo "Database was updated <br>";
 }
 
 

@@ -119,7 +119,10 @@ function loadRepList(data) {
 	// the WET framework
 }
 
-function loadMyRep(data, data2){
+
+
+
+function loadMyRep(data, data2, unitTest){
     var templateMyRep = "<h3>My Representative</h3><b>Name:</b> <a href='representatives.php?rep={{repId}}'>{{name}}</a><br><div style='width:107px;height:173px;'><img src=\"{{image}}\"></img></div><b>District:</b> {{district}}<br><b>Party:</b> {{party}}";
     var result, rep, fname, lname, picture, party, district, name, image, repId;
 	
@@ -131,16 +134,31 @@ function loadMyRep(data, data2){
         }
     }
 	
+    repId = null;
+    
 	// Find the rep's id to link to their page by matching district name
 	for (var i = 0; i < data2.results.length; i++) {
 		if (data2.results[i].constituency.name.en == district) {
 			repId = data2.results[i].id;
+			
+			if (unitTest == 1)  //Leo++, return just the rep-id 
+			{
+				return repId;
+			}
+			
 			name = data2.results[i].name.given + " " + data2.results[i].name.family;
 			image = "http://www.parl.gc.ca/Parlinfo/images/Picture.aspx?Item=" + data2.results[i].image_id;
 			caucus = data2.results[i].constituency.caucus.name.en;
 			break;
 		}
 	}
+	
+	//Leo++ in case no info was found, return a null value, do not append anything to the main page. 
+	if (repId == null)
+	{
+		return null;
+	}
+	
 	
     html = templateMyRep
 			.replace("{{repId}}", repId)

@@ -212,15 +212,27 @@ t12_test_last_bill_in_index = function(data)
 		 failure(thisTestCaseID);
 };
 
-t13 = function() 
-{         failureNotImplemented('t13');
-}
 
-t14 = function() 
+//given valid rep, return it's id. 
+t13_rep_near_me = function(jsonlocData, jsonrepData)
+{ 
+	thisTestCaseID = "t13";
+	repId = loadMyRep(jsonlocData, jsonrepData,1);
+	if (repId == "78598")	{
+		succes(thisTestCaseID, "Rep id for postcode: M5S2G1 is: " + repId);
+	} else {
+		failure(thisTestCaseID);
+	}
+};
+
+t14_rep_near_me_with_invalid_postcode = function(jsonlocData, jsonrepData)
 {
+	alert("hello");
+	repId = loadMyRep(jsonlocData, jsonrepData,1);
+	alert(repId);
 
-         failureNotImplemented('t14');
-}
+   failureNotImplemented('t14');
+};
 
 //----------------------- ----------------------- -----------------------
 //â----------------------  Call the test cases. 
@@ -237,8 +249,9 @@ t9_first_rep(JS_AllRepList);
 t10_last_rep(JS_AllRepList);
 t11_test_first_bill_in_index(JS_AllBillList);
 t12_test_last_bill_in_index(JS_AllBillList);
-t13();
-t14();
+t13_rep_near_me(jsonlocData, JS_AllRepList);
+//t13_rep_near_me(); called from autotest.php
+t14_rep_near_me_with_invalid_postcode(invalidPostcodeData, JS_AllRepList);
 
 //<!--LEO: Pie char code, runs at the end  -->
 var pieData = [
