@@ -46,5 +46,6 @@ CREATE TABLE `freps` (
 CREATE TABLE `vbills` (
   `upvote` int(10) COLLATE utf8_unicode_ci NOT NULL,
   `downvote` int(10) COLLATE utf8_unicode_ci NOT NULL,
-  `bid` int(10) COLLATE utf8_unicode_ci NOT NULL
+  `bid` int(10) COLLATE utf8_unicode_ci NOT NULL,
+  `updatedate` varchar(20) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;

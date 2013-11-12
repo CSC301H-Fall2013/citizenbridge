@@ -158,7 +158,5 @@ function loadBillList (data, data2) {
 //   	  $('#bill-table').dataTable( {
 //    	    "iDisplayLength": 100
 //   	  } );
-//    	} );
-    	
-   
+//    	} );  
 }

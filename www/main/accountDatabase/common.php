@@ -3,7 +3,7 @@
     // These variables define the connection information for your MySQL database 
     $username = "levuca_citizen"; 
     $password = "citizenbridge"; 
-    $host = "localhost"; 
+    $host = "127.0.0.1"; 
     $dbname = "levuca_account"; 
 
     // UTF-8 is a character encoding scheme that allows you to conveniently store 
