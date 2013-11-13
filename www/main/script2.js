@@ -1,6 +1,6 @@
 function loadBill(data, data2) {
     
-    template = "<div class='span-5'><h3>Overview</h3><br><b>{{prefixnum}}:&nbsp;{{title}}</b><br><br><b>Introduced: </b>{{introdate}}<br><b>Updated: </b>{{updated}}<br><b>Sponsor: </b>{{image}}{{sponsor}}<br><br><b>Description: </b>{{description}}<br><br><b>Link to Parliament of Canada: </b>{{summary}}<br><br><button onclick=\"voteBill()\">Upvote</button> <button onclick=\"voteBill()\">Downvote</button></div>";
+    template = "<div class='span-5'><h3>Overview</h3><br><b>{{prefixnum}}:&nbsp;{{title}}</b><br><br><b>Introduced: </b>{{introdate}}<br><b>Updated: </b>{{updated}}<br><b>Sponsor: </b>{{image}}{{sponsor}}<br><br><b>Description: </b>{{description}}<br><br><b>Link to Parliament of Canada: </b>{{summary}}<br><br><button onclick=\"voteBillUp({{billID}})\">Upvote</button> <button onclick=\"voteBillDown({{billID}})\">Downvote</button></div>";
 
     result = data.results[0];
 
@@ -34,7 +34,10 @@ function loadBill(data, data2) {
     
     up = new Date(result.last_updated);
     updated = up.toUTCString();
-
+	
+	//Get billID
+	billID = result.id;
+	
     html = template
         .replace("{{prefixnum}}", prefixnum)
         .replace("{{title}}", title)
@@ -43,15 +46,32 @@ function loadBill(data, data2) {
         .replace("{{description}}", description)
         .replace("{{summary}}", summary)
         .replace("{{sponsor}}", sponsor)
-        .replace("{{image}}", image);
-                
+        .replace("{{image}}", image)
+		.replace("{{billID}}", billID)
+		.replace("{{billID}}", billID);
+
     // Append the html to the web page
     $("#main").html(html);
     
 }
+/*
+Need to run php script that updates or inserts value in DB and then
+possibly refresh portion of the page (or entire page) that
+contains the display of upvotes and downvotes
 
-function voteBill () {
-
+Also:
+We may want to run a php script in loadBill() where we
+attempt to insert into DB a new vote tuple (with 0 upvotes and 0 downvotes)
+if it doesn't already exist
+*/
+//Upvote the bill
+function voteBillUp (billID) {
+	alert("Todo.");
+}
+//Downvote the bill
+function voteBillDown(billID) {
+	alert("Todo.");
+	
 }
 
 function loadBillList (data, data2) {

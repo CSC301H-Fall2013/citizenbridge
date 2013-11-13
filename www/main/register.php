@@ -156,6 +156,7 @@
 		 
 		 
 		$zip_postal=preg_replace('/\s+/', '', $zip_postal); 
+		$zip_postal=strtoupper($zip_postal);
 		// Here we prepare our tokens for insertion into the SQL query.  We do not 
 		// store the original password; only the hashed version of it.  We do store 
 		// the salt (in its plaintext form; this is not a security risk). 
