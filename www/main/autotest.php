@@ -110,6 +110,8 @@ $php_singleBill = json_decode(file_get_contents("http://api.parliamentdata.ca/bi
 		
 			<tr> <td> 12</td> <td> <b> Test last index of bills list </b> <br> 
 		Download the bills list, and read the last entry </td> <td id="t12"> In Progress </td> <td id="t12_data"></td> </tr>						
+			
+			
 			<tr> <td> 13</td> <td> <b> Find Represtenative in my area , given valid rep-id </b> <br> 
 			This test will receive an ID of a representative, it should return the post code of the representative </td> <td id="t13"> In Progress </td> <td id="t13_data"></td> </tr>	
 
@@ -117,8 +119,9 @@ $php_singleBill = json_decode(file_get_contents("http://api.parliamentdata.ca/bi
 			Given an invalid rep-id, the function should return a null value. <br> 
 			It should not generate an error as some reps may not have their location information </td> 
 			<td id="t14"> In Progress </td> <td id="t14_data"></td> </tr>	
+											
 							
-			<!--   Implement more test cases -->
+			<!--   Implement more test cases here -->
 					
 		</table>
 
@@ -133,6 +136,24 @@ $php_singleBill = json_decode(file_get_contents("http://api.parliamentdata.ca/bi
 	var JS_SingleBill = <?php echo json_encode($php_singleBill)?>; 
 	
 	</script>
+	
+	
+	<!--  Load the script to test it's functions -->
+	<script src="script.js"> </script>
+	
+	
+	<!--  TEST REP NEAR ME CODE -->
+	<?php  //load info for Rep's near me test. 
+	$jsonLocationData = json_decode(file_get_contents("http://represent.opennorth.ca/postcodes/" . "M5S2G1")); //hard code with valid post code
+	$invalidPostcodeData = json_decode(file_get_contents("http://represent.opennorth.ca/postcodes/" . "xxxxxx")); //hard code with invalid post code
+	?>
+	<script type="text/javascript">
+		//get the json data by encoding the php global variable then echoing it
+		jsonlocData = <?php echo json_encode($jsonLocationData)?>;
+		invalidPostcodeData = <?php echo json_encode($invalidPostcodeData)?>;
+	</script>
+	
+	
 	
 	<script src="ParlData.js"> </script>
 	<!-- LEO: NOTE, the autotest.js script should be placed at the very bottom of the document. All other script should go above it -->

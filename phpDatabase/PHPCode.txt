@@ -34,13 +34,18 @@ CREATE TABLE `users` (
 CREATE TABLE `fbills` (
   `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `bid` int(10) COLLATE utf8_unicode_ci NOT NULL,
-  FOREIGN KEY (`email`) REFERENCES `users(email) ON DELETE CASCADE ON UPDATE CASCADE
+  FOREIGN KEY (`email`) REFERENCES `users(email)` ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `freps` (
   `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `rid` int(10) COLLATE utf8_unicode_ci NOT NULL,
-  FOREIGN KEY (`email`) REFERENCES `users(email)`ON DELETE CASCADE ON UPDATE CASCADE
+  FOREIGN KEY (`email`) REFERENCES `users(email)` ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-INSERT INTO `fbills` ();	
+CREATE TABLE `vbills` (
+  `upvote` int(10) COLLATE utf8_unicode_ci NOT NULL,
+  `downvote` int(10) COLLATE utf8_unicode_ci NOT NULL,
+  `bid` int(10) COLLATE utf8_unicode_ci NOT NULL,
+  `updatedate` varchar(20) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
