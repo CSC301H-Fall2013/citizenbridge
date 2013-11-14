@@ -108,22 +108,7 @@ switch ($rep) {
 								<!-- <li id="wet-fullhd-lang-2"><a href="index-fr.html" lang="fr">Français</a></li> -->
 								<li id="wet-fullhd-lang-current">English</li>
 								</ul>
-								<ul>
-								<li> 
-								
-								<?php 
-									if(empty($_SESSION['user'])) 
-									{ 
-										echo '<a href="index.php">Login</a>';
-									} else 
-									{
-										echo '<a href="accountDatabase/logout.php"> Logout </a>';
-									}
-								?> 
-								
-								</li>
-								</ul>
-						</div>
+								<?php include 'accountDatabase/header.php'; ?>
 						</div>
 					</section>
 

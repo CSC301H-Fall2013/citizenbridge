@@ -428,6 +428,8 @@
 								<!-- <li id="wet-fullhd-lang-2"><a href="index-fr.html" lang="fr">Français</a></li> -->
 								<li id="wet-fullhd-lang-current">English</li>
 								</ul>
+								
+								<?php include 'accountDatabase/header.php'; ?>
 						</div>
 						</div>
 					</section>
