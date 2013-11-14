@@ -43,10 +43,10 @@
 		} 
 		catch(PDOException $ex) 
 		{ 
-			// Note: On a production website, you should not output $ex->getMessage(). 
-			// It may provide an attacker with helpful information about your code.  
-			// TODO :
-			die("Failed to run query: " . $ex->getMessage()); 
+			//TODO:
+			echo '<script type="text/javascript">alert("Database error. Please try again later.");</script>';
+			echo '<script type="text/javascript">location.reload(true);</script>';
+			//die("Failed to run query: "); 
 		} 
 		 
 		// This variable tells us whether the user has successfully logged in or not. 
@@ -103,7 +103,28 @@
 			// Tell the user they failed and refresh the page
 			
 			
-			echo '<script type="text/javascript">alert("Invalid E-mail or Password.");</script>';
+			//echo '<script type="text/javascript">alert("Invalid E-mail or Password.");</script>';
+			echo '<script type="text/javascript">
+		
+			if (window.XMLHttpRequest)
+			  {// code for IE7+, Firefox, Chrome, Opera, Safari
+			  xmlhttp1=new XMLHttpRequest();
+			  }
+			else
+			  {// code for IE6, IE5
+			  xmlhttp1=new ActiveXObject("Microsoft.XMLHTTP");
+			  }
+			xmlhttp1.onreadystatechange=function()
+			  {
+			  if (xmlhttp1.readyState==4 && xmlhttp1.status==200)
+				{
+				document.getElementById("loginError").innerHTML=xmlhttp1.responseText;
+				}
+			  }
+			xmlhttp1.open("GET","error.php?q="+"login",true);
+			xmlhttp1.send();
+			
+			</script>';
 			
 			file_put_contents('debug.txt', "Login Failed.");
 			// Show them their username again so all they have to do is enter a new 
