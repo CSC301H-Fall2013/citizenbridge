@@ -2,6 +2,87 @@
 * Load individual bill's page.
 */
 function loadBill(data, data2) {
+
+	templateMain = "<div class='span-1'><h2>{{prefixnum}}</h2></div><div class='span-5'><div class='wet-boew-tabbedinterface'><ul class='tabs'><li><a href='#overview'>Overview</a></li><li><a href='#progress'>Progress</a></li><li><a href='#publications'>Publications</a></li><li><a href='#votes'>Votes</a></li><li><a href='#links'>Related Links</a></li></ul><div class='tabs-panel'>";
+	templateMain += "<div id='overview'><h5>{{title}}</h5><br><b>Introduced: </b>{{introdate}}<br><b>Updated: </b>{{updated}}<br><b>Sponsor: </b>{{sponsor}}<br><br><b>Description: </b>{{description}}<br><br><button onclick=\"voteBillUp({{billID}})\">Upvote</button> <button onclick=\"voteBillDown({{billID}})\">Downvote</button></div>";
+	templateMain += "<div id='progress'><br> {{progress}}</div>";
+	templateMain += "<div id='publications'> {{publications}}</div>";
+	templateMain += "<div id='votes'> {{votes}}</div>";
+	templateMain += "<div id='links'><br><b>Legislative Summary:</b> {{legislative}}<br>{{links}}</div></div></div></div>";
+	
+	result = data.results[0];
+
+	// OVERVIEW
+	prefixnum = result.prefix + "-" + result.number;
+    title = result.title.EN;
+    
+    intro = new Date(result.introduction * 1000);
+    introdate = intro.toUTCString();
+    up = new Date(result.last_updated);
+    updated = up.toUTCString();
+	
+	image = "";
+    sponsor = "N/A";
+	// Find the name and picture of the bill's sponsor by their rep id
+    for (var j = 0; j < data2.results.length; j ++){
+        if (data2.results[j].id == result.sponsor){
+            name = data2.results[j].name.given + " " + data2.results[j].name.family;
+			// Link to sponsor's individual page
+            sponsor = "<a href='representatives.php?rep=" + result.sponsor + "'>" + name + "</a>";
+			// Image
+            imgUrl = "http://www.parl.gc.ca/Parlinfo/images/Picture.aspx?Item=" + data2.results[j].image_id;
+            image = "<div style='width:142px;height:230px;'><img src=" + imgUrl +"></img></div>";
+            break;
+        }
+    }
+
+	if ((description = result.summary.EN) == null) {
+        description = "N/A";
+    } else {
+        description = "<br>" + description.split("\n").join("<br><br>");
+    }
+	
+	//PROGRESS
+	// Graph of status
+	
+	//PUBLICATIONS
+	for (var i = 0; i < result.publications.length; i++) {
+		
+	}
+	
+	//VOTES
+	
+	//LINKS
+	// Link to summary on Parliament of Canada website
+    if ((legislative = result.legislative_summary.EN) == null) {
+        legislative = "N/A";
+    } else {
+        legislative = "<a href=\"" + result.legislative_summary.EN + "\">" + 
+            result.legislative_summary.EN + "</a>";
+    }
+	// TO DO: Related links from related_links in API
+	
+	// Get the id of the bill, which is unique.
+	// This will be used to implement upvoting and downvoting.
+	billID = result.id;
+	
+    html = templateMain
+        .replace("{{prefixnum}}", prefixnum)
+        .replace("{{title}}", title)
+        .replace("{{introdate}}", introdate)
+        .replace("{{updated}}", updated)
+        .replace("{{description}}", description)
+        .replace("{{sponsor}}", sponsor)
+        .replace("{{image}}", image)
+		.replace("{{billID}}", billID)
+		.replace("{{billID}}", billID)
+		.replace("{{legislative}}", legislative);
+		
+    // Append the html to the web page
+    $("#main").html(html);
+	
+}
+/*function loadBill(data, data2) {
     
 	// Template html to display page
     template = "<div class='span-5'><h3>Overview</h3><br><b>{{prefixnum}}:&nbsp;{{title}}</b><br><br><b>Introduced: </b>{{introdate}}<br><b>Updated: </b>{{updated}}<br><b>Sponsor: </b>{{image}}{{sponsor}}<br><br><b>Description: </b>{{description}}<br><br><b>Link to Parliament of Canada: </b>{{summary}}<br><br><button onclick=\"voteBillUp({{billID}})\">Upvote</button> <button onclick=\"voteBillDown({{billID}})\">Downvote</button></div>";
@@ -68,7 +149,7 @@ function loadBill(data, data2) {
     // Append the html to the web page
     $("#main").html(html);
     
-}
+}*/
 /*
 Need to run php script that updates or inserts value in DB and then
 possibly refresh portion of the page (or entire page) that
