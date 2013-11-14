@@ -133,7 +133,7 @@ function loadRepList(data) {
 * Display the representative of the area specified by a user's postal code.
 */
 function loadMyRep(data, data2, unitTest){
-    var templateMyRep = "<h3>My Representative</h3><b>Name:</b> <a href='representatives.php?rep={{repId}}'>{{name}}</a><br><div style='width:107px;height:173px;'><img src=\"{{image}}\"></img></div><b>District:</b> {{district}}<br><b>Party:</b> {{party}}";
+    var templateMyRep = "<h3>My Representative</h3><div class='span-1'><img src=\"{{image}}\"></img></div><div class='span-5'><b>Name:</b> <a href='representatives.php?rep={{repId}}'>{{name}}</a><br><b>District:</b> {{district}}<br><b>Party:</b> {{party}}</div>";
     var result, repId, name, image, caucus, district;
 	
     result = data.representatives_centroid;
