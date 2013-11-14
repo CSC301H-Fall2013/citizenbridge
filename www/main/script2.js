@@ -1,27 +1,40 @@
+/*
+* Load individual bill's page.
+*/
 function loadBill(data, data2) {
     
+	// Template html to display page
     template = "<div class='span-5'><h3>Overview</h3><br><b>{{prefixnum}}:&nbsp;{{title}}</b><br><br><b>Introduced: </b>{{introdate}}<br><b>Updated: </b>{{updated}}<br><b>Sponsor: </b>{{image}}{{sponsor}}<br><br><b>Description: </b>{{description}}<br><br><b>Link to Parliament of Canada: </b>{{summary}}<br><br><button onclick=\"voteBillUp({{billID}})\">Upvote</button> <button onclick=\"voteBillDown({{billID}})\">Downvote</button></div>";
 
     result = data.results[0];
 
+	// Bill number
+    prefixnum = result.prefix + result.number;
+	// Title
     title = result.title.EN;
+	
+	// Description
     if ((description = result.summary.EN) == null) {
         description = "N/A";
     } else {
         description = "<br>" + description.split("\n").join("<br><br>");
     }
-    prefixnum = result.prefix + result.number;
+	
+	// Link to summary on Parliament of Canada website
     if ((summary = result.legislative_summary.EN) == null) {
         summary = "N/A";
     } else {
         summary = "<a href=\"" + result.legislative_summary.EN + "\">" + 
             result.legislative_summary.EN + "</a>";
     }
+	
     image = "";
     sponsor = "N/A";
+	// Find the name and picture of the bill's sponsor by their rep id
     for (var j = 0; j < data2.results.length; j ++){
         if (data2.results[j].id == result.sponsor){
             name = data2.results[j].name.given + " " + data2.results[j].name.family;
+			// Link to sponsor's individual page
             sponsor = "<a href='representatives.php?rep=" + result.sponsor + "'>" + name + "</a>";
             imgUrl = "http://www.parl.gc.ca/Parlinfo/images/Picture.aspx?Item=" + data2.results[j].image_id;
             image = "<div style='width:142px;height:230px;'><img src=" + imgUrl +"></img></div>";
@@ -29,13 +42,15 @@ function loadBill(data, data2) {
         }
     }
     
+	// Introduction date
     intro = new Date(result.introduction * 1000);
     introdate = intro.toUTCString();
-    
+    // Updated date
     up = new Date(result.last_updated);
     updated = up.toUTCString();
 	
-	//Get billID
+	// Get the id of the bill, which is unique.
+	// This will be used to implement upvoting and downvoting.
 	billID = result.id;
 	
     html = template
@@ -74,6 +89,9 @@ function voteBillDown(billID) {
 	
 }
 
+/*
+* Load a list of all bills.
+*/
 function loadBillList (data, data2) {
     // Template for bill rows
     var template = "<tr class='row'></td><td><a href='bills.php?bill={{billId}}'>{{prefixnum}}</a></td><td><a href='bills.php?bill={{billId}}'>{{title}}</a></td><td><a href='bills.php?bill={{billId}}'>{{status}}</a></td><td>{{sponsor}}</td><td><a href='bills.php?bill={{billId}}'>{{introdate}}</a></td><td><a href='bills.php?bill={{billId}}'>{{updated}}</a></td></tr>";
@@ -87,7 +105,7 @@ function loadBillList (data, data2) {
         sponsorIdList[j] = data2.results[j].id;
     }
 
-    // Create a row for each bill
+    // Create and fill in a row for each bill
     for (var i = 0; i < data.results.length; i++) {
         // Get all the required data from the JSON
         var result, prefixnum, title, up, update, /*sponsor,*/ status, intro, introdate;
@@ -114,22 +132,21 @@ function loadBillList (data, data2) {
         // Introduction date
         intro = new Date(result.introduction * 1000);
 		introdate = (intro.toJSON()).slice(0,10);
-		//introdate = intro.getUTCFullYear() + "-" + intro.getUTCMonth() + "-" + intro.getUTCDate();
         //introdate = intro.toUTCString();
 		
 		// Updated date
         up = new Date(result.last_updated);
-		updated = (up.toJSON()).slice(0,10) + " " + up.toLocaleTimeString();//+ up.toTimeString();//(up.toJSON()).slice(12,19);
-		//updated = up.getUTCFullYear() + "-" + up.getUTCMonth() + "-" + up.getUTCDate()
+		updated = (up.toJSON()).slice(0,10) + " " + up.toLocaleTimeString();
         //updated = up.toUTCString();
 
 		// Bill sponsor
         sponsorId = result.sponsor;					
         sponsorIndex = sponsorIdList.indexOf(sponsorId);
         if (sponsorIndex == -1){
+			//Sponsor is no longer a MP and their information is not available
             sponsor = "-";
         } else {
-            //Prints the first and last name of sponsor (enabled)
+            //Print the first and last name of sponsor
             sponsor = "<a href='representatives.php?rep=" + sponsorId + "'>" + 
 				data2.results[sponsorIndex].name.given + " " + data2.results[sponsorIndex].name.family + "</a>";
             //displays the image of the sponsor (disabled/does not work)
@@ -137,7 +154,7 @@ function loadBillList (data, data2) {
 
         }
 
-		// Status of a bill by looking at the status from the last event
+		// Find the status of a bill by the status of the last event
 		last_event = result.events[result.events.length - 1];
         switch(last_event.status){
             case 0: status = "Bill defeated / not proceeded with"; break;
@@ -171,16 +188,10 @@ function loadBillList (data, data2) {
                 
     }
     
-            // Close the table
+    // Close the table
     html += "</tbody></table>";
             
     // Append the html to the web page
 	 $("#main").html(html);
-    
-//    //TODO change it so that 100 entries are displayed. @Leo, note, an error pops up if we use the code below. 
-//    $(document).ready( function() {
-//   	  $('#bill-table').dataTable( {
-//    	    "iDisplayLength": 100
-//   	  } );
-//    	} );  
+
 }
