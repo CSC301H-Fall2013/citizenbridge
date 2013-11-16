@@ -56,15 +56,17 @@ function loadBill(data, data2) {
 	var eventDates = new Array();
 	var eventStatus = new Array();
 	
-	var progress = "";
+	var progress = "<h2> Status changes </h2> <b>Status - Date</b><br>";
 	
 	//leo++
 	var dateAccumilator = ""; //accumilate the list of dates. 
 	var statusAccumilator = ""; //accumilate the list of statuses. 
 	
-	//leo++ nd
-	
-	
+	//leo++ Table + visualisatin. 
+	progress += '<table class="wet-boew-tables" data-wet-boew=' + "'" + '{"bSort": false, "bPaginate": false}' + "'>";
+	progress += '<thead><tr><th>Date</th><th>Status Name</th><th>Status id </th></tr></thead>';
+	progress += "<tbody>"; //<tr><td> 1 </td><td> Hello </td></tr></tbody>";
+
 	for (var i=0; i < result.events.length; i++) {
 		date = new Date(result.events[i].date * 1000);
 		//NOTE: dates are NOT in order
@@ -73,27 +75,32 @@ function loadBill(data, data2) {
 		dateAccumilator += '"' + eventDates[i] + '"' + ",";  //Leo++
 		
 		eventStatus[i] = result.events[i].status;
-		statusAccumilator += '"' + eventStatus[i] + '"' + ",";
+		statusAccumilator += '"' + eventStatus[i] + '"' + ","; //Leo++
 		
-		// If you don't want just status numbers
-		/*switch(result.events[i].status){
-            case 0: eventStatus[i] = "Bill defeated / not proceeded with"; break;
-            case 1: eventStatus[i] = "Pre-study of the commons bill"; break;
-            case 2: eventStatus[i] = "Introduction and first reading"; break;
-            case 3: eventStatus[i] = "Second Reading and/or debate at second reading"; break;
-            case 4: eventStatus[i] = "Referral to committee"; break;
-            case 5: eventStatus[i] = "Committee report presented / debate at condisteration of committee report"; break;
-            case 6: eventStatus[i] = "Debate at report stage"; break;
-            case 7: eventStatus[i] = "Concurrence at report stage"; break;
-            case 8: eventStatus[i] = "Committee report adopted, 3rd reading and/or debate at 3rd reading"; break;
-            case 9: eventStatus[i] = "Placed in order of precedence / message sent to the House of Commons"; break;
-            case 10: eventStatus[i] = "Jointly seconded by or concurrence in the Senate amendments"; break;
-            case 20: eventStatus[i] = "Royal assent / completed";break;
-            default: eventStatus[i] = "Unknown"; break;
-        }*/
+        statusName = "";
+        // If you don't want just status numbers
+        switch(result.events[i].status){
+        case 0:  statusName = "Bill defeated / not proceeded with"; break;
+        case 1:  statusName = "Pre-study of the commons bill"; break;
+        case 2:  statusName = "Introduction and first reading"; break;
+        case 3:  statusName = "Second Reading and/or debate at second reading"; break;
+        case 4:  statusName = "Referral to committee"; break;
+        case 5:  statusName = "Committee report presented / debate at condisteration of committee report"; break;
+        case 6:  statusName = "Debate at report stage"; break;
+        case 7:  statusName = "Concurrence at report stage"; break;
+        case 8:  statusName = "Committee report adopted, 3rd reading and/or debate at 3rd reading"; break;
+        case 9:  statusName = "Placed in order of precedence / message sent to the House of Commons"; break;
+        case 10: statusName = "Jointly seconded by or concurrence in the Senate amendments"; break;
+        case 20: statusName = "Royal assent / completed";break;
+        default: statusName = "Unknown"; break;
+    }
 		
-		progress += eventDates[i] + ", " + eventStatus[i] + "<br>";
+		progress += "<tr><td>" + eventDates[i] + "</td><td>" + statusName + "</td><td>" + eventStatus[i] + "</td></tr>";
+		//progress += "&emsp;" + eventStatus[i] + "&emsp;  - " +  eventDates[i] + "<br>";
 	}
+	
+	progress += "</tbody></table>"
+	
 	
 	
 		//-------------- LEO ++ Adding Visual representation 
@@ -115,6 +122,21 @@ function loadBill(data, data2) {
 		progress += 'var myLine = new Chart(document.getElementById("canvasBillsLine").getContext("2d")).Line(lineChartData,LineOptions)';
 		progress += '</script>';
 	
+		 //Append status definitions for user information: 
+		 progress += "<h4> Status Definitions: </h4>"
+		 progress += "0 Bill defeated / not proceeded with"; 
+		 progress += "<br>1 Pre-study of the commons bill"
+		 progress += "<br>2 Introduction and first reading";
+		 progress += "<br>3 Second Reading and/or debate at second reading";;
+		 progress += "<br>4 Referral to committee"; 
+		 progress += "<br>5 Committee report presented / debate at condisteration of committee report";
+		 progress += "<br>6 Debate at report stage";
+		 progress += "<br>7 Concurrence at report stage"; 
+		 progress += "<br>8 Committee report adopted, 3rd reading and/or debate at 3rd reading"; 
+		 progress += "<br>9 Placed in order of precedence / message sent to the House of Commons"; 
+		 progress += "<br>10 Jointly seconded by or concurrence in the Senate amendments";
+		 progress += "<br>20 Royal assent / completed";
+		
 	
 	
 	
