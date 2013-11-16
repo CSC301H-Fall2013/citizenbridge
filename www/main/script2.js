@@ -49,6 +49,8 @@ function loadBill(data, data2) {
         description = "<br>" + description.split("\n").join("<br><br>");
     }
 	
+	
+	
 	//PROGRESS
 	// For time-line of status
 	var eventDates = new Array();
@@ -56,11 +58,22 @@ function loadBill(data, data2) {
 	
 	var progress = "";
 	
+	//leo++
+	var dateAccumilator = ""; //accumilate the list of dates. 
+	var statusAccumilator = ""; //accumilate the list of statuses. 
+	
+	//leo++ nd
+	
+	
 	for (var i=0; i < result.events.length; i++) {
 		date = new Date(result.events[i].date * 1000);
 		//NOTE: dates are NOT in order
 		eventDates[i] = date.toLocaleDateString();
+		
+		dateAccumilator += '"' + eventDates[i] + '"' + ",";  //Leo++
+		
 		eventStatus[i] = result.events[i].status;
+		statusAccumilator += '"' + eventStatus[i] + '"' + ",";
 		
 		// If you don't want just status numbers
 		/*switch(result.events[i].status){
@@ -80,8 +93,31 @@ function loadBill(data, data2) {
         }*/
 		
 		progress += eventDates[i] + ", " + eventStatus[i] + "<br>";
-		
 	}
+	
+	
+		//-------------- LEO ++ Adding Visual representation 
+		//LEO++ Adding graph for visualisation. 
+		progress += '<canvas id="canvasBillsLine" height="450" width="600"></canvas>';
+		
+		//LEO++ generate visual line. 
+		progress += '<script>';
+		progress += ' var lineChartData = { labels :[' + dateAccumilator + "],"; // ["January","February","March","April","May","June","July"], ';
+		progress +=	'datasets :[{ fillColor : "rgba(151,187,205,0.5)", strokeColor : "rgba(151,187,205,1)",';
+		progress +=	'	pointColor : "rgba(151,187,205,1)", pointStrokeColor : "#fff",';
+		progress += '				data : [' + statusAccumilator + ']';								//[28,48,40,19,96,27,100] 
+		progress += '	}]};';
+	    
+		
+		 //----- LEO++ Now generate a new chart
+		//Define custom scale (1,2,3,4), this avoids scale like 1.1, 1,2,1,3  etc.. 
+		progress += 'var LineOptions = { scaleOverride : true, scaleSteps : 20, scaleStepWidth : 1, scaleStartValue : 0 };';
+		progress += 'var myLine = new Chart(document.getElementById("canvasBillsLine").getContext("2d")).Line(lineChartData,LineOptions)';
+		progress += '</script>';
+	
+	
+	
+	
 	
 	
 	//PUBLICATIONS
@@ -171,7 +207,8 @@ function loadBill(data, data2) {
 		
     // Append the html to the web page
     $("#main").html(html);
-	
+    
+
 }
 
 /*

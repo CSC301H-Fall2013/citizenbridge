@@ -57,6 +57,11 @@ switch ($bill) {
 	<!--[if gt IE 8]><!-->
 
 	<script src="../dist/js/jquery.min.js"></script>
+	
+	
+	<!-- LEO++ line chart business -->
+	<script src="frameworks/html5charts/Chart.js"></script>
+	
 	<link rel="stylesheet" href="../dist/grids/css/util-min.css" />
 	<link rel="stylesheet" href="../dist/js/css/pe-ap-min.css" />
 	<link rel="stylesheet" href="../dist/theme-wet-boew/css/theme-min.css" />
