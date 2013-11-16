@@ -3,12 +3,12 @@
 */
 function loadBill(data, data2) {
 
-	templateMain = "<div class='span-1'><h2>{{prefixnum}}</h2></div><div class='span-5'><div class='wet-boew-tabbedinterface'><ul class='tabs'><li><a href='#overview'>Overview</a></li><li><a href='#progress'>Progress</a></li><li><a href='#publications'>Publications</a></li><li><a href='#votes'>Votes</a></li><li><a href='#links'>Related Links</a></li></ul><div class='tabs-panel'>";
-	templateMain += "<div id='overview'><h5>{{title}}</h5><br><b>Introduced: </b>{{introdate}}<br><b>Updated: </b>{{updated}}<br><b>Sponsor: </b>{{sponsor}}<br><br><b>Description: </b>{{description}}<br><br><button onclick=\"voteBillUp({{billID}})\">Upvote</button> <button onclick=\"voteBillDown({{billID}})\">Downvote</button></div>";
-	templateMain += "<div id='progress'><br> {{progress}}</div>";
-	templateMain += "<div id='publications'> {{publications}}</div>";
-	templateMain += "<div id='votes'> {{votes}}</div>";
-	templateMain += "<div id='links'><br><b>Legislative Summary:</b> {{legislative}}<br>{{links}}</div></div></div></div>";
+	templateMain = "<div class='span-1'><center><h2>{{prefixnum}}</h2><br><button onclick=\"voteBillUp({{billID}})\">Upvote</button><br><button onclick=\"voteBillDown({{billID}})\">Downvote</button></center></div><div class='span-5'><div class='wet-boew-tabbedinterface'><ul class='tabs'><li><a href='#overview'>Overview</a></li><li><a href='#progress'>Progress</a></li><li><a href='#votes'>Votes</a></li><li><a href='#press'>Press Releases</a></li><li><a href='#links'>Related Links</a></li></ul><div class='tabs-panel'>";
+	templateMain += "<div id='overview'><h5>{{title}}</h5><br><b>Introduced: </b>{{introdate}}<br><b>Updated: </b>{{updated}}<br><b>Sponsor: </b>{{sponsor}}<br><br>{{legislative}}<br><br><b>Description: </b>{{description}}</div>";
+	templateMain += "<div id='progress'><br>{{progress}}</div>";
+	templateMain += "<div id='votes'><br>{{votes}}</div>";
+	templateMain += "<div id='press'>{{press}}</div>";
+	templateMain += "<div id='links'><br>{{links}}</div></div></div></div>";
 	
 	result = data.results[0];
 
@@ -20,6 +20,13 @@ function loadBill(data, data2) {
     introdate = intro.toUTCString();
     up = new Date(result.last_updated);
     updated = up.toUTCString();
+	
+	// Link to summary on Parliament of Canada website
+    if ((legislative = result.legislative_summary.EN) == null) {
+        legislative = "<b>Legislative Summary:</b> N/A";
+    } else {
+        legislative = "<a href=\"" + result.legislative_summary.EN + "\">Legislative Summary</a>";
+    }
 	
 	image = "";
     sponsor = "N/A";
@@ -43,24 +50,103 @@ function loadBill(data, data2) {
     }
 	
 	//PROGRESS
-	// Graph of status
+	// For time-line of status
+	var eventDates = new Array();
+	var eventStatus = new Array();
 	
-	//PUBLICATIONS
-	for (var i = 0; i < result.publications.length; i++) {
+	var progress = "";
+	
+	for (var i=0; i < result.events.length; i++) {
+		date = new Date(result.events[i].date * 1000);
+		//NOTE: dates are NOT in order
+		eventDates[i] = date.toLocaleDateString();
+		eventStatus[i] = result.events[i].status;
+		
+		// If you don't want just status numbers
+		/*switch(result.events[i].status){
+            case 0: eventStatus[i] = "Bill defeated / not proceeded with"; break;
+            case 1: eventStatus[i] = "Pre-study of the commons bill"; break;
+            case 2: eventStatus[i] = "Introduction and first reading"; break;
+            case 3: eventStatus[i] = "Second Reading and/or debate at second reading"; break;
+            case 4: eventStatus[i] = "Referral to committee"; break;
+            case 5: eventStatus[i] = "Committee report presented / debate at condisteration of committee report"; break;
+            case 6: eventStatus[i] = "Debate at report stage"; break;
+            case 7: eventStatus[i] = "Concurrence at report stage"; break;
+            case 8: eventStatus[i] = "Committee report adopted, 3rd reading and/or debate at 3rd reading"; break;
+            case 9: eventStatus[i] = "Placed in order of precedence / message sent to the House of Commons"; break;
+            case 10: eventStatus[i] = "Jointly seconded by or concurrence in the Senate amendments"; break;
+            case 20: eventStatus[i] = "Royal assent / completed";break;
+            default: eventStatus[i] = "Unknown"; break;
+        }*/
+		
+		progress += eventDates[i] + ", " + eventStatus[i] + "<br>";
 		
 	}
 	
+	
+	//PUBLICATIONS
+	//TO DELETE (it's really useless info)
+	/*var publications = "";
+	var pub, pubRec, pubType, pubSum;
+	var templatePub = "{{pubRec}}<br><i>{{pubType}}</i><br><br>";
+	for (var i = 0; i < result.publications.length; i++) {
+		pub = result.publications[i];
+		if (pub.recommendation == null) {
+			pubRec = "N/A";
+		} else {
+			pubRec = pub.recommendation.EN;
+		}
+		//NOTE: recommendation seems to be exactly the same for all publications
+		
+		switch (pub.type) {
+			case 1: pubType = "First Reading"; break;
+			case 2: pubType = "As amended by committee"; break; 
+			case 3: pubType = "As passed by the House of Commons"; break;
+			case 4: pubType = "As passed by the Senate"; break;
+			case 5: pubType = "Royal Assent"; break;
+			default: pubType = "Unknown"; break;
+		}
+		
+		//NOTE: publication summary seems to be exactly the same as bill summary
+		
+		publications += templatePub
+						.replace("{{pubRec}}", pubRec)
+						.replace("{{pubType}}", pubType);
+		
+	}*/
+	
 	//VOTES
+	// For each bill, there should be a list that shows which rep voted for the bill and which rep voted against it.
+	//The bills api has “divisions”, this represents the votes that were made. There is an integer that represents “Yay” and “Nay”
+
+	
+	//PRESS RELEASES
+	var pr = "";
+	var templatePRLinks = "<a href =\"{{prLink}}\">{{prName}}</a><br>";
+	if (result.party_pr_links.length == 0) {
+		pr = "<br>None";
+	} else {
+		for (var i=0; i < result.party_pr_links.length; i++) {
+			pr += "<h6>" + result.party_pr_links[i].name.EN + "</h6>";
+			for (var j=0; j < result.party_pr_links[i].links.EN.length; j++) {
+				pr += templatePRLinks
+						.replace("{{prLink}}", result.party_pr_links[i].links.EN[j].link)
+						.replace("{{prName}}", result.party_pr_links[i].links.EN[j].name);
+			}
+		}
+	}
 	
 	//LINKS
-	// Link to summary on Parliament of Canada website
-    if ((legislative = result.legislative_summary.EN) == null) {
-        legislative = "N/A";
-    } else {
-        legislative = "<a href=\"" + result.legislative_summary.EN + "\">" + 
-            result.legislative_summary.EN + "</a>";
-    }
-	// TO DO: Related links from related_links in API
+	// Related links from API
+	var links = "";
+	if (result.related_links != null) {
+		for (var i = 0; i < result.related_links.EN.length; i++) {
+			var l = result.related_links.EN[i];
+			links += "<a href=\"" + l.link + "\">" + l.name + "</a><br><br>";
+		}
+	} else {
+		links = "None";
+	}
 	
 	// Get the id of the bill, which is unique.
 	// This will be used to implement upvoting and downvoting.
@@ -71,17 +157,163 @@ function loadBill(data, data2) {
         .replace("{{title}}", title)
         .replace("{{introdate}}", introdate)
         .replace("{{updated}}", updated)
+		.replace("{{legislative}}", legislative)
         .replace("{{description}}", description)
         .replace("{{sponsor}}", sponsor)
         .replace("{{image}}", image)
 		.replace("{{billID}}", billID)
 		.replace("{{billID}}", billID)
-		.replace("{{legislative}}", legislative);
+		.replace("{{progress}}", progress)
+		//.replace("{{publications}}", publications)
+		//.replace("{{votes}}", votes)
+		.replace("{{press}}", pr)
+		.replace("{{links}}", links);
 		
     // Append the html to the web page
     $("#main").html(html);
 	
 }
+
+/*
+Need to run php script that updates or inserts value in DB and then
+possibly refresh portion of the page (or entire page) that
+contains the display of upvotes and downvotes
+
+Also:
+We may want to run a php script in loadBill() where we
+attempt to insert into DB a new vote tuple (with 0 upvotes and 0 downvotes)
+if it doesn't already exist
+*/
+//Upvote the bill
+function voteBillUp (billID) {
+	alert("Todo.");
+}
+//Downvote the bill
+function voteBillDown(billID) {
+	alert("Todo.");
+	
+}
+
+/*
+* Load a table of all bills.
+*/
+function loadBillList (data, data2) {
+    // Template for bill rows
+    var template = "<tr class='row'></td><td><a href='bills.php?bill={{billId}}'>{{prefixnum}}</a></td><td><a href='bills.php?bill={{billId}}'>{{title}}</a></td><td><a href='bills.php?bill={{billId}}'>{{status}}</a></td><td>{{sponsor}}</td><td><a href='bills.php?bill={{billId}}'>{{introdate}}</a></td><td><a href='bills.php?bill={{billId}}'>{{updated}}</a></td></tr>";
+            
+    //Create the table and the header
+	//, \"sType\": \"formatted-num\", \"aTargets\": [ 0 ]
+    var html = "<table id='bill-table' class='wet-boew-tables' data-wet-boew='{ \"aaSorting\": [[5, \"desc\"]], \"iDisplayLength\": 50 }'><thead><tr role='row'><th width='50'>Bill</th><th>Title</th><th>Status</th><th>Sponsor</th><th>Introduced</th><th>Updated</th></tr></thead><tbody>";
+    
+    // Create a list of sponsors to access their information by their id
+    var sponsorIdList = new Array();
+    for (var j = 0; j < data2.results.length; j ++){
+        sponsorIdList[j] = data2.results[j].id;
+    }
+
+    // Create and fill in a row for each bill
+    for (var i = 0; i < data.results.length; i++) {
+        // Get all the required data from the JSON
+        var result, prefixnum, title, up, update, /*sponsor,*/ status, intro, introdate;
+    
+        result = data.results[i];
+		
+        billId = result.id;
+        
+		// Number
+		prefixnum = result.prefix + "-" + result.number;
+		/*if (result.number < 10) {
+			prefixnum += "00";
+		} else if (result.number < 100) {
+			prefixnum += "0";
+		}
+		prefixnum += result.number;*/
+		
+		// Title
+        title = result.short_title.EN;
+        if (title == null) { //short_title may not always be available.
+            title = result.title.EN; // Hopefully is not null.
+        };
+    
+        // Introduction date
+        intro = new Date(result.introduction * 1000);
+		introdate = (intro.toJSON()).slice(0,10);
+        //introdate = intro.toUTCString();
+		
+		// Updated date
+        up = new Date(result.last_updated);
+		updated = (up.toJSON()).slice(0,10) + " " + up.toLocaleTimeString();
+        //updated = up.toUTCString();
+
+		// Sponsor
+        sponsorId = result.sponsor;					
+        sponsorIndex = sponsorIdList.indexOf(sponsorId);
+        if (sponsorIndex == -1){
+			//Sponsor is no longer a MP and their information is not available
+            sponsor = "-";
+        } else {
+            //Print the first and last name of sponsor
+            sponsor = "<a href='representatives.php?rep=" + sponsorId + "'>" + 
+				data2.results[sponsorIndex].name.given + " " + data2.results[sponsorIndex].name.family + "</a>";
+            //displays the image of the sponsor (disabled/does not work)
+            //sponsor = "http://www.parl.gc.ca/Parlinfo/images/Picture.aspx?Item=" + data2.results[sponsorIndex].image_id;
+
+        }
+
+		// Find the status of a bill by the status of the most recent event
+		last_event = result.events[0];
+		for (var j=0; j < result.events.length; j++) {
+			if (last_event.date < result.events[j].date) {
+				last_event = result.events[j];
+			}
+		}
+        /*switch(last_event.status){
+            case 0: status = "Bill defeated / not proceeded with"; break;
+            case 1: status = "Pre-study of the commons bill"; break;
+            case 2: status = "Introduction and first reading"; break;
+            case 3: status = "Second Reading and/or debate at second reading"; break;
+            case 4: status = "Referral to committee"; break;
+            case 5: status = "Committee report presented / debate at condisteration of committee report"; break;
+            case 6: status = "Debate at report stage"; break;
+            case 7: status = "Concurrence at report stage"; break;
+            case 8: status = "Committee report adopted, 3rd reading and/or debate at 3rd reading"; break;
+            case 9: status = "Placed in order of precedence / message sent to the House of Commons"; break;
+            case 10: status = "Jointly seconded by or concurrence in the Senate amendments"; break;
+            case 20: status = "Royal assent / completed";break;
+            default: status = "Unknown"; break;
+        }*/
+		
+		//Status bar
+		//TO DO: Figure out how to sort this.
+		status = last_event.status;
+		var progress = "<progress value=\"" + status + "\" max=\"11\" />"
+		
+		
+    
+        html += template
+            .replace("{{billId}}", billId)
+            .replace("{{billId}}", billId)
+            .replace("{{billId}}", billId)
+            .replace("{{billId}}", billId)
+            .replace("{{billId}}", billId)
+            .replace("{{billId}}", billId)
+            .replace("{{prefixnum}}", prefixnum)
+            .replace("{{title}}", title)
+            .replace("{{status}}", progress)
+            .replace("{{sponsor}}", sponsor)
+            .replace("{{introdate}}", introdate)
+            .replace("{{updated}}", updated);
+                
+    }
+    
+    // Close the table
+    html += "</tbody></table>";
+            
+    // Append the html to the web page
+	 $("#main").html(html);
+
+}
+
 /*function loadBill(data, data2) {
     
 	// Template html to display page
@@ -150,129 +382,3 @@ function loadBill(data, data2) {
     $("#main").html(html);
     
 }*/
-/*
-Need to run php script that updates or inserts value in DB and then
-possibly refresh portion of the page (or entire page) that
-contains the display of upvotes and downvotes
-
-Also:
-We may want to run a php script in loadBill() where we
-attempt to insert into DB a new vote tuple (with 0 upvotes and 0 downvotes)
-if it doesn't already exist
-*/
-//Upvote the bill
-function voteBillUp (billID) {
-	alert("Todo.");
-}
-//Downvote the bill
-function voteBillDown(billID) {
-	alert("Todo.");
-	
-}
-
-/*
-* Load a list of all bills.
-*/
-function loadBillList (data, data2) {
-    // Template for bill rows
-    var template = "<tr class='row'></td><td><a href='bills.php?bill={{billId}}'>{{prefixnum}}</a></td><td><a href='bills.php?bill={{billId}}'>{{title}}</a></td><td><a href='bills.php?bill={{billId}}'>{{status}}</a></td><td>{{sponsor}}</td><td><a href='bills.php?bill={{billId}}'>{{introdate}}</a></td><td><a href='bills.php?bill={{billId}}'>{{updated}}</a></td></tr>";
-            
-    //Create the table and the header
-    var html = "<table id='bill-table' class='wet-boew-tables' data-wet-boew='{\"aaSorting\": [[5, \"desc\"]], \"iDisplayLength\": 50}'><thead><tr role='row'><th width='50'>Bill</th><th>Title</th><th>Status</th><th>Sponsor</th><th>Introduced</th><th>Updated</th></tr></thead><tbody>";
-    
-    // Create a list of sponsors to access their information by their id
-    var sponsorIdList = new Array();
-    for (var j = 0; j < data2.results.length; j ++){
-        sponsorIdList[j] = data2.results[j].id;
-    }
-
-    // Create and fill in a row for each bill
-    for (var i = 0; i < data.results.length; i++) {
-        // Get all the required data from the JSON
-        var result, prefixnum, title, up, update, /*sponsor,*/ status, intro, introdate;
-    
-        result = data.results[i];
-		
-        billId = result.id;
-        
-		// Bill number
-		prefixnum = result.prefix + "-";
-		if (result.number < 10) {
-			prefixnum += "00";
-		} else if (result.number < 100) {
-			prefixnum += "0";
-		}
-		prefixnum += result.number;
-		
-		// Title of the bill
-        title = result.short_title.EN;
-        if (title == null) { //short_title may not always be available.
-            title = result.title.EN; // Hopefully is not null.
-        };
-    
-        // Introduction date
-        intro = new Date(result.introduction * 1000);
-		introdate = (intro.toJSON()).slice(0,10);
-        //introdate = intro.toUTCString();
-		
-		// Updated date
-        up = new Date(result.last_updated);
-		updated = (up.toJSON()).slice(0,10) + " " + up.toLocaleTimeString();
-        //updated = up.toUTCString();
-
-		// Bill sponsor
-        sponsorId = result.sponsor;					
-        sponsorIndex = sponsorIdList.indexOf(sponsorId);
-        if (sponsorIndex == -1){
-			//Sponsor is no longer a MP and their information is not available
-            sponsor = "-";
-        } else {
-            //Print the first and last name of sponsor
-            sponsor = "<a href='representatives.php?rep=" + sponsorId + "'>" + 
-				data2.results[sponsorIndex].name.given + " " + data2.results[sponsorIndex].name.family + "</a>";
-            //displays the image of the sponsor (disabled/does not work)
-            //sponsor = "http://www.parl.gc.ca/Parlinfo/images/Picture.aspx?Item=" + data2.results[sponsorIndex].image_id;
-
-        }
-
-		// Find the status of a bill by the status of the last event
-		last_event = result.events[result.events.length - 1];
-        switch(last_event.status){
-            case 0: status = "Bill defeated / not proceeded with"; break;
-            case 1: status = "Pre-study of the commons bill"; break;
-            case 2: status = "Introduction and first reading"; break;
-            case 3: status = "Second Reading and/or debate at second reading"; break;
-            case 4: status = "Referral to committee"; break;
-            case 5: status = "Committee report presented / debate at condisteration of committee report"; break;
-            case 6: status = "Debate at report stage"; break;
-            case 7: status = "Concurrence at report stage"; break;
-            case 8: status = "Committee report adopted, 3rd reading and/or debate at 3rd reading"; break;
-            case 9: status = "Placed in order of precedence / message sent to the House of Commons"; break;
-            case 10: status = "Jointly seconded by or concurrence in the Senate amendments"; break;
-            case 20: status = "Royal assent / completed";break;
-            default: status = "Unknown"; break;
-        }
-    
-        html += template
-            .replace("{{billId}}", billId)
-            .replace("{{billId}}", billId)
-            .replace("{{billId}}", billId)
-            .replace("{{billId}}", billId)
-            .replace("{{billId}}", billId)
-            .replace("{{billId}}", billId)
-            .replace("{{prefixnum}}", prefixnum)
-            .replace("{{title}}", title)
-            .replace("{{status}}", status)
-            .replace("{{sponsor}}", sponsor)
-            .replace("{{introdate}}", introdate)
-            .replace("{{updated}}", updated);
-                
-    }
-    
-    // Close the table
-    html += "</tbody></table>";
-            
-    // Append the html to the web page
-	 $("#main").html(html);
-
-}
