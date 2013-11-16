@@ -69,7 +69,7 @@ function loadBill(data, data2) {
 
 	for (var i=0; i < result.events.length; i++) {
 		date = new Date(result.events[i].date * 1000);
-		//NOTE: dates are NOT in order
+		//NOTE: dates are NOT in order  todo - if time permits, sort it as per: http://stackoverflow.com/questions/1069666/sorting-javascript-object-by-property-value
 		eventDates[i] = date.toLocaleDateString();
 		
 		dateAccumilator += '"' + eventDates[i] + '"' + ",";  //Leo++
@@ -96,7 +96,7 @@ function loadBill(data, data2) {
     }
 		
 		progress += "<tr><td>" + eventDates[i] + "</td><td>" + statusName + "</td><td>" + eventStatus[i] + "</td></tr>";
-		//progress += "&emsp;" + eventStatus[i] + "&emsp;  - " +  eventDates[i] + "<br>";
+
 	}
 	
 	progress += "</tbody></table>"
