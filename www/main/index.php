@@ -27,7 +27,7 @@
                 postalcode
 			FROM users 
 			WHERE 
-				email = :email 
+				email = :email AND activation IS NULL
 		"; 
 		 
 		// The parameter values 
@@ -43,10 +43,10 @@
 		} 
 		catch(PDOException $ex) 
 		{ 
-			// Note: On a production website, you should not output $ex->getMessage(). 
-			// It may provide an attacker with helpful information about your code.  
-			// TODO :
-			die("Failed to run query: " . $ex->getMessage()); 
+			//TODO:
+			echo '<script type="text/javascript">alert("Database error. Please try again later.");</script>';
+			echo '<script type="text/javascript">location.reload(true);</script>';
+			//die("Failed to run query: "); 
 		} 
 		 
 		// This variable tells us whether the user has successfully logged in or not. 
@@ -55,7 +55,7 @@
 		$login_ok = false; 
 		 
 		// Retrieve the user data from the database.  If $row is false, then the email 
-		// they entered is not registered. 
+		// they entered is not registered. Or the account is not active.
 		$row = $stmt->fetch(); 
 		if($row) 
 		{ 
@@ -99,13 +99,30 @@
 		} 
 		else 
 		{ 
-			//TODO : Fix failure message
-			// Tell the user they failed and refresh the page
 			
+		
+			echo '<script type="text/javascript">
+		
+			if (window.XMLHttpRequest)
+			  {// code for IE7+, Firefox, Chrome, Opera, Safari
+			  xmlhttp1=new XMLHttpRequest();
+			  }
+			else
+			  {// code for IE6, IE5
+			  xmlhttp1=new ActiveXObject("Microsoft.XMLHTTP");
+			  }
+			xmlhttp1.onreadystatechange=function()
+			  {
+			  if (xmlhttp1.readyState==4 && xmlhttp1.status==200)
+				{
+				document.getElementById("loginError").innerHTML=xmlhttp1.responseText;
+				}
+			  }
+			xmlhttp1.open("GET","error.php?q="+"login",true);
+			xmlhttp1.send();
 			
-			echo '<script type="text/javascript">alert("Invalid E-mail or Password.");</script>';
+			</script>';
 			
-			file_put_contents('debug.txt', "Login Failed.");
 			// Show them their username again so all they have to do is enter a new 
 			// password.  The use of htmlentities prevents XSS attacks.  You should 
 			// always use htmlentities on user submitted values before displaying them 
@@ -197,22 +214,7 @@
 								
 								</ul>
 								
-								<ul>
-								<li> 
-								
-								<?php 
-									if(empty($_SESSION['user'])) 
-									{ 
-										echo '<a href="register.php"> Register </a>';
-									} else 
-									{
-										//If logged in
-										echo '<a href="accountDatabase/logout.php"> Logout </a>';
-									}
-								?> 
-								
-								</li>
-								</ul>
+								<?php include 'accountDatabase/header.php'; ?>
 						</div>
 						</div>
 					</section>
@@ -226,12 +228,15 @@
 		<div id="wet-title">
 			<p id="wet-title-in">
 				<a href="index.php" lang="en">
-					<object data="../dist/theme-wet-boew/images/logo.svg" role="img" tabindex="-1" type="image/svg+xml">
 
-						<img src="../dist/theme-wet-boew/images/logo.png" alt="" /> 
-					</object> 
-					<span> Citizenbridge
-						<small>Together, building tomorrow</small>
+
+					<!-- <object data="../dist/theme-wet-boew/images/logo.svg" role="img" tabindex="-1" type="image/svg+xml"> -->
+
+<!-- 						<img src="../dist/theme-wet-boew/images/logo.png" alt="" />  -->
+					<!-- </object>  -->
+						<img src="CitizenBridgeLogo_notext.png" class="span-1" alt="" /> 
+					<span> <br>
+						<small>Bridging the gap between you and the government</small>
 					</span>
 				</a>
 			</p>

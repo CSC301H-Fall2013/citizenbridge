@@ -1,3 +1,6 @@
+/*
+* Load individual representative's page.
+*/
 function loadRep(data) {
 	
 	templateMain = "<a href='representatives.php'></a><br><div class='span-1'><img src={{imgUrl}}></img></div><div class='span-5'><div class='wet-boew-tabbedinterface'><ul class='tabs'><li><a href='#overview'>Overview</a></li><li><a href='#contacts'>Contacts</a></li><li><a href='#caucus'>Caucus</a></li></ul><div class='tabs-panel'><div id='overview'><h1>{{given}} {{family}}</h1> {{suffix}}<br><b>MP for: </b><h2>{{constituency}}</h2><b>Elected: </b>{{election}}<br><b>Caucus: </b>{{caucus}}</div><div id='contacts'><br> {{Contacts-tab}}{{links}}</div><div id='caucus'> {{Caucus-tab}}</div></div></div></div>";
@@ -11,7 +14,7 @@ function loadRep(data) {
 	electDate = new Date(parseInt(result.constituency.date_elected + "000"));
 	caucus = result.constituency.caucus.name.en;
 	
-	// get all the suffixes
+	// Get all the distinctions and titles that the representative has.
 	suffixes = "";
 	for (i in result.name.suffixes) 
 	{
@@ -21,13 +24,14 @@ function loadRep(data) {
 	
 	//suffixes = suffixes.substring(0, str.length - 1);
 	
-	// get all the links
+	// Display all the links associated with the representative.
 	links = "";
 	for (i in result.links)
 	{
 		links += '<a href="' + result.links[i] + '"><b>' + i + "</b></a><br>";
 	}
 	
+	// Display contact information of the rep.
 	contacts = "";
 	for (i in result.offices)
 	{
@@ -60,6 +64,9 @@ function loadRep(data) {
 	$("#main").html(html);
 }
 
+/*
+* Display details on the constituency the representative is responsible for.
+*/
 function getCaucus(data) {
 	html = "<table><thead><tr role='row'><th>Election</th><th>Constituency</th><th>Province</th><th>Party</th></thead><tbody>";
 	template = "<tr class='row'><td>{{election}}</td><td>{{constituency}}</td><td>{{province}}</td><td>{{party}}</td></tr>";
@@ -75,6 +82,9 @@ function getCaucus(data) {
 	return html;
 }
 
+/*
+* Load a list of all the representatives.
+*/
 function loadRepList(data) {
 	// Template for representative rows
 	var template = "<tr class='row'><td style='background-position: center 35%; background-size: cover; margin: -5px; background-image: url({{imgUrl}})'><a href='representatives.php?rep={{repId}}'></a></td><td><a href='representatives.php?rep={{repId}}'>{{given}}</a></td><td><a href='representatives.php?rep={{repId}}'>{{family}}</a></td><td class='center'><a href='representatives.php?rep={{repId}}'>{{caucus}}</a></td><td class='center'><a href='representatives.php?rep={{repId}}'>{{constituency}}</a></td></tr>";
@@ -119,14 +129,15 @@ function loadRepList(data) {
 	// the WET framework
 }
 
-
-
-
+/*
+* Display the representative of the area specified by a user's postal code.
+*/
 function loadMyRep(data, data2, unitTest){
-    var templateMyRep = "<h3>My Representative</h3><b>Name:</b> <a href='representatives.php?rep={{repId}}'>{{name}}</a><br><div style='width:107px;height:173px;'><img src=\"{{image}}\"></img></div><b>District:</b> {{district}}<br><b>Party:</b> {{party}}";
-    var result, rep, fname, lname, picture, party, district, name, image, repId;
+    var templateMyRep = "<h3>My Representative</h3><div class='span-1'><img src=\"{{image}}\"></img></div><div class='span-5'><b>Name:</b> <a href='representatives.php?rep={{repId}}'>{{name}}</a><br><b>District:</b> {{district}}<br><b>Party:</b> {{party}}</div>";
+    var result, repId, name, image, caucus, district;
 	
     result = data.representatives_centroid;
+	// Find the correct representative from the Open North Represent data
     for (var i = 0; i < result.length; i++){
         if (result[i].elected_office == "MP"){
             district = result[i].district_name;
@@ -168,6 +179,7 @@ function loadMyRep(data, data2, unitTest){
 			.replace("{{district}}", district)
 			.replace("{{party}}", caucus);
 
+	// Append the html to the web page
     $("#main").html(html);
 
 } 

@@ -6,34 +6,126 @@
     require("accountDatabase/common.php"); 						 
 	// This if statement checks to determine whether the registration form has been submitted 
 	// If it has, then the registration code is run, otherwise the form is displayed 
+	$s_first = '';
+	$s_last = '';
+	$s_email = '';
+	$s_postalcode = '';
 	if(!empty($_POST)) 
 	{ 
+	
+		/*
+		echo '<script type="text/javascript">
+		document.getElementById("firstError").innerHTML="";
+		document.getElementById("lastError").innerHTML="";
+		document.getElementById("emailError").innerHTML="";
+		document.getElementById("passError").innerHTML="";
+		document.getElementById("postalError").innerHTML="";
+		</script>';
+		*/
+		$cont=0;
 		// Ensure that the user has entered a non-empty username 
+		
 		if(empty($_POST['first'])) 
 		{ 
-			// Note that die() is generally a terrible way of handling user errors 
-			// like this.  It is much better to display the error with the form 
-			// and allow the user to correct their mistake.  However, that is an 
-			// exercise for you to implement yourself. 
-			die("Please enter a first name."); 
+			$cont=1;
+
+			echo '<script type="text/javascript">
+		
+			if (window.XMLHttpRequest)
+			  {// code for IE7+, Firefox, Chrome, Opera, Safari
+			  xmlhttp1=new XMLHttpRequest();
+			  }
+			else
+			  {// code for IE6, IE5
+			  xmlhttp1=new ActiveXObject("Microsoft.XMLHTTP");
+			  }
+			xmlhttp1.onreadystatechange=function()
+			  {
+			  if (xmlhttp1.readyState==4 && xmlhttp1.status==200)
+				{
+				document.getElementById("firstError").innerHTML=xmlhttp1.responseText;
+				}
+			  }
+			xmlhttp1.open("GET","error.php?q="+"first",true);
+			xmlhttp1.send();
+			
+			</script>';
+			
 		}
 		if(empty($_POST['last'])) 
 		{ 
-			// Note that die() is generally a terrible way of handling user errors 
-			// like this.  It is much better to display the error with the form 
-			// and allow the user to correct their mistake.  However, that is an 
-			// exercise for you to implement yourself. 
-			die("Please enter a last name."); 
+			$cont=1;
+
+			echo '<script type="text/javascript">
+			if (window.XMLHttpRequest)
+			  {// code for IE7+, Firefox, Chrome, Opera, Safari
+			  xmlhttp2=new XMLHttpRequest();
+			  }
+			else
+			  {// code for IE6, IE5
+			  xmlhttp2=new ActiveXObject("Microsoft.XMLHTTP");
+			  }
+			xmlhttp2.onreadystatechange=function()
+			  {
+			  if (xmlhttp2.readyState==4 && xmlhttp2.status==200)
+				{
+				document.getElementById("lastError").innerHTML=xmlhttp2.responseText;
+				}
+			  }
+			xmlhttp2.open("GET","error.php?q="+"last",true);
+			xmlhttp2.send();
+			</script>';
+			
 		} 
 		 
 		// Ensure that the user has entered a non-empty password 
 		if(empty($_POST['password'])) 
 		{ 
-			die("Please enter a password."); 
+			$cont=1;
+			echo '<script type="text/javascript">
+			if (window.XMLHttpRequest)
+			  {// code for IE7+, Firefox, Chrome, Opera, Safari
+			  xmlhttp3=new XMLHttpRequest();
+			  }
+			else
+			  {// code for IE6, IE5
+			  xmlhttp3=new ActiveXObject("Microsoft.XMLHTTP");
+			  }
+			xmlhttp3.onreadystatechange=function()
+			  {
+			  if (xmlhttp3.readyState==4 && xmlhttp3.status==200)
+				{
+				document.getElementById("passError").innerHTML=xmlhttp3.responseText;
+				}
+			  }
+			xmlhttp3.open("GET","error.php?q="+"pass",true);
+			xmlhttp3.send();
+			</script>';
+
 		}
+		// Ensure non-empty postal code
 		if(empty($_POST['postalcode'])) 
 		{ 
-			die("Please enter a postal code."); 
+			$cont=1;
+			echo '<script type="text/javascript">
+			if (window.XMLHttpRequest)
+			  {// code for IE7+, Firefox, Chrome, Opera, Safari
+			  xmlhttp4=new XMLHttpRequest();
+			  }
+			else
+			  {// code for IE6, IE5
+			  xmlhttp4=new ActiveXObject("Microsoft.XMLHTTP");
+			  }
+			xmlhttp4.onreadystatechange=function()
+			  {
+			  if (xmlhttp4.readyState==4 && xmlhttp4.status==200)
+				{
+				document.getElementById("postalError").innerHTML=xmlhttp4.responseText;
+				}
+			  }
+			xmlhttp4.open("GET","error.php?q="+"postal",true);
+			xmlhttp4.send();
+			</script>';
 		}
 		
 		//Used to check for valid postal code
@@ -59,8 +151,28 @@
 		if ($ZIPREG[$country_code]) {
 			if (!preg_match("/".$ZIPREG[$country_code]."/i",$zip_postal)){
 				//Validation failed, provided zip/postal code is not valid.
-				echo $_POST['postalcode'];
-				die("Please enter a valid postal code."); 
+				//echo $_POST['postalcode'];
+				$cont=1;
+				echo '<script type="text/javascript">
+				if (window.XMLHttpRequest)
+				  {// code for IE7+, Firefox, Chrome, Opera, Safari
+				  xmlhttp5=new XMLHttpRequest();
+				  }
+				else
+				  {// code for IE6, IE5
+				  xmlhttp5=new ActiveXObject("Microsoft.XMLHTTP");
+				  }
+				xmlhttp5.onreadystatechange=function()
+				  {
+				  if (xmlhttp5.readyState==4 && xmlhttp5.status==200)
+					{
+					document.getElementById("postalError").innerHTML=xmlhttp5.responseText;
+					}
+				  }
+				xmlhttp5.open("GET","error.php?q="+"postal",true);
+				xmlhttp5.send();
+				</script>';
+
 			}
 		}
 		 
@@ -70,12 +182,32 @@
 		// http://us.php.net/manual/en/filter.filters.php 
 		if(!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) 
 		{ 
-			die("Invalid E-Mail Address"); 
+			$cont=1;
+			echo '<script type="text/javascript">
+			if (window.XMLHttpRequest)
+			  {// code for IE7+, Firefox, Chrome, Opera, Safari
+			  xmlhttp6=new XMLHttpRequest();
+			  }
+			else
+			  {// code for IE6, IE5
+			  xmlhttp6=new ActiveXObject("Microsoft.XMLHTTP");
+			  }
+			xmlhttp6.onreadystatechange=function()
+			  {
+			  if (xmlhttp6.readyState==4 && xmlhttp6.status==200)
+				{
+				document.getElementById("emailError").innerHTML=xmlhttp6.responseText;
+				}
+			  }
+			xmlhttp6.open("GET","error.php?q="+"invalidemail",true);
+			xmlhttp6.send();
+			</script>';
+			//die("Invalid E-Mail Address"); 
 		} 
 		 
-		 
-		// Now we perform the same type of check for the email address, in order 
-		// to ensure that it is unique. 
+		
+			
+		// Check for unique email
 		$query = " 
 			SELECT 
 				1 
@@ -95,102 +227,161 @@
 		} 
 		catch(PDOException $ex) 
 		{ 
-			die("Failed to run query: " . $ex->getMessage()); 
+			echo '<script type="text/javascript">alert("Database error. Please try again later.");</script>';
+			echo '<script type="text/javascript">location.reload(true);</script>';
+			//die("Failed to run query: "); 
 		} 
 		 
 		$row = $stmt->fetch(); 
 		 
 		if($row) 
 		{ 
-			die("This email address is already registered"); 
+			echo '<script type="text/javascript">
+			if (window.XMLHttpRequest)
+			  {// code for IE7+, Firefox, Chrome, Opera, Safari
+			  xmlhttp7=new XMLHttpRequest();
+			  }
+			else
+			  {// code for IE6, IE5
+			  xmlhttp7=new ActiveXObject("Microsoft.XMLHTTP");
+			  }
+			xmlhttp7.onreadystatechange=function()
+			  {
+			  if (xmlhttp7.readyState==4 && xmlhttp7.status==200)
+				{
+				document.getElementById("emailError").innerHTML=xmlhttp7.responseText;
+				}
+			  }
+			xmlhttp7.open("GET","error.php?q="+"usedemail",true);
+			xmlhttp7.send();
+			</script>';
+
 		} 
 
-		
-		// An INSERT query is used to add new rows to a database table. 
-		// Again, we are using special tokens (technically called parameters) to 
-		// protect against SQL injection attacks. 
-		$query = " 
-			INSERT INTO users ( 
-				first, 
-				last,
-				password, 
-				salt, 
-				email,
-				postalcode
-			) VALUES ( 
-				:first, 
-				:last,
-				:password, 
-				:salt, 
-				:email,
-				:postalcode
-			) 
-		"; 
-		 
-		// A salt is randomly generated here to protect again brute force attacks 
-		// and rainbow table attacks.  The following statement generates a hex 
-		// representation of an 8 byte salt.  Representing this in hex provides 
-		// no additional security, but makes it easier for humans to read. 
-		// For more information: 
-		// http://en.wikipedia.org/wiki/Salt_%28cryptography%29 
-		// http://en.wikipedia.org/wiki/Brute-force_attack 
-		// http://en.wikipedia.org/wiki/Rainbow_table 
-		$salt = dechex(mt_rand(0, 2147483647)) . dechex(mt_rand(0, 2147483647)); 
-		 
-		// This hashes the password with the salt so that it can be stored securely 
-		// in your database.  The output of this next statement is a 64 byte hex 
-		// string representing the 32 byte sha256 hash of the password.  The original 
-		// password cannot be recovered from the hash.  For more information: 
-		// http://en.wikipedia.org/wiki/Cryptographic_hash_function 
-		$password = hash('sha256', $_POST['password'] . $salt); 
-		 
-		// Next we hash the hash value 65536 more times.  The purpose of this is to 
-		// protect against brute force attacks.  Now an attacker must compute the hash 65537 
-		// times for each guess they make against a password, whereas if the password 
-		// were hashed only once the attacker would have been able to make 65537 different  
-		// guesses in the same amount of time instead of only one. 
-		for($round = 0; $round < 65536; $round++) 
-		{ 
-			$password = hash('sha256', $password . $salt); 
-		} 
-		 
-		 
-		$zip_postal=preg_replace('/\s+/', '', $zip_postal); 
-		// Here we prepare our tokens for insertion into the SQL query.  We do not 
-		// store the original password; only the hashed version of it.  We do store 
-		// the salt (in its plaintext form; this is not a security risk). 
-		$query_params = array( 
-			':first' => $_POST['first'],
-			':last' => $_POST['last'], 			
-			':password' => $password, 
-			':salt' => $salt, 
-			':email' => $_POST['email'],
-			':postalcode' => $zip_postal
+		if($cont=="0") {
+			// An INSERT query is used to add new rows to a database table. 
+			// Again, we are using special tokens (technically called parameters) to 
+			// protect against SQL injection attacks. 
+			$query = " 
+				INSERT INTO users ( 
+					first, 
+					last,
+					password, 
+					salt, 
+					email,
+					postalcode,
+					activation
+				) VALUES ( 
+					:first, 
+					:last,
+					:password, 
+					:salt, 
+					:email,
+					:postalcode,
+					:activation
+				) 
+			"; 
+			 
+			// A salt is randomly generated here to protect again brute force attacks 
+			// and rainbow table attacks.  The following statement generates a hex 
+			// representation of an 8 byte salt.  Representing this in hex provides 
+			// no additional security, but makes it easier for humans to read. 
+			// For more information: 
+			// http://en.wikipedia.org/wiki/Salt_%28cryptography%29 
+			// http://en.wikipedia.org/wiki/Brute-force_attack 
+			// http://en.wikipedia.org/wiki/Rainbow_table 
+			$salt = dechex(mt_rand(0, 2147483647)) . dechex(mt_rand(0, 2147483647)); 
+			 
+			// This hashes the password with the salt so that it can be stored securely 
+			// in your database.  The output of this next statement is a 64 byte hex 
+			// string representing the 32 byte sha256 hash of the password.  The original 
+			// password cannot be recovered from the hash.  For more information: 
+			// http://en.wikipedia.org/wiki/Cryptographic_hash_function 
+			$password = hash('sha256', $_POST['password'] . $salt); 
+			 
+			// Next we hash the hash value 65536 more times.  The purpose of this is to 
+			// protect against brute force attacks.  Now an attacker must compute the hash 65537 
+			// times for each guess they make against a password, whereas if the password 
+			// were hashed only once the attacker would have been able to make 65537 different  
+			// guesses in the same amount of time instead of only one. 
+			for($round = 0; $round < 65536; $round++) 
+			{ 
+				$password = hash('sha256', $password . $salt); 
+			} 
+			$activation = md5(uniqid(rand(), true));
+			 
+			$zip_postal=preg_replace('/\s+/', '', $zip_postal); 
+			$zip_postal=strtoupper($zip_postal);
+			// Here we prepare our tokens for insertion into the SQL query.  We do not 
+			// store the original password; only the hashed version of it.  We do store 
+			// the salt (in its plaintext form; this is not a security risk). 
+			$query_params = array( 
+				':first' => $_POST['first'],
+				':last' => $_POST['last'], 			
+				':password' => $password, 
+				':salt' => $salt, 
+				':email' => $_POST['email'],
+				':postalcode' => $zip_postal,
+				':activation' => $activation
+			); 
+			 
+			try 
+			{ 
+				// Execute the query to create the user 
+				$stmt = $db->prepare($query); 
+				$result = $stmt->execute($query_params); 
+			} 
+			catch(PDOException $ex) 
+			{ 
+				echo '<script type="text/javascript">alert("Database error. Please try again later.");</script>';
+				echo '<script type="text/javascript">location.reload(true);</script>';
+				//die("Failed to run query: "); 
+			} 
+			
+			$email = $_POST['email'];
+			$message = "To activate your account, please click on this link:\n\n";
+			$message .= $website . '/activate.php?email=' . urlencode($email) . "&key=$activation";
 
-		); 
-		 
-		try 
-		{ 
-			// Execute the query to create the user 
-			$stmt = $db->prepare($query); 
-			$result = $stmt->execute($query_params); 
-		} 
-		catch(PDOException $ex) 
-		{ 
-			// Note: On a production website, you should not output $ex->getMessage(). 
-			// It may provide an attacker with helpful information about your code.  
-			die("Failed to run query: " . $ex->getMessage()); 
-		} 
-		 
-		// This redirects the user back to the index page after they register 
-		header("Location: index.php"); 
-		 
-		// Calling die or exit after performing a redirect using the header function 
-		// is critical.  The rest of your PHP script will continue to execute and 
-		// will be sent to the user if you do not die or exit. 
-		die("Redirecting to index.php"); 
+			require 'PHPMailer-Master/PHPMailerAutoload.php';
+
+			$mail = new PHPMailer;
+
+			$mail->isSMTP();                                      // Set mailer to use SMTP
+			$mail->Host = 'smtp.gmail.com;';  // Specify main and backup server
+			$mail->SMTPAuth = true;                               // Enable SMTP authentication
+			$mail->Username = 'jiek22@gmail.com';                            // SMTP username
+			$mail->Password = 'citizenbridge';                           // SMTP password
+			$mail->SMTPSecure = 'tls';                            // Enable encryption, 'ssl' also accepted
+
+			$mail->From = 'jiek22@gmail.com';
+			$mail->FromName = 'Citizen Bridge';
+
+			$mail->addAddress($email); 
+
+			$mail->WordWrap = 50;                                 // Set word wrap to 50 characters
+			$mail->isHTML(true);                                  // Set email format to HTML
+			$mail->Subject = 'CitizenBridge Validation';
+			$mail->Body    = $message;
+			$mail->AltBody = $message;
+
+			if(!$mail->send()) {
+				die($mail->ErrorInfo); 
+			} else {
+			// This redirects the user back to the index page after they register 
+				header("Location: success.php"); 
+				die("Redirecting to success.php"); 
+			}
+			// Calling die or exit after performing a redirect using the header function 
+			// is critical.  The rest of your PHP script will continue to execute and 
+			// will be sent to the user if you do not die or exit. 
+			
+		}
+
+		$s_first = htmlentities($_POST['first'], ENT_QUOTES, 'UTF-8');
+		$s_last = htmlentities($_POST['last'], ENT_QUOTES, 'UTF-8'); 	
+		$s_email = htmlentities($_POST['email'], ENT_QUOTES, 'UTF-8'); 	
+		$s_postalcode = htmlentities($_POST['postalcode'], ENT_QUOTES, 'UTF-8'); 			
 	} 
-	 
 ?>  
 
 <!DOCTYPE html>
@@ -267,6 +458,8 @@
 								<!-- <li id="wet-fullhd-lang-2"><a href="index-fr.html" lang="fr">Français</a></li> -->
 								<li id="wet-fullhd-lang-current">English</li>
 								</ul>
+								
+								<?php include 'accountDatabase/header.php'; ?>
 						</div>
 						</div>
 					</section>
@@ -357,19 +550,19 @@
 							
 							<form action="register.php" method="post"> 
 								First Name:<br /> 
-								<input type="text" name="first" value="" /> 
+								<input type="text" name="first" value="<?php echo $s_first; ?>" /> <span id="firstError"></span>
 								<br /><br />
 								Last Name:<br /> 
-								<input type="text" name="last" value="" /> 
+								<input type="text" name="last" value="<?php echo $s_last; ?>" /> <span id="lastError"></span>
 								<br /><br /> 								
 								E-Mail:<br /> 
-								<input type="text" name="email" value="" /> 
+								<input type="text" name="email" value="<?php echo $s_email; ?>" /> <span id="emailError"></span>
 								<br /><br /> 
 								Password:<br /> 
-								<input type="password" name="password" value="" /> 
+								<input type="password" name="password" value="" /> <span id="passError"></span>
 								<br /><br />
 								Postal-Code:<br /> 
-								<input type="text" name="postalcode" value="" /> 
+								<input type="text" name="postalcode" value="<?php echo $s_postalcode; ?>" /> <span id="postalError"></span>
 								<br /><br /> 	
 								<input type="submit" value="Register" /> 
 							</form>

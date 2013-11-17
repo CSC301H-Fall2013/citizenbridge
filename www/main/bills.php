@@ -57,6 +57,11 @@ switch ($bill) {
 	<!--[if gt IE 8]><!-->
 
 	<script src="../dist/js/jquery.min.js"></script>
+	
+	
+	<!-- LEO++ line chart business -->
+	<script src="frameworks/html5charts/Chart.js"></script>
+	
 	<link rel="stylesheet" href="../dist/grids/css/util-min.css" />
 	<link rel="stylesheet" href="../dist/js/css/pe-ap-min.css" />
 	<link rel="stylesheet" href="../dist/theme-wet-boew/css/theme-min.css" />
@@ -109,21 +114,7 @@ switch ($bill) {
 								<!-- <li id="wet-fullhd-lang-2"><a href="index-fr.html" lang="fr">Français</a></li> -->
 								<li id="wet-fullhd-lang-current">English</li>
 								</ul>
-								<ul>
-								<li> 
-								
-								<?php 
-									if(empty($_SESSION['user'])) 
-									{ 
-										echo '<a href="index.php">Login</a>';
-									} else 
-									{
-										echo '<a href="accountDatabase/logout.php"> Logout </a>';
-									}
-								?> 
-								
-								</li>
-								</ul>
+								<?php include 'accountDatabase/header.php'; ?>
 						</div>
 						</div>
 					</section>
@@ -136,12 +127,13 @@ switch ($bill) {
 		<div id="wet-title">
 			<p id="wet-title-in">
 				<a href="index.php" lang="en">
-					<object data="../dist/theme-wet-boew/images/logo.svg" role="img" tabindex="-1" type="image/svg+xml">
+<!-- 					<object data="../dist/theme-wet-boew/images/logo.svg" role="img" tabindex="-1" type="image/svg+xml">
 
 						<img src="../dist/theme-wet-boew/images/logo.png" alt="" /> 
-					</object> 
-					<span> Citizenbridge
-						<small>Together, building tomorrow</small>
+					</object>  -->
+						<img src="CitizenBridgeLogo_notext.png" class="span-1" alt="" /> 
+					<span> <br>
+						<small>Bridging the gap between you and the government</small>
 					</span>
 				</a>
 			</p>
