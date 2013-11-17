@@ -269,14 +269,16 @@
 					password, 
 					salt, 
 					email,
-					postalcode
+					postalcode,
+					activation
 				) VALUES ( 
 					:first, 
 					:last,
 					:password, 
 					:salt, 
 					:email,
-					:postalcode
+					:postalcode,
+					:activation
 				) 
 			"; 
 			 
@@ -306,7 +308,7 @@
 			{ 
 				$password = hash('sha256', $password . $salt); 
 			} 
-			 
+			$activation = md5(uniqid(rand(), true));
 			 
 			$zip_postal=preg_replace('/\s+/', '', $zip_postal); 
 			$zip_postal=strtoupper($zip_postal);
@@ -319,8 +321,8 @@
 				':password' => $password, 
 				':salt' => $salt, 
 				':email' => $_POST['email'],
-				':postalcode' => $zip_postal
-
+				':postalcode' => $zip_postal,
+				':activation' => $activation
 			); 
 			 
 			try 
@@ -331,20 +333,48 @@
 			} 
 			catch(PDOException $ex) 
 			{ 
-				// Note: On a production website, you should not output $ex->getMessage(). 
-				// It may provide an attacker with helpful information about your code.  
 				echo '<script type="text/javascript">alert("Database error. Please try again later.");</script>';
 				echo '<script type="text/javascript">location.reload(true);</script>';
 				//die("Failed to run query: "); 
 			} 
-			 
+			
+			$email = $_POST['email'];
+			$message = "To activate your account, please click on this link:\n\n";
+			$message .= $website . '/activate.php?email=' . urlencode($email) . "&key=$activation";
+
+			require 'PHPMailer-Master/PHPMailerAutoload.php';
+
+			$mail = new PHPMailer;
+
+			$mail->isSMTP();                                      // Set mailer to use SMTP
+			$mail->Host = 'smtp.gmail.com;';  // Specify main and backup server
+			$mail->SMTPAuth = true;                               // Enable SMTP authentication
+			$mail->Username = 'jiek22@gmail.com';                            // SMTP username
+			$mail->Password = 'citizenbridge';                           // SMTP password
+			$mail->SMTPSecure = 'tls';                            // Enable encryption, 'ssl' also accepted
+
+			$mail->From = 'jiek22@gmail.com';
+			$mail->FromName = 'Citizen Bridge';
+
+			$mail->addAddress($email); 
+
+			$mail->WordWrap = 50;                                 // Set word wrap to 50 characters
+			$mail->isHTML(true);                                  // Set email format to HTML
+			$mail->Subject = 'CitizenBridge Validation';
+			$mail->Body    = $message;
+			$mail->AltBody = $message;
+
+			if(!$mail->send()) {
+				die($mail->ErrorInfo); 
+			} else {
 			// This redirects the user back to the index page after they register 
-			header("Location: success.php"); 
-			 
+				header("Location: success.php"); 
+				die("Redirecting to success.php"); 
+			}
 			// Calling die or exit after performing a redirect using the header function 
 			// is critical.  The rest of your PHP script will continue to execute and 
 			// will be sent to the user if you do not die or exit. 
-			die("Redirecting to success.php"); 
+			
 		}
 
 		$s_first = htmlentities($_POST['first'], ENT_QUOTES, 'UTF-8');

@@ -5,8 +5,8 @@
     $password = "citizenbridge"; 
     $host = "127.0.0.1"; 
     $dbname = "levuca_account"; 
-	$website = "http://localhost";
-	$email = 'noreply.citizenbridge@gmail.com'
+	$website = "http://localhost/citizenbridge/www/main";
+	$hostemail = 'jiek22@gmail.com';
 	
     // UTF-8 is a character encoding scheme that allows you to conveniently store 
     // a wide varienty of special characters, like ¢ or €, in your database. 
