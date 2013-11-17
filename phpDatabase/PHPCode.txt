@@ -27,10 +27,14 @@ CREATE TABLE `users` (
   `salt` char(16) COLLATE utf8_unicode_ci NOT NULL,
   `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `postalcode` char(6) COLLATE utf8_unicode_ci NOT NULL,
+  `active` int(1) COLLATE utf8_unicode_ci NOT NULL DEFAULT 0,
   UNIQUE KEY (`id`),
   PRIMARY KEY (`email`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;
-
+CREATE TABLE `validation` (
+	`email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+	`key` char(64) COLLATE utf8_unicode_ci NOT NULL,
+) ENGINE=InnoDB	DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci
 CREATE TABLE `fbills` (
   `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `bid` int(10) COLLATE utf8_unicode_ci NOT NULL,
@@ -50,3 +54,6 @@ CREATE TABLE `vbills` (
   `updatedate` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`bid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
+TODO: Upvote Downvote identity for each user

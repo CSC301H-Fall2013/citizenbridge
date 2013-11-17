@@ -339,12 +339,12 @@
 			} 
 			 
 			// This redirects the user back to the index page after they register 
-			header("Location: success.php"); 
+			header("Location: index.php"); 
 			 
 			// Calling die or exit after performing a redirect using the header function 
 			// is critical.  The rest of your PHP script will continue to execute and 
 			// will be sent to the user if you do not die or exit. 
-			die("Redirecting to success.php"); 
+			die("Redirecting to index.php"); 
 		}
 
 		$s_first = htmlentities($_POST['first'], ENT_QUOTES, 'UTF-8');
@@ -519,22 +519,12 @@
 							<!-- JIE: Registration Form -->
 							
 							<form action="register.php" method="post"> 
-								First Name:<br /> 
+								E-mail:<br /> 
 								<input type="text" name="first" value="<?php echo $s_first; ?>" /> <span id="firstError"></span>
-								<br /><br />
-								Last Name:<br /> 
-								<input type="text" name="last" value="<?php echo $s_last; ?>" /> <span id="lastError"></span>
-								<br /><br /> 								
-								E-Mail:<br /> 
+								<br /><br />							
+								Validation Key:<br /> 
 								<input type="text" name="email" value="<?php echo $s_email; ?>" /> <span id="emailError"></span>
-								<br /><br /> 
-								Password:<br /> 
-								<input type="password" name="password" value="" /> <span id="passError"></span>
-								<br /><br />
-								Postal-Code:<br /> 
-								<input type="text" name="postalcode" value="<?php echo $s_postalcode; ?>" /> <span id="postalError"></span>
-								<br /><br /> 	
-								<input type="submit" value="Register" /> 
+
 							</form>
 			
 							</div>
