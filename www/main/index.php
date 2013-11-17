@@ -148,7 +148,7 @@
 	<title> Citizenbridge </title>
 
 	<link rel="shortcut icon" href="../dist/theme-wet-boew/images/favicon.ico" />
-	<meta name="description" content="Web Experience Toolkit (WET) working examples." />
+	<meta name="description" content="CitizenBridge" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 
 	<!--[if lte IE 8]>

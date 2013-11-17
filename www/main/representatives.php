@@ -40,7 +40,7 @@ switch ($rep) {
 	<title> Citizenbridge </title>
 
 	<link rel="shortcut icon" href="../dist/theme-wet-boew/images/favicon.ico" />
-	<meta name="description" content="Web Experience Toolkit (WET) working examples." />
+	<meta name="description" content="CitizenBridge" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 
 	<!--[if lte IE 8]>
@@ -108,7 +108,7 @@ switch ($rep) {
 								<!-- <li id="wet-fullhd-lang-2"><a href="index-fr.html" lang="fr">Français</a></li> -->
 								<li id="wet-fullhd-lang-current">English</li>
 								</ul>
-								<?php include 'accountDatabase/header.php'; ?>
+								<?php include 'accountDatabase/header2.php'; ?>
 						</div>
 					</section>
 
