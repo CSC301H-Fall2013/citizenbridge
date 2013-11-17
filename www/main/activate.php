@@ -185,8 +185,7 @@
 									$stmt = $db->prepare($query); 
 									
 									$result = $stmt->execute($query_params);
-									
-									echo $passkey;
+
 									echo 'Your account is now active. You may now login. <br /><br />';
 								} 
 								catch(PDOException $ex) 
