@@ -43,7 +43,6 @@
 		} 
 		catch(PDOException $ex) 
 		{ 
-			//TODO:
 			echo '<script type="text/javascript">alert("Database error. Please try again later.");</script>';
 			echo '<script type="text/javascript">location.reload(true);</script>';
 			//die("Failed to run query: "); 

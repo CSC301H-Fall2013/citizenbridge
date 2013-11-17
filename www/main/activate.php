@@ -1,7 +1,4 @@
 <?php 
-
-	//TODO : Change failures from die() to appropriate error message
-
 	// First we execute our common code to connection to the database and start the session 
     require("accountDatabase/common.php"); 						 	 
 ?>  
