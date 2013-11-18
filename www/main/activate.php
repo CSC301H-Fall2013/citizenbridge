@@ -1,7 +1,4 @@
 <?php 
-
-	//TODO : Change failures from die() to appropriate error message
-
 	// First we execute our common code to connection to the database and start the session 
     require("accountDatabase/common.php"); 						 	 
 ?>  
@@ -20,7 +17,7 @@
 	<title> Citizenbridge </title>
 
 	<link rel="shortcut icon" href="../dist/theme-wet-boew/images/favicon.ico" />
-	<meta name="description" content="Web Experience Toolkit (WET) working examples." />
+	<meta name="description" content="CitizenBridge" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 
 	<!--[if lte IE 8]>

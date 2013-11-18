@@ -234,22 +234,62 @@ function loadBill(data, data2) {
 }
 
 /*
-Need to run php script that updates or inserts value in DB and then
-possibly refresh portion of the page (or entire page) that
-contains the display of upvotes and downvotes
-
-Also:
-We may want to run a php script in loadBill() where we
-attempt to insert into DB a new vote tuple (with 0 upvotes and 0 downvotes)
-if it doesn't already exist
+Need to have a vote number somewhere.
 */
 //Upvote the bill
 function voteBillUp (billID) {
-	alert("Todo.");
+
+	if (window.XMLHttpRequest)
+	  {// code for IE7+, Firefox, Chrome, Opera, Safari
+	  xmlhttp1=new XMLHttpRequest();
+	  }
+	else
+	  {// code for IE6, IE5
+	  xmlhttp1=new ActiveXObject("Microsoft.XMLHTTP");
+	  }
+	xmlhttp1.onreadystatechange=function()
+	  {
+	  if (xmlhttp1.readyState==4 && xmlhttp1.status==200)
+		{
+			if (xmlhttp1.responseText == '-1') {
+				alert("Please login to vote");
+			} else {
+				location.reload();
+			}
+		}
+	  }
+	//Vote is 1 : True : script will downvote
+	xmlhttp1.open("GET","vote.php?id="+billID+"&vote=1",true);
+	xmlhttp1.send();
+	//alert("Todo.");
 }
 //Downvote the bill
 function voteBillDown(billID) {
-	alert("Todo.");
+	if (window.XMLHttpRequest)
+	  {// code for IE7+, Firefox, Chrome, Opera, Safari
+	  xmlhttp2=new XMLHttpRequest();
+	  }
+	else
+	  {// code for IE6, IE5
+	  xmlhttp2=new ActiveXObject("Microsoft.XMLHTTP");
+	  }
+	xmlhttp2.onreadystatechange=function()
+	  {
+	  if (xmlhttp2.readyState==4 && xmlhttp1.status==200)
+		{
+			if (xmlhttp2.responseText == '-1') {
+				alert("Please login to vote");
+			} else {
+
+				location.reload();
+			}
+		}
+	  }
+	//Vote is 0 : False : script will downvote
+	xmlhttp2.open("GET","vote.php?id="+billID+"&vote=0",true);
+	xmlhttp2.send();
+
+	//alert("Todo.");
 	
 }
 

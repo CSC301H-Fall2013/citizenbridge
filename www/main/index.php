@@ -43,7 +43,6 @@
 		} 
 		catch(PDOException $ex) 
 		{ 
-			//TODO:
 			echo '<script type="text/javascript">alert("Database error. Please try again later.");</script>';
 			echo '<script type="text/javascript">location.reload(true);</script>';
 			//die("Failed to run query: "); 
@@ -148,7 +147,7 @@
 	<title> Citizenbridge </title>
 
 	<link rel="shortcut icon" href="../dist/theme-wet-boew/images/favicon.ico" />
-	<meta name="description" content="Web Experience Toolkit (WET) working examples." />
+	<meta name="description" content="CitizenBridge" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 
 	<!--[if lte IE 8]>
