@@ -31,10 +31,12 @@ CREATE TABLE `users` (
   UNIQUE KEY (`id`),
   PRIMARY KEY (`email`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;
+
 CREATE TABLE `validation` (
 	`email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-	`key` char(64) COLLATE utf8_unicode_ci NOT NULL,
-) ENGINE=InnoDB	DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci
+	`key` char(64) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB	DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 CREATE TABLE `fbills` (
   `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `bid` int(10) COLLATE utf8_unicode_ci NOT NULL,
