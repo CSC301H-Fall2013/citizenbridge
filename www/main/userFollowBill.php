@@ -28,29 +28,39 @@ if (! $result)
 
 $fetchResult = $sth->fetch();
 
-//if false,  (I.e, if the bill is not present in our database) then insert the new bill into datbase.
-if($fetchResult == false)
+// check to see if you want to unfollow
+if (isset($_POST['unfollow']))
 {
-	echo "User will be inserted into the DB";
-	//Insert bid and date into db.
- 	$insertStatment = $db->prepare('INSERT INTO fbills (bid, email) VALUES (:bid, :email)');
- 	$result = $insertStatment->execute(array(':bid' => $billToFollow, ':email' => $userEmail));
+	// if true (I.e., if the bill-email pair is in the database) then remove it from the db
+	if($fetchResult)
+	{
+		echo "User will be removed from the DB";
+		//Remove bid and date into db.
+		$removeStatment = $db->prepare('DELETE FROM fbills WHERE bid = :bid AND email = :email)');
+		$result = $removeStatment->execute(array(':bid' => $billToFollow, ':email' => $userEmail));
+	}
+	else 
+	{
+		echo "User+bill already not in the DB";
+	}
 }
-else 
+
+// if you want to follow
+else
 {
-	echo "User+bill already in the DB";
+	//if false,  (I.e, if the bill is not present in our database) then insert the new bill into datbase.
+	if($fetchResult == false)
+	{
+		echo "User will be inserted into the DB";
+		//Insert bid and date into db.
+		$insertStatment = $db->prepare('INSERT INTO fbills (bid, email) VALUES (:bid, :email)');
+		$result = $insertStatment->execute(array(':bid' => $billToFollow, ':email' => $userEmail));
+	}
+	else 
+	{
+		echo "User+bill already in the DB";
+	}
 }
-
-
-
-	//if so, write a message 
-	
-//else 
-
-	//insert bill id & email into fbills. 
-
-	//return the user back to where he came from
-	
 
 
 

@@ -9,6 +9,8 @@ function loadBill(data, data2) {
 	//follow button
 	templateMain += "<form action='userFollowBill.php' method='post'> <input type='hidden' name='billToFollow' value='{{billID}}'> <input type='submit' name='follow' value='Follow'> </form>";
 	
+	templateMain += "<form action='userFollowBill.php' method='post'> <input type='hidden' name='billToFollow' value='{{billID}}'> <input type='submit' name='unfollow' value='Unfollow'> </form>";
+	
 	templateMain +=	"</center></div><div class='span-5'><div class='wet-boew-tabbedinterface'><ul class='tabs'><li><a href='#overview'>Overview</a></li><li><a href='#progress'>Progress</a></li><li><a href='#votes'>Votes</a></li><li><a href='#press'>Press Releases</a></li><li><a href='#links'>Related Links</a></li></ul><div class='tabs-panel'>";
 	templateMain += "<div id='overview'><h5>{{title}}</h5><br><b>Introduced: </b>{{introdate}}<br><b>Updated: </b>{{updated}}<br><b>Sponsor: </b>{{sponsor}}<br><br>{{legislative}}<br><br><b>Description: </b>{{description}}</div>";
 	templateMain += "<div id='progress'><br>{{progress}}</div>";
@@ -228,6 +230,7 @@ function loadBill(data, data2) {
 		.replace("{{billID}}", billID) //for vote up
 		.replace("{{billID}}", billID)  //for vote down
 		.replace("{{billID}}", billID) //for follow
+		.replace("{{billID}}", billID) // for unfollow
 		.replace("{{progress}}", progress)
 		//.replace("{{publications}}", publications)
 		//.replace("{{votes}}", votes)
