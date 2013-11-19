@@ -262,7 +262,6 @@ function voteBillUp (billID) {
 				alert("Please login to vote");
 			} else {
 				location.reload();
-
 			}
 		}
 	  }
