@@ -292,7 +292,7 @@ function voteBillDown(billID) {
 		}
 	  }
 	//Vote is 1 : True : script will downvote
-	xmlhttp2.open("GET","vote.php?id="+billID+"&vote=1",true);
+	xmlhttp2.open("GET","vote.php?id="+billID+"&vote=0",true);
 	xmlhttp2.send();
 	//alert("Todo.");
 	
