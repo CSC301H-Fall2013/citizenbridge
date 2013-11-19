@@ -1,4 +1,14 @@
 <?php 
+/*
+ * FILE DOCUMENTATION
+ * This file needs to run on the server on a regular basis. E.g once every 10 minutes or 30 minutes. 
+ * Every time the file is ran, it checks if bills have been updated, and if they were, then it notifies the users.  
+ * 
+ */
+
+
+
+
 error_reporting(E_ALL);
 
     // First we execute our common code to connection to the database and start the session 
@@ -15,7 +25,6 @@ $json = file_get_contents("billsdown.txt");
 $json_decode = json_decode($json, true);
 
 //var_dump($json);
-
 echo "hello world<br>";
 
 
@@ -61,7 +70,36 @@ foreach ($json_decode['results'] as $js)
 			$updateStatement = $db->prepare("UPDATE vbills SET updatedate=:updatedate WHERE bid=:bid");
 			$result = $updateStatement->execute(array(':bid' => $js['id'], ':updatedate' => $js['last_updated']));
 			
-			//todo -- send email to all users who signed up for email notifications for this bill
+			//get all emails that are following the bill
+			$userStatement = $db->prepare('SELECT email FROM fbills WHERE bid = :bid');
+			$result = $userStatement->execute(array(':bid' => $js['id']));
+			
+
+			
+			$billTitle = $js['title']['EN']; 
+			echo $billTitle;
+			
+			$message = "bill:" . $billTitle . "\n has been updated  \n";
+			
+			echo "<br>" . $_SERVER['SERVER_NAME'];
+			$message .= "http://" .  $_SERVER['SERVER_NAME'] . "/citizenbridge/www/main/bills.php?bill=" . $js['id'];
+			
+			
+			
+			$subject = "Citizen Bridge Notification";
+			// to-do get email address
+			$from = "noreply@citezenbridge.com";
+			
+			//for each email associated with a bill send a notification message
+			$fetchResult = $userStatement->fetch();
+			while ($fetchResult) 
+			{
+				$to = $fetchResult['email'];
+				$headers = "From:" . $from;
+				mail($to,$subject,$message,$headers);
+				echo "mail sent";
+				$fetchResult = $userStatement->fetch();
+			}
 			
 		}
 
@@ -74,8 +112,6 @@ foreach ($json_decode['results'] as $js)
 	{ 	
 		die("Failed to run query: " . $ex->getMessage()); 
 	}
-
-	echo "Database was updated <br>";
 }
 
 

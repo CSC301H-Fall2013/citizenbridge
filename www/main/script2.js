@@ -1,9 +1,15 @@
 /*
 * Load individual bill's page.
 */
+// Data is the bill data,    data2 is the rep data. 
 function loadBill(data, data2) {
 
-	templateMain = "<div class='span-1'><center><h2>{{prefixnum}}</h2><br><button onclick=\"voteBillUp({{billID}})\">Upvote</button><br><button onclick=\"voteBillDown({{billID}})\">Downvote</button></center></div><div class='span-5'><div class='wet-boew-tabbedinterface'><ul class='tabs'><li><a href='#overview'>Overview</a></li><li><a href='#progress'>Progress</a></li><li><a href='#votes'>Votes</a></li><li><a href='#press'>Press Releases</a></li><li><a href='#links'>Related Links</a></li></ul><div class='tabs-panel'>";
+	templateMain = "<div class='span-1'><center><h2>{{prefixnum}}</h2><br><button onclick=\"voteBillUp({{billID}})\">Upvote</button><br><button onclick=\"voteBillDown({{billID}})\">Downvote</button><br><br><br>";
+	
+	//follow button
+	templateMain += "<form action='userFollowBill.php' method='post'> <input type='hidden' name='billToFollow' value='{{billID}}'> <input type='submit' name='follow' value='Follow'> </form>";
+	
+	templateMain +=	"</center></div><div class='span-5'><div class='wet-boew-tabbedinterface'><ul class='tabs'><li><a href='#overview'>Overview</a></li><li><a href='#progress'>Progress</a></li><li><a href='#votes'>Votes</a></li><li><a href='#press'>Press Releases</a></li><li><a href='#links'>Related Links</a></li></ul><div class='tabs-panel'>";
 	templateMain += "<div id='overview'><h5>{{title}}</h5><br><b>Introduced: </b>{{introdate}}<br><b>Updated: </b>{{updated}}<br><b>Sponsor: </b>{{sponsor}}<br><br>{{legislative}}<br><br><b>Description: </b>{{description}}</div>";
 	templateMain += "<div id='progress'><br>{{progress}}</div>";
 	templateMain += "<div id='votes'><br>{{votes}}</div>";
@@ -219,8 +225,9 @@ function loadBill(data, data2) {
         .replace("{{description}}", description)
         .replace("{{sponsor}}", sponsor)
         .replace("{{image}}", image)
-		.replace("{{billID}}", billID)
-		.replace("{{billID}}", billID)
+		.replace("{{billID}}", billID) //for vote up
+		.replace("{{billID}}", billID)  //for vote down
+		.replace("{{billID}}", billID) //for follow
 		.replace("{{progress}}", progress)
 		//.replace("{{publications}}", publications)
 		//.replace("{{votes}}", votes)
@@ -290,6 +297,13 @@ function voteBillDown(billID) {
 	//alert("Todo.");
 	
 }
+
+//Follow bill function 
+function followBill(billID) 
+{
+	
+}
+
 
 /*
 * Load a table of all bills.
