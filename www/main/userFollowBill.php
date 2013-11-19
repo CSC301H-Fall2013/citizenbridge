@@ -36,7 +36,7 @@ if (isset($_POST['unfollow']))
 	{
 		echo "User will be removed from the DB";
 		//Remove bid and date into db.
-		$removeStatment = $db->prepare('DELETE FROM fbills WHERE bid = :bid AND email = :email)');
+		$removeStatment = $db->prepare('DELETE FROM fbills WHERE bid = :bid AND email = :email');
 		$result = $removeStatment->execute(array(':bid' => $billToFollow, ':email' => $userEmail));
 	}
 	else 
