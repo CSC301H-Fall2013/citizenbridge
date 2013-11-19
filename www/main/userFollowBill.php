@@ -5,10 +5,10 @@ require("accountDatabase/common.php");
 // echo var_dump($_SESSION) . "<br>";
 
 
-if (!empty($_POST) || !empty($_SESSION)) 
+if (empty($_POST) || empty($_SESSION)) 
 {
 	echo "Please log in before following a bill";
-			//todo add re-direct to main page here. 
+			//todo add re-direct to main page here.
 };
 
 
@@ -18,7 +18,7 @@ $userEmail = $_SESSION['user']['email'];
 echo $billToFollow . " " .  $userEmail . "<br>";
 
 //check if user+billid is already in the DB. 
-$sth = $db->prepare('SELECT bid, updatedate FROM fbills WHERE bid = :bid AND email = :email');
+$sth = $db->prepare('SELECT bid FROM fbills WHERE bid = :bid AND email = :email');
 $result = $sth->execute(array(':bid' => $billToFollow, ':email' => $userEmail));
 if (! $result)
 {
@@ -33,8 +33,8 @@ if($fetchResult == false)
 {
 	echo "User will be inserted into the DB";
 	//Insert bid and date into db.
-// 	$insertStatment = $db->prepare('INSERT INTO vbills (bid, updatedate) VALUES (:bid, :last_updated)');
-// 	$result = $insertStatment->execute(array(':bid' => $js['id'], ':last_updated' => $js['last_updated']));
+ 	$insertStatment = $db->prepare('INSERT INTO fbills (bid, email) VALUES (:bid, :email)');
+ 	$result = $insertStatment->execute(array(':bid' => $billToFollow, ':email' => $userEmail));
 }
 else 
 {

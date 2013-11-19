@@ -283,20 +283,18 @@ function voteBillDown(billID) {
 	  }
 	xmlhttp2.onreadystatechange=function()
 	  {
-	  if (xmlhttp2.readyState==4 && xmlhttp1.status==200)
+	  if (xmlhttp2.readyState==4 && xmlhttp2.status==200)
 		{
 			if (xmlhttp2.responseText == '-1') {
 				alert("Please login to vote");
 			} else {
-
 				location.reload();
 			}
 		}
 	  }
-	//Vote is 0 : False : script will downvote
-	xmlhttp2.open("GET","vote.php?id="+billID+"&vote=0",true);
+	//Vote is 1 : True : script will downvote
+	xmlhttp2.open("GET","vote.php?id="+billID+"&vote=1",true);
 	xmlhttp2.send();
-
 	//alert("Todo.");
 	
 }

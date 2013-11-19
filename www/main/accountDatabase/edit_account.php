@@ -17,11 +17,31 @@
     // This if statement checks to determine whether the edit form has been submitted 
     // If it has, then the account updating code is run, otherwise the form is displayed 
     if(!empty($_POST)) 
-    { 
+    { 	
+		$cont=0;
         // Make sure the user entered a valid E-Mail address 
         if(!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) 
         { 
-            die("Invalid E-Mail Address"); 
+            $cont=1;
+			echo '<script type="text/javascript">
+			if (window.XMLHttpRequest)
+			  {// code for IE7+, Firefox, Chrome, Opera, Safari
+			  xmlhttp6=new XMLHttpRequest();
+			  }
+			else
+			  {// code for IE6, IE5
+			  xmlhttp6=new ActiveXObject("Microsoft.XMLHTTP");
+			  }
+			xmlhttp6.onreadystatechange=function()
+			  {
+			  if (xmlhttp6.readyState==4 && xmlhttp6.status==200)
+				{
+				document.getElementById("emailError").innerHTML=xmlhttp6.responseText;
+				}
+			  }
+			xmlhttp6.open("GET","error.php?q="+"invalidemail",true);
+			xmlhttp6.send();
+			</script>';
         } 
          
         // If the user is changing their E-Mail address, we need to make sure that 
@@ -51,16 +71,33 @@
             } 
             catch(PDOException $ex) 
             { 
-                // Note: On a production website, you should not output $ex->getMessage(). 
-                // It may provide an attacker with helpful information about your code.  
-                die("Failed to run query: " . $ex->getMessage()); 
+				echo '<script type="text/javascript">alert("Database error. Please try again later.");</script>';
+				echo '<script type="text/javascript">location.reload(true);</script>';
             } 
              
             // Retrieve results (if any) 
             $row = $stmt->fetch(); 
             if($row) 
             { 
-                die("This E-Mail address is already in use"); 
+                echo '<script type="text/javascript">
+				if (window.XMLHttpRequest)
+				  {// code for IE7+, Firefox, Chrome, Opera, Safari
+				  xmlhttp7=new XMLHttpRequest();
+				  }
+				else
+				  {// code for IE6, IE5
+				  xmlhttp7=new ActiveXObject("Microsoft.XMLHTTP");
+				  }
+				xmlhttp7.onreadystatechange=function()
+				  {
+				  if (xmlhttp7.readyState==4 && xmlhttp7.status==200)
+					{
+					document.getElementById("emailError").innerHTML=xmlhttp7.responseText;
+					}
+				  }
+				xmlhttp7.open("GET","error.php?q="+"usedemail",true);
+				xmlhttp7.send();
+				</script>';
             } 
         } 
          
