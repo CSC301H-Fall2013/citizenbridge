@@ -61,7 +61,25 @@ foreach ($json_decode['results'] as $js)
 			$updateStatement = $db->prepare("UPDATE vbills SET updatedate=:updatedate WHERE bid=:bid");
 			$result = $updateStatement->execute(array(':bid' => $js['id'], ':updatedate' => $js['last_updated']));
 			
-			//todo -- send email to all users who signed up for email notifications for this bill
+			//get all emails that are following the bill
+			$userStatement = $db->prepare('SELECT email FROM fbills WHERE bid = :bid');
+			$result = $userStatement->execute(array(':bid' => $js['id']));
+			
+			$message = "bill has been updated";
+			$subject = "Citizen Bridge Notification";
+			// to-do get email address
+			$from = "a@gmail.com";
+			
+			//for each email associated with a bill send a notification message
+			$fetchResult = $userStatement->fetch();
+			while ($fetchResult) 
+			{
+				$to = $fetchResult['email'];
+				$headers = "From:" . $from;
+				mail($to,$subject,$message,$headers);
+				echo "mail sent";
+				$fetchResult = $userStatement->fetch();
+			}
 			
 		}
 
@@ -74,8 +92,6 @@ foreach ($json_decode['results'] as $js)
 	{ 	
 		die("Failed to run query: " . $ex->getMessage()); 
 	}
-
-	echo "Database was updated <br>";
 }
 
 
