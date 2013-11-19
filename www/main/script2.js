@@ -28,10 +28,12 @@ function loadBill(data, data2) {
         legislative = "<a href=\"" + result.legislative_summary.EN + "\">Legislative Summary</a>";
     }
 	
+	var repArray = new Array();
 	image = "";
     sponsor = "N/A";
 	// Find the name and picture of the bill's sponsor by their rep id
     for (var j = 0; j < data2.results.length; j ++){
+		repArray[data2.results[j].id] = data2.results[j];
         if (data2.results[j].id == result.sponsor){
             name = data2.results[j].name.given + " " + data2.results[j].name.family;
 			// Link to sponsor's individual page
@@ -52,130 +54,107 @@ function loadBill(data, data2) {
 	
 	
 	//PROGRESS
-	// For time-line of status
-	var eventDates = new Array();
-	var eventStatus = new Array();
-	
+	var sortedEvents = [];
 	var progress = "<h2> Status changes </h2> <b>Status - Date</b><br>";
 	
 	//leo++
-	var dateAccumilator = ""; //accumilate the list of dates. 
-	var statusAccumilator = ""; //accumilate the list of statuses. 
+	var dateAccumilator = ""; //accumulate the list of dates for graph 
+	var statusAccumilator = ""; //accumulate the list of statuses for graph
 	
-	//leo++ Table + visualisatin. 
+	//leo++ Table + visualisatin.
+	//create table of status
 	progress += '<table class="wet-boew-tables" data-wet-boew=' + "'" + '{"bSort": false, "bPaginate": false}' + "'>";
 	progress += '<thead><tr><th>Date</th><th>Status Name</th><th>Status id </th></tr></thead>';
 	progress += "<tbody>"; //<tr><td> 1 </td><td> Hello </td></tr></tbody>";
 
 	for (var i=0; i < result.events.length; i++) {
-		date = new Date(result.events[i].date * 1000);
-		//NOTE: dates are NOT in order  todo - if time permits, sort it as per: http://stackoverflow.com/questions/1069666/sorting-javascript-object-by-property-value
-		eventDates[i] = date.toLocaleDateString();
-		
-		dateAccumilator += '"' + eventDates[i] + '"' + ",";  //Leo++
-		
-		eventStatus[i] = result.events[i].status;
-		statusAccumilator += '"' + eventStatus[i] + '"' + ","; //Leo++
-		
-        statusName = "";
-        // If you don't want just status numbers
-        switch(result.events[i].status){
-        case 0:  statusName = "Bill defeated / not proceeded with"; break;
-        case 1:  statusName = "Pre-study of the commons bill"; break;
-        case 2:  statusName = "Introduction and first reading"; break;
-        case 3:  statusName = "Second Reading and/or debate at second reading"; break;
-        case 4:  statusName = "Referral to committee"; break;
-        case 5:  statusName = "Committee report presented / debate at condisteration of committee report"; break;
-        case 6:  statusName = "Debate at report stage"; break;
-        case 7:  statusName = "Concurrence at report stage"; break;
-        case 8:  statusName = "Committee report adopted, 3rd reading and/or debate at 3rd reading"; break;
-        case 9:  statusName = "Placed in order of precedence / message sent to the House of Commons"; break;
-        case 10: statusName = "Jointly seconded by or concurrence in the Senate amendments"; break;
-        case 20: statusName = "Royal assent / completed";break;
-        default: statusName = "Unknown"; break;
+		sortedEvents.push([result.events[i].date, result.events[i].status]);
     }
+	sortedEvents.sort(function(a, b) {return a[0] - b[0]});
+	
+	for (var i=0; i < sortedEvents.length; i++) {
+		date = (new Date(sortedEvents[i][0] * 1000)).toLocaleDateString();
+		dateAccumilator += '"' + date + '"' + ",";  //Leo++
+		statusAccumilator += '"' + sortedEvents[i][1] + '"' + ","; //Leo++
 		
-		progress += "<tr><td>" + eventDates[i] + "</td><td>" + statusName + "</td><td>" + eventStatus[i] + "</td></tr>";
-
+		statusName = "";
+        switch(sortedEvents[i][1]){
+			case 0:  statusName = "Bill defeated / not proceeded with"; break;
+			case 1:  statusName = "Pre-study of the commons bill"; break;
+			case 2:  statusName = "Introduction and first reading"; break;
+			case 3:  statusName = "Second Reading and/or debate at second reading"; break;
+			case 4:  statusName = "Referral to committee"; break;
+			case 5:  statusName = "Committee report presented / debate at condisteration of committee report"; break;
+			case 6:  statusName = "Debate at report stage"; break;
+			case 7:  statusName = "Concurrence at report stage"; break;
+			case 8:  statusName = "Committee report adopted, 3rd reading and/or debate at 3rd reading"; break;
+			case 9:  statusName = "Placed in order of precedence / message sent to the House of Commons"; break;
+			case 10: statusName = "Jointly seconded by or concurrence in the Senate amendments"; break;
+			case 20: statusName = "Royal assent / completed";break;
+			default: statusName = "Unknown"; break;
+		}
+		
+		progress += "<tr><td>" + date + "</td><td>" + statusName + "</td><td>" + sortedEvents[i][1] + "</td></tr>";
 	}
 	
-	progress += "</tbody></table>"
+	progress += "</tbody></table><br><br>"
 	
+	//-------------- LEO ++ Adding Visual representation 
+	//LEO++ Adding graph for visualisation. 
+	progress += '<canvas id="canvasBillsLine" height="450" width="600"></canvas>';
 	
+	//LEO++ generate visual line. 
+	progress += '<script>';
+	progress += ' var lineChartData = { labels :[' + dateAccumilator + "],"; // ["January","February","March","April","May","June","July"], ';
+	progress +=	'datasets :[{ fillColor : "rgba(151,187,205,0.5)", strokeColor : "rgba(151,187,205,1)",';
+	progress +=	'	pointColor : "rgba(151,187,205,1)", pointStrokeColor : "#fff",';
+	progress += '				data : [' + statusAccumilator + ']';								//[28,48,40,19,96,27,100] 
+	progress += '	}]};';	
 	
-		//-------------- LEO ++ Adding Visual representation 
-		//LEO++ Adding graph for visualisation. 
-		progress += '<canvas id="canvasBillsLine" height="450" width="600"></canvas>';
-		
-		//LEO++ generate visual line. 
-		progress += '<script>';
-		progress += ' var lineChartData = { labels :[' + dateAccumilator + "],"; // ["January","February","March","April","May","June","July"], ';
-		progress +=	'datasets :[{ fillColor : "rgba(151,187,205,0.5)", strokeColor : "rgba(151,187,205,1)",';
-		progress +=	'	pointColor : "rgba(151,187,205,1)", pointStrokeColor : "#fff",';
-		progress += '				data : [' + statusAccumilator + ']';								//[28,48,40,19,96,27,100] 
-		progress += '	}]};';
-	    
-		
-		 //----- LEO++ Now generate a new chart
-		//Define custom scale (1,2,3,4), this avoids scale like 1.1, 1,2,1,3  etc.. 
-		progress += 'var LineOptions = { scaleOverride : true, scaleSteps : 20, scaleStepWidth : 1, scaleStartValue : 0 };';
-		progress += 'var myLine = new Chart(document.getElementById("canvasBillsLine").getContext("2d")).Line(lineChartData,LineOptions)';
-		progress += '</script>';
-	
-		 //Append status definitions for user information: 
-		 progress += "<h4> Status Definitions: </h4>"
-		 progress += "0 Bill defeated / not proceeded with"; 
-		 progress += "<br>1 Pre-study of the commons bill"
-		 progress += "<br>2 Introduction and first reading";
-		 progress += "<br>3 Second Reading and/or debate at second reading";;
-		 progress += "<br>4 Referral to committee"; 
-		 progress += "<br>5 Committee report presented / debate at condisteration of committee report";
-		 progress += "<br>6 Debate at report stage";
-		 progress += "<br>7 Concurrence at report stage"; 
-		 progress += "<br>8 Committee report adopted, 3rd reading and/or debate at 3rd reading"; 
-		 progress += "<br>9 Placed in order of precedence / message sent to the House of Commons"; 
-		 progress += "<br>10 Jointly seconded by or concurrence in the Senate amendments";
-		 progress += "<br>20 Royal assent / completed";
-		
-	
-	
-	
-	
-	
-	//PUBLICATIONS
-	//TO DELETE (it's really useless info)
-	/*var publications = "";
-	var pub, pubRec, pubType, pubSum;
-	var templatePub = "{{pubRec}}<br><i>{{pubType}}</i><br><br>";
-	for (var i = 0; i < result.publications.length; i++) {
-		pub = result.publications[i];
-		if (pub.recommendation == null) {
-			pubRec = "N/A";
-		} else {
-			pubRec = pub.recommendation.EN;
-		}
-		//NOTE: recommendation seems to be exactly the same for all publications
-		
-		switch (pub.type) {
-			case 1: pubType = "First Reading"; break;
-			case 2: pubType = "As amended by committee"; break; 
-			case 3: pubType = "As passed by the House of Commons"; break;
-			case 4: pubType = "As passed by the Senate"; break;
-			case 5: pubType = "Royal Assent"; break;
-			default: pubType = "Unknown"; break;
-		}
-		
-		//NOTE: publication summary seems to be exactly the same as bill summary
-		
-		publications += templatePub
-						.replace("{{pubRec}}", pubRec)
-						.replace("{{pubType}}", pubType);
-		
-	}*/
-	
+	 //----- LEO++ Now generate a new chart
+	//Define custom scale (1,2,3,4), this avoids scale like 1.1, 1,2,1,3  etc.. 
+	progress += 'var LineOptions = { scaleOverride : true, scaleSteps : 20, scaleStepWidth : 1, scaleStartValue : 0 };';
+	progress += 'var myLine = new Chart(document.getElementById("canvasBillsLine").getContext("2d")).Line(lineChartData,LineOptions)';
+	progress += '</script>';
+
+	//Append status definitions for user information: 
+	progress += "<h4> Status Definitions: </h4>"
+	progress += "0 Bill defeated / not proceeded with"; 
+	progress += "<br>1 Pre-study of the commons bill"
+	progress += "<br>2 Introduction and first reading";
+	progress += "<br>3 Second Reading and/or debate at second reading";;
+	progress += "<br>4 Referral to committee"; 
+	progress += "<br>5 Committee report presented / debate at condisteration of committee report";
+	progress += "<br>6 Debate at report stage";
+	progress += "<br>7 Concurrence at report stage"; 
+	progress += "<br>8 Committee report adopted, 3rd reading and/or debate at 3rd reading"; 
+	progress += "<br>9 Placed in order of precedence / message sent to the House of Commons"; 
+	progress += "<br>10 Jointly seconded by or concurrence in the Senate amendments";
+	progress += "<br>20 Royal assent / completed";
+
 	//VOTES
 	// For each bill, there should be a list that shows which rep voted for the bill and which rep voted against it.
 	//The bills api has “divisions”, this represents the votes that were made. There is an integer that represents “Yay” and “Nay”
+	var votes = "";
+	/*var votes = "<table id='votes-table' class='wet-boew-tables' data-wet-boew='{" + '"iDisplayLength"' + ": 25}'><thead><tr role='row'><th>Name</th><th>Caucus</th>";
+	//<th>Vote</th></tr></thead><tbody>";
+	var templateDiv = "<tr class='row'></td><td>{{name}}</td><td>{{caucus}}</td>";
+	
+	if (result.divisions != null) {
+		//Add column for each division
+		for (var i=0; i < result.divisions.hoc.length; i++) {
+			div = result.divisions.hoc[i];
+			votes += "<th>" + div.parliament + "-" + div.session + "-" + div.division_number + "</th>";
+		}
+		votes += "</tr></thead><tbody>";
+		for (var i=0; i < result.divisions.hoc.length; i++) {
+			div = result.divisions.hoc[i];
+			votes += "<th>" + div.parliament + "-" + div.session + "-" + div.division_number + "</th>";
+		}
+		votes += "</tbody></table>";
+	} else {
+		votes = "N/A";
+	}*/
 
 	
 	//PRESS RELEASES
@@ -223,14 +202,12 @@ function loadBill(data, data2) {
 		.replace("{{billID}}", billID)
 		.replace("{{progress}}", progress)
 		//.replace("{{publications}}", publications)
-		//.replace("{{votes}}", votes)
+		.replace("{{votes}}", votes)
 		.replace("{{press}}", pr)
 		.replace("{{links}}", links);
 		
     // Append the html to the web page
     $("#main").html(html);
-    
-
 }
 
 /*
@@ -366,21 +343,6 @@ function loadBillList (data, data2) {
 				last_event = result.events[j];
 			}
 		}
-        /*switch(last_event.status){
-            case 0: status = "Bill defeated / not proceeded with"; break;
-            case 1: status = "Pre-study of the commons bill"; break;
-            case 2: status = "Introduction and first reading"; break;
-            case 3: status = "Second Reading and/or debate at second reading"; break;
-            case 4: status = "Referral to committee"; break;
-            case 5: status = "Committee report presented / debate at condisteration of committee report"; break;
-            case 6: status = "Debate at report stage"; break;
-            case 7: status = "Concurrence at report stage"; break;
-            case 8: status = "Committee report adopted, 3rd reading and/or debate at 3rd reading"; break;
-            case 9: status = "Placed in order of precedence / message sent to the House of Commons"; break;
-            case 10: status = "Jointly seconded by or concurrence in the Senate amendments"; break;
-            case 20: status = "Royal assent / completed";break;
-            default: status = "Unknown"; break;
-        }*/
 		
 		//Status bar
 		//TO DO: Figure out how to sort this.
@@ -412,72 +374,3 @@ function loadBillList (data, data2) {
 	 $("#main").html(html);
 
 }
-
-/*function loadBill(data, data2) {
-    
-	// Template html to display page
-    template = "<div class='span-5'><h3>Overview</h3><br><b>{{prefixnum}}:&nbsp;{{title}}</b><br><br><b>Introduced: </b>{{introdate}}<br><b>Updated: </b>{{updated}}<br><b>Sponsor: </b>{{image}}{{sponsor}}<br><br><b>Description: </b>{{description}}<br><br><b>Link to Parliament of Canada: </b>{{summary}}<br><br><button onclick=\"voteBillUp({{billID}})\">Upvote</button> <button onclick=\"voteBillDown({{billID}})\">Downvote</button></div>";
-
-    result = data.results[0];
-
-	// Bill number
-    prefixnum = result.prefix + result.number;
-	// Title
-    title = result.title.EN;
-	
-	// Description
-    if ((description = result.summary.EN) == null) {
-        description = "N/A";
-    } else {
-        description = "<br>" + description.split("\n").join("<br><br>");
-    }
-	
-	// Link to summary on Parliament of Canada website
-    if ((summary = result.legislative_summary.EN) == null) {
-        summary = "N/A";
-    } else {
-        summary = "<a href=\"" + result.legislative_summary.EN + "\">" + 
-            result.legislative_summary.EN + "</a>";
-    }
-	
-    image = "";
-    sponsor = "N/A";
-	// Find the name and picture of the bill's sponsor by their rep id
-    for (var j = 0; j < data2.results.length; j ++){
-        if (data2.results[j].id == result.sponsor){
-            name = data2.results[j].name.given + " " + data2.results[j].name.family;
-			// Link to sponsor's individual page
-            sponsor = "<a href='representatives.php?rep=" + result.sponsor + "'>" + name + "</a>";
-            imgUrl = "http://www.parl.gc.ca/Parlinfo/images/Picture.aspx?Item=" + data2.results[j].image_id;
-            image = "<div style='width:142px;height:230px;'><img src=" + imgUrl +"></img></div>";
-            break;
-        }
-    }
-    
-	// Introduction date
-    intro = new Date(result.introduction * 1000);
-    introdate = intro.toUTCString();
-    // Updated date
-    up = new Date(result.last_updated);
-    updated = up.toUTCString();
-	
-	// Get the id of the bill, which is unique.
-	// This will be used to implement upvoting and downvoting.
-	billID = result.id;
-	
-    html = template
-        .replace("{{prefixnum}}", prefixnum)
-        .replace("{{title}}", title)
-        .replace("{{introdate}}", introdate)
-        .replace("{{updated}}", updated)
-        .replace("{{description}}", description)
-        .replace("{{summary}}", summary)
-        .replace("{{sponsor}}", sponsor)
-        .replace("{{image}}", image)
-		.replace("{{billID}}", billID)
-		.replace("{{billID}}", billID);
-
-    // Append the html to the web page
-    $("#main").html(html);
-    
-}*/
