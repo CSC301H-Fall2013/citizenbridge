@@ -1,4 +1,5 @@
 <?php 
+
 require("accountDatabase/common.php");
 
 // echo var_dump($_POST) . "<br>";
@@ -14,6 +15,8 @@ if (empty($_POST) || empty($_SESSION))
 
 $billToFollow = $_POST['billToFollow'];
 $userEmail = $_SESSION['user']['email'];
+
+header("refresh:2;url=" . "http://" .  $_SERVER['SERVER_NAME'] . "/citizenbridge/www/main/bills.php?bill=" . $billToFollow);
 
 echo $billToFollow . " " .  $userEmail . "<br>";
 

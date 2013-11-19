@@ -237,8 +237,42 @@ switch ($bill) {
 			loadBillList(json, jsonrep);
 		}
 		else {
-			// else create a bill page
+		
 			loadBill(json, jsonrep);
+			<?php
+			if (! empty($_SESSION)) 
+			{
+				
+				$userEmail = $_SESSION['user']['email'];
+				//check if user follows bill
+				//check if user+billid is already in the DB. 
+				$sth = $db->prepare('SELECT bid FROM fbills WHERE bid = :bid AND email = :email');
+				$result = $sth->execute(array(':bid' => $bill, ':email' => $userEmail));
+				if (! $result)
+				{
+					echo "Database access error";
+					die;
+				}
+				$fetchResult = $sth->fetch();
+				// if already following hide follow button
+				if ($fetchResult)
+				{
+					echo "$('#followButton' ).hide();";
+					
+				}
+				// if not following hide unfollow button
+				else
+				{
+					echo "$('#unfollowButton' ).hide()";
+				}
+			}
+			// if not log in hide follow and unfollow buttons
+			else
+			{
+				echo "$('#followButton' ).hide();";
+				echo "$('#unfollowButton' ).hide()";
+			}
+			?>
 		}
 		</script>
 
