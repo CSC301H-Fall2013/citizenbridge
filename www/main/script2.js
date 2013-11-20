@@ -290,11 +290,12 @@ function followBill(billID)
 */
 function loadBillList (data, data2) {
     // Template for bill rows
-    var template = "<tr class='row'></td><td><a href='bills.php?bill={{billId}}'>{{prefixnum}}</a></td><td><a href='bills.php?bill={{billId}}'>{{title}}</a></td><td><a href='bills.php?bill={{billId}}'>{{status}}</a></td><td>{{sponsor}}</td><td><a href='bills.php?bill={{billId}}'>{{introdate}}</a></td><td><a href='bills.php?bill={{billId}}'>{{updated}}</a></td></tr>";
+	var template = "<tr class='row'></td><td><a href='bills.php?bill={{billId}}'>{{prefix}}</a></td><td>{{prefixnum}}</td><td><a href='bills.php?bill={{billId}}'>{{title}}</a></td><td>{{status}}</td><td>{{statusNum}}</td><td>{{sponsor}}</td><td>{{introdate}}</td><td>{{updated}}</td></tr>";
+    //var template = "<tr class='row'></td><td><a href='bills.php?bill={{billId}}'>{{prefixnum}}</a></td><td><a href='bills.php?bill={{billId}}'>{{title}}</a></td><td><a href='bills.php?bill={{billId}}'>{{status}}</a></td><td>{{sponsor}}</td><td><a href='bills.php?bill={{billId}}'>{{introdate}}</a></td><td><a href='bills.php?bill={{billId}}'>{{updated}}</a></td></tr>";
             
     //Create the table and the header
-	//, \"sType\": \"formatted-num\", \"aTargets\": [ 0 ]
-    var html = "<table id='bill-table' class='wet-boew-tables' data-wet-boew='{ \"aaSorting\": [[5, \"desc\"]], \"iDisplayLength\": 50 }'><thead><tr role='row'><th width='50'>Bill</th><th>Title</th><th>Status</th><th>Sponsor</th><th>Introduced</th><th>Updated</th></tr></thead><tbody>";
+	var html = "<table id='bill-table' class='wet-boew-tables' data-wet-boew='{\"aaSorting\": [[5, \"desc\"]], \"iDisplayLength\": 50 }'><thead><tr role='row'><th width='50'>Bill</th><th>#</th><th>Title</th><th>Status</th><th>Status #</th><th>Sponsor</th><th>Introduced</th><th>Updated</th></tr></thead><tbody>";
+    //var html = "<table id='bill-table' class='wet-boew-tables' data-wet-boew='{ \"aaSorting\": [[5, \"desc\"]], \"iDisplayLength\": 50 }'><thead><tr role='row'><th width='50'>Bill</th><th>Title</th><th>Status</th><th>Sponsor</th><th>Introduced</th><th>Updated</th></tr></thead><tbody>";
     
     // Create a list of sponsors to access their information by their id
     var sponsorIdList = new Array();
@@ -312,13 +313,11 @@ function loadBillList (data, data2) {
         billId = result.id;
         
 		// Number
-		prefixnum = result.prefix + "-" + result.number;
-		/*if (result.number < 10) {
-			prefixnum += "00";
-		} else if (result.number < 100) {
-			prefixnum += "0";
+		prefix = result.prefix + "-" + result.number;
+		prefixnum = result.number;
+		if (result.prefix == "S") {
+			prefixnum += 100000;
 		}
-		prefixnum += result.number;*/
 		
 		// Title
         title = result.short_title.EN;
@@ -371,11 +370,11 @@ function loadBillList (data, data2) {
             .replace("{{billId}}", billId)
             .replace("{{billId}}", billId)
             .replace("{{billId}}", billId)
-            .replace("{{billId}}", billId)
-            .replace("{{billId}}", billId)
+			.replace("{{prefix}}", prefix)
             .replace("{{prefixnum}}", prefixnum)
             .replace("{{title}}", title)
             .replace("{{status}}", progress)
+			.replace("{{statusNum}}", status)
             .replace("{{sponsor}}", sponsor)
             .replace("{{introdate}}", introdate)
             .replace("{{updated}}", updated);
@@ -386,6 +385,27 @@ function loadBillList (data, data2) {
     html += "</tbody></table>";
             
     // Append the html to the web page
-	 $("#main").html(html);
+	$("#main").html(html);
 
+	
+	//To sort properly by "C-1, C-2, ...", status, and rep names
+	//Works, but gives error "DataTables warning (table id = 'bill-table'): Cannot reinitialise DataTable."
+	//Need some way to edit original DataTable in table id = 'bill-table'
+	//Comment out below to remove error message
+	$(document).ready( function() {
+		$('#bill-table').dataTable( {
+			"aoColumns": [
+				{ "iDataSort": 1 },
+				{ "bVisible": false},
+				null,
+				{ "iDataSort": 4 },
+				{ "bVisible": false},
+				{ "sType": "html" },
+				null,
+				null
+			]
+		} );
+	} );
+
+	
 }
