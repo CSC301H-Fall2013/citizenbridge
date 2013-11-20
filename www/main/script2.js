@@ -322,7 +322,7 @@ function loadBillList (data, data2) {
     //var template = "<tr class='row'></td><td><a href='bills.php?bill={{billId}}'>{{prefixnum}}</a></td><td><a href='bills.php?bill={{billId}}'>{{title}}</a></td><td><a href='bills.php?bill={{billId}}'>{{status}}</a></td><td>{{sponsor}}</td><td><a href='bills.php?bill={{billId}}'>{{introdate}}</a></td><td><a href='bills.php?bill={{billId}}'>{{updated}}</a></td></tr>";
             
     //Create the table and the header
-	var html = "<table id='bill-table'}'><thead><tr role='row'><th width='50'>Bill</th><th>#</th><th>Title</th><th>Status</th><th>Status #</th><th>Sponsor</th><th>Introduced</th><th>Updated</th></tr></thead><tbody>";
+	var html = "<table id='bill-table'><thead><tr role='row'><th width='50'>Bill</th><th>#</th><th>Title</th><th>Status</th><th>Status #</th><th>Sponsor</th><th>Introduced</th><th>Updated</th></tr></thead><tbody>";
     //var html = "<table id='bill-table' class='wet-boew-tables' data-wet-boew='{ \"aaSorting\": [[5, \"desc\"]], \"iDisplayLength\": 50 }'><thead><tr role='row'><th width='50'>Bill</th><th>Title</th><th>Status</th><th>Sponsor</th><th>Introduced</th><th>Updated</th></tr></thead><tbody>";
     
     // Create a list of sponsors to access their information by their id
@@ -422,7 +422,7 @@ function loadBillList (data, data2) {
 	//Comment out below to remove error message
 	$(document).ready( function() {
 		$('#bill-table').dataTable( {
-			"aaSorting": [[5, "desc"]],
+			"aaSorting": [[7, "desc"]],
 			"iDisplayLength": 100,
 			"aoColumns": [
 				{ "iDataSort": 1 },

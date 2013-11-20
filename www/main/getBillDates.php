@@ -9,7 +9,7 @@
 
 
 
-error_reporting(E_ALL);
+	error_reporting(E_ALL);
 
     // First we execute our common code to connection to the database and start the session 
    require("accountDatabase/common.php"); 
@@ -88,7 +88,7 @@ foreach ($json_decode['results'] as $js)
 			
 			$subject = "Citizen Bridge Notification";
 			// to-do get email address
-			$from = "noreply@citezenbridge.com";
+			$from = $hostemail;
 			
 			//for each email associated with a bill send a notification message
 			$fetchResult = $userStatement->fetch();

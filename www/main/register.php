@@ -236,6 +236,7 @@
 		 
 		if($row) 
 		{ 
+			$cont=1;
 			echo '<script type="text/javascript">
 			if (window.XMLHttpRequest)
 			  {// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -258,7 +259,7 @@
 
 		} 
 
-		if($cont=="0") {
+		if($cont==0) {
 			// An INSERT query is used to add new rows to a database table. 
 			// Again, we are using special tokens (technically called parameters) to 
 			// protect against SQL injection attacks. 
@@ -349,12 +350,12 @@
 			$mail->isSMTP();                                      // Set mailer to use SMTP
 			$mail->Host = 'smtp.gmail.com;';  // Specify main and backup server
 			$mail->SMTPAuth = true;                               // Enable SMTP authentication
-			$mail->Username = 'jiek22@gmail.com';                            // SMTP username
-			$mail->Password = 'citizenbridge';                           // SMTP password
+			$mail->Username = $hostemail;                            // SMTP username
+			$mail->Password = $hostpassword;                           // SMTP password
 			$mail->SMTPSecure = 'tls';                            // Enable encryption, 'ssl' also accepted
 
-			$mail->From = 'jiek22@gmail.com';
-			$mail->FromName = 'Citizen Bridge';
+			$mail->From = 'noreply.athabasca.cb@gmail.com';
+			$mail->FromName = 'Citizen Bridge Athabasca';
 
 			$mail->addAddress($email); 
 

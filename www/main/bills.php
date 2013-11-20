@@ -240,7 +240,7 @@ switch ($bill) {
 		
 			loadBill(json, jsonrep);
 			<?php
-			if (! empty($_SESSION)) 
+			if (!empty($_SESSION)) 
 			{
 				
 				$userEmail = $_SESSION['user']['email'];
@@ -248,7 +248,7 @@ switch ($bill) {
 				//check if user+billid is already in the DB. 
 				$sth = $db->prepare('SELECT bid FROM fbills WHERE bid = :bid AND email = :email');
 				$result = $sth->execute(array(':bid' => $bill, ':email' => $userEmail));
-				if (! $result)
+				if (!$result)
 				{
 					echo "Database access error";
 					die;
