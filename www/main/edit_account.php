@@ -19,11 +19,13 @@
     if(!empty($_POST)) 
     { 	
 		$cont=0;
-        // Make sure the user entered a valid E-Mail address 
-        if(!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) 
-        { 
-            $cont=1;
+		
+		if(empty($_POST['first'])) 
+		{ 
+			$cont=1;
+
 			echo '<script type="text/javascript">
+		
 			if (window.XMLHttpRequest)
 			  {// code for IE7+, Firefox, Chrome, Opera, Safari
 			  xmlhttp1=new XMLHttpRequest();
@@ -34,13 +36,64 @@
 			  }
 			xmlhttp1.onreadystatechange=function()
 			  {
-			  if (xmlhttp1.readyState==4 && xmlhttp6.status==200)
+			  if (xmlhttp1.readyState==4 && xmlhttp1.status==200)
+				{
+				document.getElementById("firstError").innerHTML=xmlhttp1.responseText;
+				}
+			  }
+			xmlhttp1.open("GET","error.php?q="+"first",true);
+			xmlhttp1.send();
+			
+			</script>';
+			
+		}
+		if(empty($_POST['last'])) 
+		{ 
+			$cont=1;
+
+			echo '<script type="text/javascript">
+			if (window.XMLHttpRequest)
+			  {// code for IE7+, Firefox, Chrome, Opera, Safari
+			  xmlhttp2=new XMLHttpRequest();
+			  }
+			else
+			  {// code for IE6, IE5
+			  xmlhttp2=new ActiveXObject("Microsoft.XMLHTTP");
+			  }
+			xmlhttp2.onreadystatechange=function()
+			  {
+			  if (xmlhttp2.readyState==4 && xmlhttp2.status==200)
+				{
+				document.getElementById("lastError").innerHTML=xmlhttp2.responseText;
+				}
+			  }
+			xmlhttp2.open("GET","error.php?q="+"last",true);
+			xmlhttp2.send();
+			</script>';
+			
+		} 
+        // Make sure the user entered a valid E-Mail address 
+        if(!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) 
+        { 
+            $cont=1;
+			echo '<script type="text/javascript">
+			if (window.XMLHttpRequest)
+			  {// code for IE7+, Firefox, Chrome, Opera, Safari
+			  xmlhttp6=new XMLHttpRequest();
+			  }
+			else
+			  {// code for IE6, IE5
+			  xmlhttp6=new ActiveXObject("Microsoft.XMLHTTP");
+			  }
+			xmlhttp6.onreadystatechange=function()
+			  {
+			  if (xmlhttp6.readyState==4 && xmlhttp6.status==200)
 				{
 				document.getElementById("emailError").innerHTML=xmlhttp6.responseText;
 				}
 			  }
-			xmlhttp1.open("GET","error.php?q="+"invalidemail",true);
-			xmlhttp1.send();
+			xmlhttp6.open("GET","error.php?q="+"invalidemail",true);
+			xmlhttp6.send();
 			</script>';
         } 
          
@@ -79,6 +132,7 @@
             $row = $stmt->fetch(); 
             if($row) 
             { 
+				$cont=1;
                 echo '<script type="text/javascript">
 				if (window.XMLHttpRequest)
 				  {// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -100,98 +154,153 @@
 				</script>';
             } 
         } 
-         
-        // If the user entered a new password, we need to hash it and generate a fresh salt 
-        // for good measure. 
-        if(!empty($_POST['password'])) 
-        { 
-            $salt = dechex(mt_rand(0, 2147483647)) . dechex(mt_rand(0, 2147483647)); 
-            $password = hash('sha256', $_POST['password'] . $salt); 
-            for($round = 0; $round < 65536; $round++) 
-            { 
-                $password = hash('sha256', $password . $salt); 
-            } 
-        } 
-        else 
-        { 
-            // If the user did not enter a new password we will not update their old one. 
-            $password = null; 
-            $salt = null; 
-        } 
-         
-        // Initial query parameter values 
-        $query_params = array( 
-			':first' => $_POST['first'], 
-			':last' => $_POST['last'], 
-            ':postalcode' => $_POST['postalcode'],
-			':email' => $_POST['email'], 			
-            ':user_id' => $_SESSION['user']['id'], 
-        ); 
-         
-        // If the user is changing their password, then we need parameter values 
-        // for the new password hash and salt too. 
-        if($password !== null) 
-        { 
-            $query_params[':password'] = $password; 
-            $query_params[':salt'] = $salt; 
-        } 
-         
-        // Note how this is only first half of the necessary update query.  We will dynamically 
-        // construct the rest of it depending on whether or not the user is changing 
-        // their password. 
-        $query = " 
-            UPDATE users 
-            SET 
-				first = :first,
-				last = :last,
-				postalcode = :postalcode,
-                email = :email 
-        "; 
-         
-        // If the user is changing their password, then we extend the SQL query 
-        // to include the password and salt columns and parameter tokens too. 
-        if($password !== null) 
-        { 
-            $query .= " 
-                , password = :password 
-                , salt = :salt 
-            "; 
-        } 
-         
-        // Finally we finish the update query by specifying that we only wish 
-        // to update the one record with for the current user. 
-        $query .= " 
-            WHERE 
-                id = :user_id 
-        "; 
-         
-        try 
-        { 
-            // Execute the query 
-            $stmt = $db->prepare($query); 
-            $result = $stmt->execute($query_params); 
-        } 
-        catch(PDOException $ex) 
-        { 
-            // Note: On a production website, you should not output $ex->getMessage(). 
-            // It may provide an attacker with helpful information about your code.  
-            die("Failed to run query: " . $ex->getMessage()); 
-        } 
-         
-        // Now that the user's E-Mail address has changed, the data stored in the $_SESSION 
-        // array is stale; we need to update it so that it is accurate. 
-        $_SESSION['user']['first'] = $_POST['first'];
-		$_SESSION['user']['last'] = $_POST['last'];
-		$_SESSION['user']['postalcode'] = $_POST['postalcode']; 
-		$_SESSION['user']['email'] = $_POST['email']; 
-         
-        // This redirects the user back to the members-only page after they register 
-        header("Location: index.php"); 
-         
-        // Calling die or exit after performing a redirect using the header function 
-        // is critical.  The rest of your PHP script will continue to execute and 
-        // will be sent to the user if you do not die or exit. 
-        die("Redirecting to index.php"); 
+		
+		if($_POST['postalcode'] != $_SESSION['user']['postalcode']) 
+		{
+			$country_code="CA";
+			
+			$zip_postal= $_POST['postalcode'];
+			 
+			$ZIPREG=array(
+				//"US"=>"^\d{5}([\-]?\d{4})?$",
+				//"UK"=>"^(GIR|[A-Z]\d[A-Z\d]??|[A-Z]{2}\d[A-Z\d]??)[ ]??(\d[A-Z]{2})$",
+				//"DE"=>"\b((?:0[1-46-9]\d{3})|(?:[1-357-9]\d{4})|(?:[4][0-24-9]\d{3})|(?:[6][013-9]\d{3}))\b",
+				"CA"=>"^([ABCEGHJKLMNPRSTVXY]\d[ABCEGHJKLMNPRSTVWXYZ])\ {0,1}(\d[ABCEGHJKLMNPRSTVWXYZ]\d)$",
+				//"FR"=>"^(F-)?((2[A|B])|[0-9]{2})[0-9]{3}$",
+				//"IT"=>"^(V-|I-)?[0-9]{5}$",
+				//"AU"=>"^(0[289][0-9]{2})|([1345689][0-9]{3})|(2[0-8][0-9]{2})|(290[0-9])|(291[0-4])|(7[0-4][0-9]{2})|(7[8-9][0-9]{2})$",
+				//"NL"=>"^[1-9][0-9]{3}\s?([a-zA-Z]{2})?$",
+				//"ES"=>"^([1-9]{2}|[0-9][1-9]|[1-9][0-9])[0-9]{3}$",
+				//"DK"=>"^([D-d][K-k])?( |-)?[1-9]{1}[0-9]{3}$",
+				//"SE"=>"^(s-|S-){0,1}[0-9]{3}\s?[0-9]{2}$",
+				//"BE"=>"^[1-9]{1}[0-9]{3}$"
+			);
+			 
+			if ($ZIPREG[$country_code]) {
+				if (!preg_match("/".$ZIPREG[$country_code]."/i",$zip_postal)){
+					//Validation failed, provided zip/postal code is not valid.
+					//echo $_POST['postalcode'];
+					$cont=1;
+					echo '<script type="text/javascript">
+					if (window.XMLHttpRequest)
+					  {// code for IE7+, Firefox, Chrome, Opera, Safari
+					  xmlhttp5=new XMLHttpRequest();
+					  }
+					else
+					  {// code for IE6, IE5
+					  xmlhttp5=new ActiveXObject("Microsoft.XMLHTTP");
+					  }
+					xmlhttp5.onreadystatechange=function()
+					  {
+					  if (xmlhttp5.readyState==4 && xmlhttp5.status==200)
+						{
+						document.getElementById("postalError").innerHTML=xmlhttp5.responseText;
+						}
+					  }
+					xmlhttp5.open("GET","error.php?q="+"postal",true);
+					xmlhttp5.send();
+					</script>';
+
+				}
+			} 
+		}
+		
+        if($cont==0) {
+			// If the user entered a new password, we need to hash it and generate a fresh salt 
+			// for good measure. 
+			if(!empty($_POST['password'])) 
+			{ 
+				$salt = dechex(mt_rand(0, 2147483647)) . dechex(mt_rand(0, 2147483647)); 
+				$password = hash('sha256', $_POST['password'] . $salt); 
+				for($round = 0; $round < 65536; $round++) 
+				{ 
+					$password = hash('sha256', $password . $salt); 
+				} 
+			} 
+			else 
+			{ 
+				// If the user did not enter a new password we will not update their old one. 
+				$password = null; 
+				$salt = null; 
+			} 
+			$zip_postal=preg_replace('/\s+/', '', $zip_postal); 
+			$zip_postal=strtoupper($zip_postal); 
+			// Initial query parameter values 
+			$query_params = array( 
+				':first' => $_POST['first'], 
+				':last' => $_POST['last'], 
+				':postalcode' => $zip_postal,
+				':email' => $_POST['email'], 			
+				':user_id' => $_SESSION['user']['id'], 
+			); 
+			 
+			// If the user is changing their password, then we need parameter values 
+			// for the new password hash and salt too. 
+			if($password !== null) 
+			{ 
+				$query_params[':password'] = $password; 
+				$query_params[':salt'] = $salt; 
+			} 
+			 
+			// Note how this is only first half of the necessary update query.  We will dynamically 
+			// construct the rest of it depending on whether or not the user is changing 
+			// their password. 
+			
+			
+			$query = " 
+				UPDATE users 
+				SET 
+					first = :first,
+					last = :last,
+					postalcode = :postalcode,
+					email = :email 
+			"; 
+			 
+			// If the user is changing their password, then we extend the SQL query 
+			// to include the password and salt columns and parameter tokens too. 
+			if($password !== null) 
+			{ 
+				$query .= " 
+					, password = :password 
+					, salt = :salt 
+				"; 
+			} 
+			 
+			// Finally we finish the update query by specifying that we only wish 
+			// to update the one record with for the current user. 
+			$query .= " 
+				WHERE 
+					id = :user_id 
+			"; 
+			 
+			try 
+			{ 
+				// Execute the query 
+				$stmt = $db->prepare($query); 
+				$result = $stmt->execute($query_params); 
+			} 
+			catch(PDOException $ex) 
+			{ 
+				// Note: On a production website, you should not output $ex->getMessage(). 
+				// It may provide an attacker with helpful information about your code.  
+				die("Failed to run query: " . $ex->getMessage()); 
+			} 
+			 
+			// Now that the user's E-Mail address has changed, the data stored in the $_SESSION 
+			// array is stale; we need to update it so that it is accurate. 
+			$_SESSION['user']['first'] = $_POST['first'];
+			$_SESSION['user']['last'] = $_POST['last'];
+			$_SESSION['user']['postalcode'] = $_POST['postalcode']; 
+			$_SESSION['user']['email'] = $_POST['email']; 
+			 
+			// This redirects the user back to the members-only page after they register 
+			header("Location: index.php"); 
+			 
+			// Calling die or exit after performing a redirect using the header function 
+			// is critical.  The rest of your PHP script will continue to execute and 
+			// will be sent to the user if you do not die or exit. 
+			die("Redirecting to index.php"); 
+		}
     } 
      
 ?> 
@@ -360,19 +469,19 @@
 							<!-- JIE: Registration Form -->
 							<form action="edit_account.php" method="post"> 
 								First Name:<br /> 
-								<input type="text" name="first" value ="<?php echo htmlentities($_SESSION['user']['first'], ENT_QUOTES, 'UTF-8'); ?>"</> 
+								<input type="text" name="first" value ="<?php echo htmlentities($_SESSION['user']['first'], ENT_QUOTES, 'UTF-8'); ?>"</> <span id="firstError"></span>
 								<br /><br />
 								Last Name:<br /> 
-								<input type="text" name="last" value="<?php echo htmlentities($_SESSION['user']['last'], ENT_QUOTES, 'UTF-8'); ?>"</> 
+								<input type="text" name="last" value="<?php echo htmlentities($_SESSION['user']['last'], ENT_QUOTES, 'UTF-8'); ?>"</> <span id="lastError"></span>
 								<br /><br /> 
 								Postal Code:<br /> 
-								<input type="text" name="postalcode" value="<?php echo htmlentities($_SESSION['user']['postalcode'], ENT_QUOTES, 'UTF-8'); ?>"</> 
+								<input type="text" name="postalcode" value="<?php echo htmlentities($_SESSION['user']['postalcode'], ENT_QUOTES, 'UTF-8'); ?>"</> <span id="postalError"></span>
 								<br /><br /> 								
 								E-Mail Address:<br /> 
-								<input type="text" name="email" value="<?php echo htmlentities($_SESSION['user']['email'], ENT_QUOTES, 'UTF-8'); ?>" /> 
+								<input type="text" name="email" value="<?php echo htmlentities($_SESSION['user']['email'], ENT_QUOTES, 'UTF-8'); ?>" /> <span id="emailError"></span>	
 								<br /><br /> 
 								Password:<br /> 
-								<input type="password" name="password" value="" /><br /> 
+								<input type="password" name="password" value="" /> <br /> <span id="passError"></span>
 								<i>(leave blank if you do not want to change your password)</i> 
 								<br /><br /> 
 								<input type="submit" value="Update Account" /> 
