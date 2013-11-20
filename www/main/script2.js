@@ -394,6 +394,8 @@ function loadBillList (data, data2) {
 	//Comment out below to remove error message
 	$(document).ready( function() {
 		$('#bill-table').dataTable( {
+			"aaSorting": [[5, "desc"]],
+			"iDisplayLength": 100,
 			"aoColumns": [
 				{ "iDataSort": 1 },
 				{ "bVisible": false},
