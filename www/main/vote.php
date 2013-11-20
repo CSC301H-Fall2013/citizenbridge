@@ -3,7 +3,7 @@
 	
 	if(empty($_SESSION['user'])) 
 	{ 
-		echo '0';
+		echo '-1';
 	} else 
 	{
 		//If logged in
@@ -28,7 +28,7 @@
 		} 
 		catch(PDOException $ex) 
 		{ 
-		echo '0';
+		echo '-1';
 		} 
 	}
 	

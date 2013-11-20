@@ -7,7 +7,9 @@ function loadBill(data, data2) {
 	templateMain = "<div class='span-1'><center><h2>{{prefixnum}}</h2><br><button onclick=\"voteBillUp({{billID}})\">Upvote</button><br><button onclick=\"voteBillDown({{billID}})\">Downvote</button><br><br><br>";
 	
 	//follow button
-	templateMain += "<form action='userFollowBill.php' method='post'> <input type='hidden' name='billToFollow' value='{{billID}}'> <input type='submit' name='follow' value='Follow'> </form>";
+	templateMain += "<form id='followButton' action='userFollowBill.php' method='post'> <input type='hidden' name='billToFollow' value='{{billID}}'> <input type='submit' name='follow' value='Follow'> </form>";
+	
+	templateMain += "<form id='unfollowButton' action='userFollowBill.php' method='post'> <input type='hidden' name='billToFollow' value='{{billID}}'> <input type='submit' name='unfollow' value='Unfollow'> </form>";
 	
 	templateMain +=	"</center></div><div class='span-5'><div class='wet-boew-tabbedinterface'><ul class='tabs'><li><a href='#overview'>Overview</a></li><li><a href='#progress'>Progress</a></li><li><a href='#votes'>Votes</a></li><li><a href='#press'>Press Releases</a></li><li><a href='#links'>Related Links</a></li></ul><div class='tabs-panel'>";
 	templateMain += "<div id='overview'><h5>{{title}}</h5><br><b>Introduced: </b>{{introdate}}<br><b>Updated: </b>{{updated}}<br><b>Sponsor: </b>{{sponsor}}<br><br>{{legislative}}<br><br><b>Description: </b>{{description}}</div>";
@@ -207,6 +209,7 @@ function loadBill(data, data2) {
 		.replace("{{billID}}", billID) //for vote up
 		.replace("{{billID}}", billID)  //for vote down
 		.replace("{{billID}}", billID) //for follow
+		.replace("{{billID}}", billID) // for unfollow
 		.replace("{{progress}}", progress)
 		//.replace("{{publications}}", publications)
 		.replace("{{votes}}", votes)
@@ -259,20 +262,18 @@ function voteBillDown(billID) {
 	  }
 	xmlhttp2.onreadystatechange=function()
 	  {
-	  if (xmlhttp2.readyState==4 && xmlhttp1.status==200)
+	  if (xmlhttp2.readyState==4 && xmlhttp2.status==200)
 		{
 			if (xmlhttp2.responseText == '-1') {
 				alert("Please login to vote");
 			} else {
-
 				location.reload();
 			}
 		}
 	  }
-	//Vote is 0 : False : script will downvote
+	//Vote is 1 : True : script will downvote
 	xmlhttp2.open("GET","vote.php?id="+billID+"&vote=0",true);
 	xmlhttp2.send();
-
 	//alert("Todo.");
 	
 }
