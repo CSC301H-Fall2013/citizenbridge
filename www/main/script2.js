@@ -4,7 +4,7 @@
 // Data is the bill data,    data2 is the rep data. 
 function loadBill(data, data2) {
 
-	templateMain = "<div class='span-1'><center><h2>{{prefixnum}}</h2><br><button onclick=\"voteBillUp({{billID}})\">Upvote</button><br><button onclick=\"voteBillDown({{billID}})\">Downvote</button><br><br><br>";
+	templateMain = "<div class='span-1'><center><h2>{{prefixnum}}</h2><br><h5>Up Votes:</h5><br><button onclick=\"voteBillUp({{billID}})\">Upvote</button><br><h5>Down Votes:</h5><br><button onclick=\"voteBillDown({{billID}})\">Downvote</button><br><br><br>";
 	
 	//follow button
 	templateMain += "<form id='followButton' action='userFollowBill.php' method='post'> <input type='hidden' name='billToFollow' value='{{billID}}'> <input type='submit' name='follow' value='Follow'> </form>";
