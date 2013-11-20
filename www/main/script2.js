@@ -144,25 +144,80 @@ function loadBill(data, data2) {
 	// For each bill, there should be a list that shows which rep voted for the bill and which rep voted against it.
 	//The bills api has “divisions”, this represents the votes that were made. There is an integer that represents “Yay” and “Nay”
 	var votes = "";
-	/*var votes = "<table id='votes-table' class='wet-boew-tables' data-wet-boew='{" + '"iDisplayLength"' + ": 25}'><thead><tr role='row'><th>Name</th><th>Caucus</th>";
+	//var votes = "<table id='votes-table' data-wet-boew='{" + '"iDisplayLength"' + ": 25}'><thead><tr role='row'><th>Name</th><th>Caucus</th>"; //to_remove 
 	//<th>Vote</th></tr></thead><tbody>";
-	var templateDiv = "<tr class='row'></td><td>{{name}}</td><td>{{caucus}}</td>";
+	//var templateDiv = "<tr class='row'></td><td>{{name}}</td><td>{{caucus}}</td>";  //to_remove 
+	
+			
+			//inline function to get the name of the rep based on the rep ID
+			getRepNameById = function(repId) 
+			{
+			    for (var j = 0; j < data2.results.length; j ++){
+			    	
+					if (data2.results[j].id == repId) 
+					{
+						firstName = data2.results[j].name.given;
+						lastName = data2.results[j].name.family;
+						fullName = firstName + " " + lastName;
+						return fullName;	
+					}
+			    }
+			    return "--------";
+			};
+			
+			
+			//inline function to get the name of the Caucus based on the Caucus ID. 
+			getCaucusById = function(CaucusId) 
+			{
+			    for (var j = 0; j < data2.results.length; j ++){	    	
+					if (data2.results[j].constituency.caucus.id == CaucusId) 
+					{
+						return data2.results[j].constituency.caucus.name.en;	
+					}
+			    }
+			    return "--------";
+			};
+			
 	
 	if (result.divisions != null) {
-		//Add column for each division
-		for (var i=0; i < result.divisions.hoc.length; i++) {
-			div = result.divisions.hoc[i];
-			votes += "<th>" + div.parliament + "-" + div.session + "-" + div.division_number + "</th>";
-		}
-		votes += "</tr></thead><tbody>";
-		for (var i=0; i < result.divisions.hoc.length; i++) {
-			div = result.divisions.hoc[i];
-			votes += "<th>" + div.parliament + "-" + div.session + "-" + div.division_number + "</th>";
+				
+		lastDivision = result.divisions.hoc[result.divisions.hoc.length - 1];
+		// -------------------------------   Adding pretty graph. 
+		votes += "<table class='wet-boew-charts wb-charts-pie wb-charts-percentlegend-true wb-chart-nolegend-true wb-charts-height-250'> <caption>Vote Distribution</caption>";
+		votes += "<thead> <tr> <th></th>";
+		votes += "<th>Yays</th> ";
+		votes += "<th>Nays</th>";
+		votes += "</tr></thead>";
+		votes += "<tbody><tr><th>Votes</th><td>" + lastDivision.yeas + "</td><td>" + lastDivision.nays + "</td></tr>";
+		votes += "</tbody> </table>";
+		
+		
+		
+		//---------------------------------  Pretty graph end. 
+		
+		
+		
+		
+		votes += '<table class="wet-boew-tables" data-wet-boew=' + "'" + '{"bPaginate": false}' + "'>";
+		votes += '<thead><tr><th>Representative</th><th> Caucus</th><th>Decision</th></tr></thead>';
+		votes += "<tbody>"; 
+		
+		for (var i=0; i < lastDivision.votes.length; i++) {
+			a_vote = lastDivision.votes[i];
+			
+			decisionName = "";
+			if (a_vote.decision == "1") {
+				decisionName = "Yay";
+			} else {
+				decisionName = "Nay";
+			}
+			
+			votes += "<tr><td>" + getRepNameById(a_vote.id) + "</td><td>" + getCaucusById(a_vote.caucus) + "</td><td>" + decisionName + "</td></tr>";
 		}
 		votes += "</tbody></table>";
 	} else {
 		votes = "N/A";
-	}*/
+	}
 
 	
 	//PRESS RELEASES
