@@ -4,7 +4,7 @@
 // Data is the bill data,    data2 is the rep data. 
 function loadBill(data, data2) {
 
-	templateMain = "<div class='span-1'><center><h2>{{prefixnum}}</h2><br><h5>Up Votes:</h5><br><button onclick=\"voteBillUp({{billID}})\">Upvote</button><br><h5>Down Votes:</h5><br><button onclick=\"voteBillDown({{billID}})\">Downvote</button><br><br><br>";
+	templateMain = "<div class='span-1'><center><h2>{{prefixnum}}</h2><br><h5>Up Votes:</h5><h5>{{upvotes}}</h5><button onclick=\"voteBillUp({{billID}})\">Upvote</button><br><h5>Down Votes:</h5><h5>{{downvotes}}</h5><button onclick=\"voteBillDown({{billID}})\">Downvote</button><br><br><br>";
 	
 	//follow button
 	templateMain += "<form id='followButton' action='userFollowBill.php' method='post'> <input type='hidden' name='billToFollow' value='{{billID}}'> <input type='submit' name='follow' value='Follow'> </form>";
@@ -195,8 +195,33 @@ function loadBill(data, data2) {
 	
 	// Get the id of the bill, which is unique.
 	// This will be used to implement upvoting and downvoting.
-	billID = result.id;
-	
+	billID=result.id;
+	upvotecount=0;
+	downvotecount=0;
+
+	if (window.XMLHttpRequest)
+	  {// code for IE7+, Firefox, Chrome, Opera, Safari
+	  xmlhttp0=new XMLHttpRequest();
+	  }
+	else
+	  {// code for IE6, IE5
+	  xmlhttp0=new ActiveXObject("Microsoft.XMLHTTP");
+	  }
+	xmlhttp0.onreadystatechange=function()
+	  {
+	  //if (xmlhttp0.readyState==4 && xmlhttp0.status==200)
+		//{
+			votesResult=xmlhttp0.responseText;
+			//votesSplit=votes.split(".");
+			downvotecount=24353455423;
+			upvotecount=votesResult;
+		//}
+	  }
+	//Get the votes
+	xmlhttp0.open("GET","getVotes.php?id="+billID, true);
+	xmlhttp0.send();
+
+
     html = templateMain
         .replace("{{prefixnum}}", prefixnum)
         .replace("{{title}}", title)
@@ -214,7 +239,9 @@ function loadBill(data, data2) {
 		//.replace("{{publications}}", publications)
 		.replace("{{votes}}", votes)
 		.replace("{{press}}", pr)
-		.replace("{{links}}", links);
+		.replace("{{links}}", links)
+		.replace("{{upvotes}}", upvotecount)
+		.replace("{{downvotes}}", downvotecount);
 		
     // Append the html to the web page
     $("#main").html(html);
@@ -277,6 +304,7 @@ function voteBillDown(billID) {
 	//alert("Todo.");
 	
 }
+
 
 //Follow bill function 
 function followBill(billID) 

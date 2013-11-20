@@ -10,11 +10,14 @@
 		$id=$_GET["id"];
 		$vote=$_GET["vote"];
 		if ($vote) {
-			//$query = "INSERT INTO `votebills`(`bid`, `vdate`, `valid`, `uid`, `vote`) VALUES (12345678, 1234, 1, 1234, 1)"
+			//$query = "INSERT INTO votebills VALUES :id, asdjhkad, 0, 1234567890, 0";
 			$query = "UPDATE vbills SET upvote=upvote+1 WHERE bid=:id";
 		} else {
 			$query = "UPDATE vbills SET downvote=downvote+1 WHERE bid=:id";
 		}
+		$queryupvote = "SELECT upvote FROM vbills WHERE bid=:id";
+		$querydownvote = "SELECT downvote FROM vbills WHERE bid=:id";
+
 		$query_params = array( 
 		':id' => $id
 		); 
