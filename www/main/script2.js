@@ -1,16 +1,21 @@
 /*
 * Load individual bill's page.
+*
+* data: data for individual bill from Parliament Data
+* data2: data for all representatives from Parliament Data
+*
 */
-// Data is the bill data,    data2 is the rep data. 
 function loadBill(data, data2, upv, downv) {
 
+	//bill name and voting buttons
 	templateMain = "<div class='span-1'><center><h2>{{prefixnum}}</h2><br><h5>Up Votes:</h5><h5>{{upvotes}}</h5><button onclick=\"voteBillUp({{billID}})\">Upvote</button><br><h5>Down Votes:</h5><h5>{{downvotes}}</h5><button onclick=\"voteBillDown({{billID}})\">Downvote</button><br><br><br>";
 	
 	//follow button
 	templateMain += "<form id='followButton' action='userFollowBill.php' method='post'> <input type='hidden' name='billToFollow' value='{{billID}}'> <input type='submit' name='follow' value='Follow'> </form>";
-	
+	//unfollow button
 	templateMain += "<form id='unfollowButton' action='userFollowBill.php' method='post'> <input type='hidden' name='billToFollow' value='{{billID}}'> <input type='submit' name='unfollow' value='Unfollow'> </form>";
 	
+	//tabs
 	templateMain +=	"</center></div><div class='span-5'><div class='wet-boew-tabbedinterface'><ul class='tabs'><li><a href='#overview'>Overview</a></li><li><a href='#progress'>Progress</a></li><li><a href='#votes'>Votes</a></li><li><a href='#press'>Press Releases</a></li><li><a href='#links'>Related Links</a></li></ul><div class='tabs-panel'>";
 	templateMain += "<div id='overview'><h5>{{title}}</h5><br><b>Introduced: </b>{{introdate}}<br><b>Updated: </b>{{updated}}<br><b>Sponsor: </b>{{sponsor}}<br><br>{{legislative}}<br><br><b>Description: </b>{{description}}</div>";
 	templateMain += "<div id='progress'><br>{{progress}}</div>";
@@ -29,29 +34,27 @@ function loadBill(data, data2, upv, downv) {
     up = new Date(result.last_updated);
     updated = up.toUTCString();
 	
-	// Link to summary on Parliament of Canada website
+	//link to summary on Parliament of Canada website
     if ((legislative = result.legislative_summary.EN) == null) {
         legislative = "<b>Legislative Summary:</b> N/A";
     } else {
         legislative = "<a href=\"" + result.legislative_summary.EN + "\">Legislative Summary</a>";
     }
 	
-	var repArray = new Array();
 	image = "";
     sponsor = "N/A";
-	// Find the name and picture of the bill's sponsor by their rep id
+	//find the name and picture of the bill's sponsor by their rep id
     for (var j = 0; j < data2.results.length; j ++){
-		repArray[data2.results[j].id] = data2.results[j];
-        if (data2.results[j].id == result.sponsor){
-            name = data2.results[j].name.given + " " + data2.results[j].name.family;
-			// Link to sponsor's individual page
-            sponsor = "<a href='representatives.php?rep=" + result.sponsor + "'>" + name + "</a>";
+		if (data2.results[j].id == result.sponsor){
+			name = data2.results[j].name.given + " " + data2.results[j].name.family;
+			//link to sponsor's individual page
+			sponsor = "<a href='representatives.php?rep=" + result.sponsor + "'>" + name + "</a>";
 			// Image
-            imgUrl = "http://www.parl.gc.ca/Parlinfo/images/Picture.aspx?Item=" + data2.results[j].image_id;
-            image = "<div style='width:142px;height:230px;'><img src=" + imgUrl +"></img></div>";
-            break;
-        }
-    }
+            //imgUrl = "http://www.parl.gc.ca/Parlinfo/images/Picture.aspx?Item=" + data2.results[j].image_id;
+            //image = "<div style='width:142px;height:230px;'><img src=" + imgUrl +"></img></div>";
+			break;
+		}
+	}
 
 	if ((description = result.summary.EN) == null) {
         description = "N/A";
@@ -65,25 +68,24 @@ function loadBill(data, data2, upv, downv) {
 	var sortedEvents = [];
 	var progress = "<h2> Status changes </h2> <b>Status - Date</b><br>";
 	
-	//leo++
-	var dateAccumilator = ""; //accumulate the list of dates for graph 
-	var statusAccumilator = ""; //accumulate the list of statuses for graph
-	
-	//leo++ Table + visualisatin.
 	//create table of status
 	progress += '<table class="wet-boew-tables" data-wet-boew=' + "'" + '{"bSort": false, "bPaginate": false}' + "'>";
 	progress += '<thead><tr><th>Date</th><th>Status Name</th><th>Status id </th></tr></thead>';
-	progress += "<tbody>"; //<tr><td> 1 </td><td> Hello </td></tr></tbody>";
+	progress += "<tbody>";
 
+	//obtain all events relating to the bill from the API and sort them by date
 	for (var i=0; i < result.events.length; i++) {
 		sortedEvents.push([result.events[i].date, result.events[i].status]);
     }
 	sortedEvents.sort(function(a, b) {return a[0] - b[0]});
 	
+	var dateAccumilator = ""; //accumulate the list of dates for graph 
+	var statusAccumilator = ""; //accumulate the list of statuses for graph
+	
 	for (var i=0; i < sortedEvents.length; i++) {
 		date = (new Date(sortedEvents[i][0] * 1000)).toLocaleDateString();
-		dateAccumilator += '"' + date + '"' + ",";  //Leo++
-		statusAccumilator += '"' + sortedEvents[i][1] + '"' + ","; //Leo++
+		dateAccumilator += '"' + date + '"' + ",";
+		statusAccumilator += '"' + sortedEvents[i][1] + '"' + ",";
 		
 		statusName = "";
         switch(sortedEvents[i][1]){
