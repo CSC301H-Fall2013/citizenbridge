@@ -6,7 +6,7 @@
 	<div class='wet-boew-tabbedinterface'> 
 		<ul class='tabs'>
 			<li><a href='#overview'>Notifications</a></li>
-			<li><a href='#account'>Account Settings</a></li>
+			<li><a href='#account'>My Profile</a></li>
 		</ul>
 	<div class='tabs-panel'>
 		<div id='overview'>
@@ -18,25 +18,10 @@
 		</div>
 		<div id='account'>
 			<br>
-			<form action="edit_account.php" method="post"> 
-				First Name:<br /> 
-				<input type="text" name="first" value ="<?php echo htmlentities($_SESSION['user']['first'], ENT_QUOTES, 'UTF-8'); ?>"</> <span id="firstError"></span>
-				<br /><br />
-				Last Name:<br /> 
-				<input type="text" name="last" value="<?php echo htmlentities($_SESSION['user']['last'], ENT_QUOTES, 'UTF-8'); ?>"</> <span id="lastError"></span>
-				<br /><br /> 
-				Postal Code:<br /> 
-				<input type="text" name="postalcode" value="<?php echo htmlentities($_SESSION['user']['postalcode'], ENT_QUOTES, 'UTF-8'); ?>"</> <span id="postalError"></span>
-				<br /><br /> 								
-				E-Mail Address:<br /> 
-				<input type="text" name="email" value="<?php echo htmlentities($_SESSION['user']['email'], ENT_QUOTES, 'UTF-8'); ?>" /> <span id="emailError"></span>	
-				<br /><br /> 
-				Password:<br /> 
-				<input type="password" name="password" value="" /> <br /> <span id="passError"></span>
-				<i>(leave blank if you do not want to change your password)</i> 
-				<br /><br /> 
-				<input type="submit" value="Update Account" /> 
-			</form>
+			Name: <?php echo htmlentities($_SESSION['user']['first'], ENT_QUOTES, 'UTF-8'); ?> <?php echo htmlentities($_SESSION['user']['last'], ENT_QUOTES, 'UTF-8'); ?><br />
+			Email: <?php echo htmlentities($_SESSION['user']['email'], ENT_QUOTES, 'UTF-8'); ?> <br />
+			<?php $postalcode = htmlentities($_SESSION['user']['postalcode'], ENT_QUOTES, 'UTF-8'); ?>
+			Postal Code: <?php echo $postalcode; ?> <br />
 		</div>
 </div> </div>
 
