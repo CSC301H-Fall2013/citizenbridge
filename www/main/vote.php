@@ -15,8 +15,6 @@
 		} else {
 			$query = "UPDATE vbills SET downvote=downvote+1 WHERE bid=:id";
 		}
-		$queryupvote = "SELECT upvote FROM vbills WHERE bid=:id";
-		$querydownvote = "SELECT downvote FROM vbills WHERE bid=:id";
 
 		$query_params = array( 
 		':id' => $id
@@ -24,12 +22,9 @@
 		try 
 		{ 
 		// Execute the query
-		$stmt = $db->prepare($query); 
-		//$stmt2 = $db->prepare($query2);
-		$result = $stmt->execute($query_params);
-		//$result2 = $stmt->execute($query_params);
-		
-		echo "$_SESSION['user'];
+			$stmt = $db->prepare($query); 
+			$result = $stmt->execute($query_params);
+			echo '1';
 		} 
 		catch(PDOException $ex) 
 		{ 

@@ -24,7 +24,7 @@
 	} else
 	{
 		//TODO:
-		echo '<a href="index.php?1=0#account"> Account Settings </a>';
+		echo '<a href="edit_account.php"> Account Settings </a>';
 	}
 ?> 
 

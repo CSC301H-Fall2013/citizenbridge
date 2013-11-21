@@ -7,6 +7,8 @@
 Checks if the GET variable bill is set else set it to 0
 NOTE: the get variable is the "bill=170545" in the url http://localhost/main/bills.php?bill=170545
 */
+$upvote = -1;
+$downvote = -1;
 $bill = isset($_GET["bill"]) ? (int)$_GET["bill"] : 0;
 	
 switch ($bill) {
@@ -232,13 +234,55 @@ switch ($bill) {
 		//get the json data by encoding the php global variable then echoing it
 		json = <?php echo json_encode($json)?>;
 		jsonrep = <?php echo json_encode($jsonrep)?>;
+		
+		
 		if (<?php echo $all?> == 1) {
 			// if $all is 1 then create a bill table
 			loadBillList(json, jsonrep);
 		}
-		else {
+		else {					
+			<?php
+			if (!empty($_SESSION))
+			{
+				$queryupvote = "SELECT upvote FROM vbills WHERE bid=:id";
+				$querydownvote = "SELECT downvote FROM vbills WHERE bid=:id";
+				$query_params = array( 
+					':id' => $bill
+				);
+				$query_params2 = array( 
+					':id' => $bill
+				);				
+				try 
+				{ 
+					// Execute the query
+					$stmt = $db->prepare($queryupvote); 
+					$stmt->execute($query_params);
+					
+					$stmt2 = $db->prepare($querydownvote);
+					$stmt2->execute($query_params2);
+					
+					$res = $stmt->fetch(PDO::FETCH_BOTH)[0];
+					$res2 = $stmt2->fetch(PDO::FETCH_BOTH)[0];
+					
+					if ($res > 0) {
+						$upvote = $res;
+					}
+					if ($res2 > 0) {
+						$downvote = $res2;
+					}
+
+				} 
+				catch(PDOException $ex) 
+				{ 
+					echo '<script type="text/javascript">alert("Database error. Please try again later.");</script>';
+					echo '<script type="text/javascript">location.reload(true);</script>';
+				} 
+			}
+		?>
 		
-			loadBill(json, jsonrep);
+		upvote = <?php echo $upvote?>;
+		downvote = <?php echo $downvote?>;
+			loadBill(json, jsonrep, upvote, downvote);
 			<?php
 			if (!empty($_SESSION)) 
 			{
