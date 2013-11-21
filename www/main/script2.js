@@ -256,34 +256,6 @@ function loadBill(data, data2, upv, downv) {
 	
 	upvotecount=0;
 	downvotecount=0;
-<<<<<<< HEAD
-
-	if (window.XMLHttpRequest)
-	  {// code for IE7+, Firefox, Chrome, Opera, Safari
-	  xmlhttp0=new XMLHttpRequest();
-	  }
-	else
-	  {// code for IE6, IE5
-	  xmlhttp0=new ActiveXObject("Microsoft.XMLHTTP");
-	  }
-		xmlhttp0.onreadystatechange=function()
-	  {
-	  if (xmlhttp0.readyState==4 && xmlhttp0.status==200)
-		{
-			
-				alert(xmlhttp0.responseText);
-				response = xmlhttp0.responseXML;
-
-				downvotecount = 987654;
-			
-		}
-	  }
-	//Vote is 1 : True : script will downvote
-	xmlhttp0.open("GET","getVotes.php?id="+billID,true);
-	xmlhttp0.send();
-
-
-=======
 	
 	if (upv != -1) {
 		upvotecount = upv;
@@ -291,7 +263,7 @@ function loadBill(data, data2, upv, downv) {
 	if (downv != -1) {
 		downvotecount = downv;
 	}
->>>>>>> c1e0467452ead4e19505f4eee7bc295d65fdf44a
+
 
     html = templateMain
         .replace("{{prefixnum}}", prefixnum)
