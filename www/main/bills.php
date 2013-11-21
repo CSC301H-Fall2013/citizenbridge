@@ -244,8 +244,8 @@ switch ($bill) {
 			<?php
 			if (!empty($_SESSION))
 			{
-				$queryupvote = "SELECT upvote FROM vbills WHERE bid=:id";
-				$querydownvote = "SELECT downvote FROM vbills WHERE bid=:id";
+				$queryupvote = "SELECT COUNT(vote) FROM votebills WHERE bid=:id AND valid=1 AND vote=1";
+				$querydownvote = "SELECT COUNT(vote) FROM votebills WHERE bid=:id AND valid=1 AND vote=0";
 				$query_params = array( 
 					':id' => $bill
 				);
