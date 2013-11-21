@@ -14,19 +14,3 @@
 
 </li>
 </ul>
-<ul>
-<li> 
-
-<?php 
-	if(empty($_SESSION['user'])) 
-	{
-
-	} else
-	{
-		//TODO:
-		echo '<a href="index.php?1=0#account"> Account Settings </a>';
-	}
-?> 
-
-</li>
-</ul>

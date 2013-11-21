@@ -2,7 +2,7 @@
 * Load individual bill's page.
 */
 // Data is the bill data,    data2 is the rep data. 
-function loadBill(data, data2) {
+function loadBill(data, data2, upv, downv) {
 
 	templateMain = "<div class='span-1'><center><h2>{{prefixnum}}</h2><br><h5>Up Votes:</h5><h5>{{upvotes}}</h5><button onclick=\"voteBillUp({{billID}})\">Upvote</button><br><h5>Down Votes:</h5><h5>{{downvotes}}</h5><button onclick=\"voteBillDown({{billID}})\">Downvote</button><br><br><br>";
 	
@@ -251,9 +251,16 @@ function loadBill(data, data2) {
 	// Get the id of the bill, which is unique.
 	// This will be used to implement upvoting and downvoting.
 	billID=result.id;
+	
 	upvotecount=0;
 	downvotecount=0;
-
+	
+	if (upv != -1) {
+		upvotecount = upv;
+	}
+	if (downv != -1) {
+		downvotecount = downv;
+	}
 
     html = templateMain
         .replace("{{prefixnum}}", prefixnum)
@@ -285,7 +292,6 @@ Need to have a vote number somewhere.
 */
 //Upvote the bill
 function voteBillUp (billID) {
-
 	if (window.XMLHttpRequest)
 	  {// code for IE7+, Firefox, Chrome, Opera, Safari
 	  xmlhttp1=new XMLHttpRequest();
@@ -306,7 +312,7 @@ function voteBillUp (billID) {
 		}
 	  }
 	//Vote is 1 : True : script will downvote
-	xmlhttp1.open("GET","voting.php?id="+billID+"&vote=1",true);
+	xmlhttp1.open("GET","vote.php?id="+billID+"&vote=1",true);
 	xmlhttp1.send();
 	//alert("Todo.");
 }
@@ -332,7 +338,7 @@ function voteBillDown(billID) {
 		}
 	  }
 	//Vote is 1 : True : script will downvote
-	xmlhttp2.open("GET","voting.php?id="+billID+"&vote=0",true);
+	xmlhttp2.open("GET","vote.php?id="+billID+"&vote=0",true);
 	xmlhttp2.send();
 	//alert("Todo.");
 	
