@@ -3,8 +3,8 @@
     // These variables define the connection information for your MySQL database 
     $username = "levuca_citizen"; 
     $password = "citizenbridge"; 
-    $host = "127.0.0.1"; 
-    #$host = "localhost"; #For abe =]
+    $host = "127.0.0.1"; //For the not as special peoplez
+    //$host = "localhost"; //For Abe =] 
     $dbname = "levuca_account"; 
 	$website = "http://localhost/citizenbridge/www/main";
 	$hostemail = 'noreply.athabasca.cb@gmail.com';

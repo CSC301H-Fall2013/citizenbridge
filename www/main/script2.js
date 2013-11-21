@@ -306,7 +306,7 @@ function voteBillUp (billID) {
 		}
 	  }
 	//Vote is 1 : True : script will downvote
-	xmlhttp1.open("GET","vote.php?id="+billID+"&vote=1",true);
+	xmlhttp1.open("GET","voting.php?id="+billID+"&vote=1",true);
 	xmlhttp1.send();
 	//alert("Todo.");
 }
@@ -332,7 +332,7 @@ function voteBillDown(billID) {
 		}
 	  }
 	//Vote is 1 : True : script will downvote
-	xmlhttp2.open("GET","vote.php?id="+billID+"&vote=0",true);
+	xmlhttp2.open("GET","voting.php?id="+billID+"&vote=0",true);
 	xmlhttp2.send();
 	//alert("Todo.");
 	

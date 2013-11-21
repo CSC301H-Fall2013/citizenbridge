@@ -29,7 +29,7 @@
 		$result = $stmt->execute($query_params);
 		//$result2 = $stmt->execute($query_params);
 		
-		echo '1';
+		echo "$_SESSION['user'];
 		} 
 		catch(PDOException $ex) 
 		{ 

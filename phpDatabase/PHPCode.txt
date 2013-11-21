@@ -49,6 +49,9 @@ CREATE TABLE `freps` (
   FOREIGN KEY (`email`) REFERENCES users(`email`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+
+/* NOTE: No longer being used */
+
 CREATE TABLE `vbills` (
   `upvote` int(1) COLLATE utf8_unicode_ci NOT NULL,
   `downvote` int(1) COLLATE utf8_unicode_ci NOT NULL,
@@ -56,6 +59,15 @@ CREATE TABLE `vbills` (
   `updatedate` varchar(20) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+/* NOTE: This is the table that took the place of vbills */
 
+CREATE TABLE `votebills` (
+  `bid` int(10) NOT NULL,
+  `vdate` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
+  `valid` int(1) NOT NULL,
+  `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `vote` int(1) NOT NULL,
+  FOREIGN KEY (`email`) REFERENCES users(`email`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 TODO: Upvote Downvote identity for each user
