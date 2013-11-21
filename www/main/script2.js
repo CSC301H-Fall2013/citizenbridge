@@ -254,6 +254,31 @@ function loadBill(data, data2) {
 	upvotecount=0;
 	downvotecount=0;
 
+	if (window.XMLHttpRequest)
+	  {// code for IE7+, Firefox, Chrome, Opera, Safari
+	  xmlhttp0=new XMLHttpRequest();
+	  }
+	else
+	  {// code for IE6, IE5
+	  xmlhttp0=new ActiveXObject("Microsoft.XMLHTTP");
+	  }
+		xmlhttp0.onreadystatechange=function()
+	  {
+	  if (xmlhttp0.readyState==4 && xmlhttp0.status==200)
+		{
+			
+				alert(xmlhttp0.responseText);
+				response = xmlhttp0.responseXML;
+
+				downvotecount = 987654;
+			
+		}
+	  }
+	//Vote is 1 : True : script will downvote
+	xmlhttp0.open("GET","getVotes.php?id="+billID,true);
+	xmlhttp0.send();
+
+
 
     html = templateMain
         .replace("{{prefixnum}}", prefixnum)

@@ -1,34 +1,31 @@
 <?php
 	require("accountDatabase/common.php");
 	
-	if(empty($_SESSION['user'])) 
-	{ 
-		echo '-1';
-	} else 
-	{
+
 		//If logged in
 		$id=$_GET["id"];
-		$queryupvote = "SELECT upvote FROM vbills WHERE bid=:id";
-		$querydownvote = "SELECT downvote FROM vbills WHERE bid=:id";
+
+		$queryup = "SELECT email FROM votebills";//WHERE bid=:id AND vote=1 AND valid=1";
+		$querydown = "SELECT email FROM votebills WHERE bid=:id AND vote=0 AND valid=1";
 		$query_params = array( 
-		':id' => $id
+		':id' => $id,
 		); 
+
 		try 
 		{ 
 		// Execute the query
-		$stmt = $db->prepare($queryupvote); 
-		$stmt2 = $db->prepare($querydownvote);
-		$result = $stmt->execute($query_params);
+		$stmt = $db->prepare($queryup); 
+		$result = $stmt->fetch($query_params);
+		$stmt2 = $db->prepare($querydown);
 		$result2 = $stmt2->execute($query_params);
-		
-		$sresult = "";
-		$sresult = "1234.143";
-		echo '1';
+
+		//$l = $result->store_result();
+		echo "$result";
 		} 
 		catch(PDOException $ex) 
 		{ 
-		echo '-1';
+		echo $ex->getMessage();
 		} 
-	}
+	
 	
 ?>
