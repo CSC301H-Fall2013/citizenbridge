@@ -11,10 +11,12 @@ function loadBill(data, data2, upv, downv) {
 	templateMain = "<div class='span-1'><center><h2>{{prefixnum}}</h2><br><h5>Up Votes:</h5><h5>{{upvotes}}%</h5><button onclick=\"voteBillUp({{billID}})\">Upvote</button><br><h5>Down Votes:</h5><h5>{{downvotes}}%</h5><button onclick=\"voteBillDown({{billID}})\">Downvote</button><br><br><br>";
 	
 	//follow button
-	templateMain += "<form id='followButton' action='userFollowBill.php' method='post'> <input type='hidden' name='billToFollow' value='{{billID}}'> <input type='submit' name='follow' value='Follow'> </form>";
-	//unfollow button
-	templateMain += "<form id='unfollowButton' action='userFollowBill.php' method='post'> <input type='hidden' name='billToFollow' value='{{billID}}'> <input type='submit' name='unfollow' value='Unfollow'> </form>";
+	//templateMain += "<form id='followButton' action='userFollowBill.php' method='post'> <input type='hidden' name='billToFollow' value='{{billID}}'> <input type='submit' name='follow' value='Follow'> </form>";
+	templateMain += "<button id='followButton' onclick=\"followBill({{billID}}, 1)\">Follow</button>";
 	
+	//unfollow button
+	//templateMain += "<form id='unfollowButton' action='userFollowBill.php' method='post'> <input type='hidden' name='billToFollow' value='{{billID}}'> <input type='submit' name='unfollow' value='Unfollow'> </form>";
+	templateMain += "<button id='unfollowButton' onclick=\"followBill({{billID}}, 0)\">Unfollow</button>";
 	//tabs
 	templateMain +=	"</center></div><div class='span-5'><div class='wet-boew-tabbedinterface'><ul class='tabs'><li><a href='#overview'>Overview</a></li><li><a href='#progress'>Progress</a></li><li><a href='#votes'>Votes</a></li><li><a href='#press'>Press Releases</a></li><li><a href='#links'>Related Links</a></li></ul><div class='tabs-panel'>";
 	templateMain += "<div id='overview'><h5>{{title}}</h5><br><b>Introduced: </b>{{introdate}}<br><b>Updated: </b>{{updated}}<br><b>Sponsor: </b>{{sponsor}}<br><br>{{legislative}}<br><br><b>Description: </b>{{description}}</div>";
@@ -250,13 +252,14 @@ function loadBill(data, data2, upv, downv) {
 		links = "None";
 	}
 	
-	// Get the id of the bill, which is unique.
-	// This will be used to implement upvoting and downvoting.
+	
 	billID=result.id;
+	
 	
 	upvotecount=0;
 	downvotecount=0;
 	
+	//Only set if upv or downv are valid numbers
 	if (upv != -1) {
 		upvotecount = upv;
 	}
@@ -268,6 +271,7 @@ function loadBill(data, data2, upv, downv) {
 	if (totalvotecount == 0) {
 		totalvotecount = 1;
 	}
+	//Display percentages
 	upvotepercent = parseInt(upvotecount/totalvotecount *100);
 	downvotepercent = parseInt(downvotecount/totalvotecount * 100);
 
@@ -297,9 +301,33 @@ function loadBill(data, data2, upv, downv) {
     $("#main").html(html);
 }
 
-/*
-Need to have a vote number somewhere.
-*/
+//Follow or unfollow bill
+function followBill(billID, type) {
+	if (window.XMLHttpRequest)
+	  {// code for IE7+, Firefox, Chrome, Opera, Safari
+	  xmlhttp3=new XMLHttpRequest();
+	  }
+	else
+	  {// code for IE6, IE5
+	  xmlhttp3=new ActiveXObject("Microsoft.XMLHTTP");
+	  }
+	xmlhttp3.onreadystatechange=function()
+	  {
+	  if (xmlhttp3.readyState==4 && xmlhttp3.status==200)
+		{
+			//Response of -1 means an error occurred
+			if (xmlhttp3.responseText == '-1') {
+				alert("Please login to vote");
+			} else {
+				location.reload();
+			}
+		}
+	  }
+	//Vote is 1 : True : script will downvote
+	xmlhttp3.open("GET","userFollowBill.php?id="+billID + "&f=" + type,true);
+	xmlhttp3.send();
+}
+
 //Upvote the bill
 function voteBillUp (billID) {
 	if (window.XMLHttpRequest)
@@ -314,9 +342,11 @@ function voteBillUp (billID) {
 	  {
 	  if (xmlhttp1.readyState==4 && xmlhttp1.status==200)
 		{
+			//Response of -1 means an error occurred
 			if (xmlhttp1.responseText == '-1') {
 				alert("Please login to vote");
 			} else {
+			
 				location.reload();
 			}
 		}
@@ -324,7 +354,7 @@ function voteBillUp (billID) {
 	//Vote is 1 : True : script will downvote
 	xmlhttp1.open("GET","voting.php?id="+billID+"&vote=1",true);
 	xmlhttp1.send();
-	//alert("Todo.");
+
 }
 //Downvote the bill
 function voteBillDown(billID) {
@@ -340,6 +370,7 @@ function voteBillDown(billID) {
 	  {
 	  if (xmlhttp2.readyState==4 && xmlhttp2.status==200)
 		{
+		//Response of -1 means an error occurred
 			if (xmlhttp2.responseText == '-1') {
 				alert("Please login to vote");
 			} else {
@@ -349,18 +380,8 @@ function voteBillDown(billID) {
 	  }
 	//Vote is 1 : True : script will downvote
 	xmlhttp2.open("GET","voting.php?id="+billID+"&vote=0",true);
-	xmlhttp2.send();
-	//alert("Todo.");
-	
+	xmlhttp2.send();	
 }
-
-
-//Follow bill function 
-function followBill(billID) 
-{
-	
-}
-
 
 /*
 * Load a table of all bills.

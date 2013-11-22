@@ -27,7 +27,7 @@
 		} 
 		catch(PDOException $ex) 
 		{ 
-		echo '-1';
+			echo '-1';
 		} 
 	}
 	

@@ -1,34 +1,21 @@
 <?php 
 
-	//TODO : Change failures from die() to appropriate error message
-
-	// First we execute our common code to connection to the database and start the session 
     require("accountDatabase/common.php"); 						 
-	// This if statement checks to determine whether the registration form has been submitted 
-	// If it has, then the registration code is run, otherwise the form is displayed 
+
 	$s_first = '';
 	$s_last = '';
 	$s_email = '';
 	$s_postalcode = '';
 	if(!empty($_POST)) 
 	{ 
-	
-		/*
-		echo '<script type="text/javascript">
-		document.getElementById("firstError").innerHTML="";
-		document.getElementById("lastError").innerHTML="";
-		document.getElementById("emailError").innerHTML="";
-		document.getElementById("passError").innerHTML="";
-		document.getElementById("postalError").innerHTML="";
-		</script>';
-		*/
+
 		$cont=0;
-		// Ensure that the user has entered a non-empty username 
 		
+		// Ensure that the user has entered a non-empty first and last name 
 		if(empty($_POST['first'])) 
 		{ 
 			$cont=1;
-
+			//Error message
 			echo '<script type="text/javascript">
 		
 			if (window.XMLHttpRequest)
@@ -134,18 +121,7 @@
 		$zip_postal= $_POST['postalcode'];
 		 
 		$ZIPREG=array(
-			//"US"=>"^\d{5}([\-]?\d{4})?$",
-			//"UK"=>"^(GIR|[A-Z]\d[A-Z\d]??|[A-Z]{2}\d[A-Z\d]??)[ ]??(\d[A-Z]{2})$",
-			//"DE"=>"\b((?:0[1-46-9]\d{3})|(?:[1-357-9]\d{4})|(?:[4][0-24-9]\d{3})|(?:[6][013-9]\d{3}))\b",
 			"CA"=>"^([ABCEGHJKLMNPRSTVXY]\d[ABCEGHJKLMNPRSTVWXYZ])\ {0,1}(\d[ABCEGHJKLMNPRSTVWXYZ]\d)$",
-			//"FR"=>"^(F-)?((2[A|B])|[0-9]{2})[0-9]{3}$",
-			//"IT"=>"^(V-|I-)?[0-9]{5}$",
-			//"AU"=>"^(0[289][0-9]{2})|([1345689][0-9]{3})|(2[0-8][0-9]{2})|(290[0-9])|(291[0-4])|(7[0-4][0-9]{2})|(7[8-9][0-9]{2})$",
-			//"NL"=>"^[1-9][0-9]{3}\s?([a-zA-Z]{2})?$",
-			//"ES"=>"^([1-9]{2}|[0-9][1-9]|[1-9][0-9])[0-9]{3}$",
-			//"DK"=>"^([D-d][K-k])?( |-)?[1-9]{1}[0-9]{3}$",
-			//"SE"=>"^(s-|S-){0,1}[0-9]{3}\s?[0-9]{2}$",
-			//"BE"=>"^[1-9]{1}[0-9]{3}$"
 		);
 		 
 		if ($ZIPREG[$country_code]) {
@@ -177,9 +153,6 @@
 		}
 		 
 		// Make sure the user entered a valid E-Mail address 
-		// filter_var is a useful PHP function for validating form input, see: 
-		// http://us.php.net/manual/en/function.filter-var.php 
-		// http://us.php.net/manual/en/filter.filters.php 
 		if(!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) 
 		{ 
 			$cont=1;
@@ -202,7 +175,7 @@
 			xmlhttp6.open("GET","error.php?q="+"invalidemail",true);
 			xmlhttp6.send();
 			</script>';
-			//die("Invalid E-Mail Address"); 
+
 		} 
 		 
 		
@@ -229,7 +202,6 @@
 		{ 
 			echo '<script type="text/javascript">alert("Database error. Please try again later.");</script>';
 			echo '<script type="text/javascript">location.reload(true);</script>';
-			//die("Failed to run query: "); 
 		} 
 		 
 		$row = $stmt->fetch(); 
@@ -258,11 +230,9 @@
 			</script>';
 
 		} 
-
+		
+		//if no errors have occurred we continue
 		if($cont==0) {
-			// An INSERT query is used to add new rows to a database table. 
-			// Again, we are using special tokens (technically called parameters) to 
-			// protect against SQL injection attacks. 
 			$query = " 
 				INSERT INTO users ( 
 					first, 
@@ -283,39 +253,22 @@
 				) 
 			"; 
 			 
-			// A salt is randomly generated here to protect again brute force attacks 
-			// and rainbow table attacks.  The following statement generates a hex 
-			// representation of an 8 byte salt.  Representing this in hex provides 
-			// no additional security, but makes it easier for humans to read. 
-			// For more information: 
-			// http://en.wikipedia.org/wiki/Salt_%28cryptography%29 
-			// http://en.wikipedia.org/wiki/Brute-force_attack 
-			// http://en.wikipedia.org/wiki/Rainbow_table 
+			//Salt and hash the password
 			$salt = dechex(mt_rand(0, 2147483647)) . dechex(mt_rand(0, 2147483647)); 
-			 
-			// This hashes the password with the salt so that it can be stored securely 
-			// in your database.  The output of this next statement is a 64 byte hex 
-			// string representing the 32 byte sha256 hash of the password.  The original 
-			// password cannot be recovered from the hash.  For more information: 
-			// http://en.wikipedia.org/wiki/Cryptographic_hash_function 
 			$password = hash('sha256', $_POST['password'] . $salt); 
 			 
-			// Next we hash the hash value 65536 more times.  The purpose of this is to 
-			// protect against brute force attacks.  Now an attacker must compute the hash 65537 
-			// times for each guess they make against a password, whereas if the password 
-			// were hashed only once the attacker would have been able to make 65537 different  
-			// guesses in the same amount of time instead of only one. 
 			for($round = 0; $round < 65536; $round++) 
 			{ 
 				$password = hash('sha256', $password . $salt); 
 			} 
+			
+			//Unique activation code
 			$activation = md5(uniqid(rand(), true));
 			 
+			//Fix postal code into standard format
 			$zip_postal=preg_replace('/\s+/', '', $zip_postal); 
 			$zip_postal=strtoupper($zip_postal);
-			// Here we prepare our tokens for insertion into the SQL query.  We do not 
-			// store the original password; only the hashed version of it.  We do store 
-			// the salt (in its plaintext form; this is not a security risk). 
+			
 			$query_params = array( 
 				':first' => $_POST['first'],
 				':last' => $_POST['last'], 			
@@ -336,9 +289,9 @@
 			{ 
 				echo '<script type="text/javascript">alert("Database error. Please try again later.");</script>';
 				echo '<script type="text/javascript">location.reload(true);</script>';
-				//die("Failed to run query: "); 
 			} 
 			
+			//Send activation email
 			$email = $_POST['email'];
 			$message = "To activate your account, please click on this link:\n\n";
 			$message .= $website . '/activate.php?email=' . urlencode($email) . "&key=$activation";
@@ -348,7 +301,7 @@
 			$mail = new PHPMailer;
 
 			$mail->isSMTP();                                      // Set mailer to use SMTP
-			$mail->Host = 'smtp.gmail.com;';  // Specify main and backup server
+			$mail->Host = 'smtp.gmail.com;';
 			$mail->SMTPAuth = true;                               // Enable SMTP authentication
 			$mail->Username = $hostemail;                            // SMTP username
 			$mail->Password = $hostpassword;                           // SMTP password
@@ -368,16 +321,13 @@
 			if(!$mail->send()) {
 				die($mail->ErrorInfo); 
 			} else {
-			// This redirects the user back to the index page after they register 
 				header("Location: success.php"); 
 				die("Redirecting to success.php"); 
 			}
-			// Calling die or exit after performing a redirect using the header function 
-			// is critical.  The rest of your PHP script will continue to execute and 
-			// will be sent to the user if you do not die or exit. 
 			
 		}
 
+		//If error occurred we set the fields to what the user entered
 		$s_first = htmlentities($_POST['first'], ENT_QUOTES, 'UTF-8');
 		$s_last = htmlentities($_POST['last'], ENT_QUOTES, 'UTF-8'); 	
 		$s_email = htmlentities($_POST['email'], ENT_QUOTES, 'UTF-8'); 	
@@ -447,19 +397,13 @@
 
 				<div id="wb-head"><div id="wb-head-in"><header>
 
-					<!-- HeaderStart -->
-					<!-- sh__Language_selection_top_left -->
-					<!--LEO: DISABLING LANGUAGE SUPPORT FOR THE TIME BEING -->
-					
 					<section>
 						<div id="wet-fullhd">
 						<div id="wet-fullhd-in">
-								<ul>
-								
-								<!-- <li id="wet-fullhd-lang-2"><a href="index-fr.html" lang="fr">Français</a></li> -->
-								<li id="wet-fullhd-lang-current">English</li>
+								<ul>		
+									<li id="wet-fullhd-lang-current">English</li>
 								</ul>
-								
+						
 								<?php include 'accountDatabase/header.php'; ?>
 						</div>
 						</div>
@@ -570,12 +514,6 @@
 			
 							</div>
 							<div class="clear"></div>
-
-
-						<!-- sh__date_Modified  LEO:Leaving out for now -->
-<!-- 						<dl id="wet-date-mod" role="contentinfo">
-							<dt>Date modified:</dt><dd><span><time>2013-09-28</time></span></dd>
-						</dl> -->
 						<div class="clear"></div>
 						<!-- MainContentEnd -->
 					</div>
@@ -597,18 +535,6 @@
 
 				<!-- FooterStart -->
 				<nav role="navigation"><div id="wet-sft"><h3>Site footer</h3><div id="wet-sft-in">
-
-					<!-- e.g About -->
-				 <!-- COPY & PASTE BELOW FOR MULTIPLE COLUMNS.
-				<section>   
-					<div class="span-2">
-						<h4 class="wet-col-head">About</h4>
-						<ul>
-							<li><a href="">Vision</a></li>
-						</ul>
-					</div>
-				</section> 
-			-->
 
 		</div></div></nav>
 		<!-- FooterEnd -->

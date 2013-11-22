@@ -38,11 +38,13 @@
 
 		$stmt1 = $db->prepare($query1); 
 		$result1 = $stmt1->execute($query_params1);
-
+		
+		echo '1';
+		
 		} 
 		catch(PDOException $ex) 
 		{ 
-		echo $ex->getMessage();
+			echo '-1';
 		} 
 	}
 	

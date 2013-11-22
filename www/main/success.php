@@ -1,5 +1,6 @@
+
 <?php 
-    // First we execute our common code to connection to the database and start the session 
+	//Page for successful registration.
     require("accountDatabase/common.php"); 
 ?> 
 
@@ -68,21 +69,13 @@
 				</div>
 
 				<div id="wb-head"><div id="wb-head-in"><header>
-
-					<!-- HeaderStart -->
-					<!-- sh__Language_selection_top_left -->
-					<!--LEO: DISABLING LANGUAGE SUPPORT FOR THE TIME BEING -->
 					
 					<section>
 						<div id="wet-fullhd">
 						<div id="wet-fullhd-in">
 								
 								<ul>
-								
-								<!-- <li id="wet-fullhd-lang-2"><a href="index-fr.html" lang="fr">Français</a></li> -->
-								
-								<li id="wet-fullhd-lang-current">English</li>
-								
+									<li id="wet-fullhd-lang-current">English</li>
 								</ul>
 								
 								<?php include 'accountDatabase/header.php'; ?>
@@ -109,22 +102,6 @@
 				</a>
 			</p>
 		</div>
-
-		<!-- sh__Search_box_and_Button -->
-		<!-- LEO Disabling Search for the time being. -->
-		<!--
- 		<section role="search">
-			<div id="wet-srchbx"><h2>Search</h2>
-				<form action="#" method="post">
-					<div id="wet-srchbx-in">
-						<label for="wet-srch">Search website</label>
-						<input id="wet-srch" name="wet-srch" type="search" value="" size="27" maxlength="150" />
-						<input id="wet-srch-submit" name="wet-srch-submit" type="submit" value="Search" data-icon="search" class="button button-accent" />
-					</div>
-				</form>
-			</div>
-		</section> -->
-
 	</div>
 </div>
 
@@ -139,17 +116,6 @@
 		</ul>
 	</div></div></div>
 	</div>
-
-	<!-- sh__top_tree_navigation_links -->
-	<!-- LEO- Disabling Bread crumbs for the time being. as our structure is flat.  -->
-	<!-- 	<div id="wet-bc"><h2>Breadcrumb trail</h2>
-		<div id="wet-bc-in">
-			<ol>
-				<li><a href="../index-en.html">Home</a></li>
-				<li>main</li>
-			</ol>
-		</div>
-	</div> -->
 </nav>
 
 <!-- HeaderEnd -->
@@ -180,12 +146,6 @@
 
 						</div>
 						<div class="clear"></div>
-
-
-						<!-- sh__date_Modified  LEO:Leaving out for now -->
-<!-- 						<dl id="wet-date-mod" role="contentinfo">
-							<dt>Date modified:</dt><dd><span><time>2013-09-28</time></span></dd>
-						</dl> -->
 						<div class="clear"></div>
 						<!-- MainContentEnd -->
 					</div>
@@ -207,18 +167,6 @@
 
 				<!-- FooterStart -->
 				<nav role="navigation"><div id="wet-sft"><h3>Site footer</h3><div id="wet-sft-in">
-
-					<!-- e.g About -->
-				 <!-- COPY & PASTE BELOW FOR MULTIPLE COLUMNS.
-				<section>   
-					<div class="span-2">
-						<h4 class="wet-col-head">About</h4>
-						<ul>
-							<li><a href="">Vision</a></li>
-						</ul>
-					</div>
-				</section> 
-			-->
 
 		</div></div></nav>
 		<!-- FooterEnd -->

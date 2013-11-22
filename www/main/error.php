@@ -1,6 +1,5 @@
 <?php
-
-//get the q parameter from URL
+//Error evaluation for registration page and edit account page.
 $q=$_GET["q"];
 $err = "";
 
