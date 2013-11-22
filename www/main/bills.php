@@ -11,21 +11,26 @@ $upvote = -1;
 $downvote = -1;
 $bill = isset($_GET["bill"]) ? (int)$_GET["bill"] : 0;
 	
+$lBill = "http://api.parliamentdata.ca/bills/";
+$fBill = "dBill.txt";
+$lRep = "http://api.parliamentdata.ca/representatives/";
+$fRep = "dRep.txt";
+
 switch ($bill) {
 	case 0:
 	case "all":
 		// if the value of the get variable is 0 or all then set $all to 1 and get the json data for all reps
-		$json = file_get_contents("http://api.parliamentdata.ca/bills/");
+		$json = file_get_contents($fBill);
 		$json = json_decode($json);
-		$jsonrep = file_get_contents("http://api.parliamentdata.ca/representatives/");
+		$jsonrep = file_get_contents($fRep);
 		$jsonrep = json_decode($jsonrep);
 		$all = 1;
 		break;
 	default:
 		// if the value of the get variable is not 0 or all then set $all to 0 and get the json data for one rep
-		$json = file_get_contents("http://api.parliamentdata.ca/bills/" . $bill . "/all");
+		$json = file_get_contents($lBill . $bill . "/all");
 		$json = json_decode($json);
-		$jsonrep = file_get_contents("http://api.parliamentdata.ca/representatives/");
+		$jsonrep = file_get_contents($fRep);
 		$jsonrep = json_decode($jsonrep);
 		$all = 0;
 }
