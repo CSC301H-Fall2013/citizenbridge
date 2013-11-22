@@ -78,7 +78,6 @@
 		else 
 		{ 
 			
-		
 			echo '<script type="text/javascript">
 		
 			if (window.XMLHttpRequest)

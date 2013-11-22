@@ -480,19 +480,19 @@
 							
 							<form action="register.php" method="post"> 
 								First Name:<br /> 
-								<input type="text" name="first" value="<?php echo $s_first; ?>" maxlength="25"/> <span id="firstError"></span>
+								<input type="text" name="first" value="<?php echo $s_first; ?>" maxlength="50"/> <span id="firstError"></span>
 								<br /><br />
 								Last Name:<br /> 
-								<input type="text" name="last" value="<?php echo $s_last; ?>" maxlength="25"/> <span id="lastError"></span>
+								<input type="text" name="last" value="<?php echo $s_last; ?>" maxlength="50"/> <span id="lastError"></span>
 								<br /><br /> 								
 								E-Mail:<br /> 
-								<input type="text" name="email" value="<?php echo $s_email; ?>" maxlength="25"/> <span id="emailError"></span>
+								<input type="text" name="email" value="<?php echo $s_email; ?>" maxlength="50"/> <span id="emailError"></span>
 								<br /><br /> 
 								Password:<br /> 
 								<input type="password" name="password" value="" maxlength="30"/> <span id="passError"></span>
 								<br /><br />
 								Postal-Code:<br /> 
-								<input type="text" name="postalcode" value="<?php echo $s_postalcode; ?>" maxlength="7"/> <span id="postalError"></span>
+								<input type="text" name="postalcode" value="<?php echo $s_postalcode; ?>" maxlength="6"/> <span id="postalError"></span>
 								<br /><br /> 	
 								<input type="submit" value="Register" /> 
 							</form>
