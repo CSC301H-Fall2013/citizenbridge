@@ -609,8 +609,8 @@ function loadMyBill(data, data2, iddata) {
 				{ "iDataSort": 1 },
 				{ "bVisible": false},
 				null,
-				{ "bVisible": false},
 				{ "iDataSort": 4 },
+				{ "bVisible": false},
 				{ "sType": "html" },
 				null,
 				null
