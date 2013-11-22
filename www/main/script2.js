@@ -389,11 +389,9 @@ function voteBillDown(billID) {
 function loadBillList (data, data2) {
     // Template for bill rows
 	var template = "<tr class='row'></td><td><a href='bills.php?bill={{billId}}'>{{prefix}}</a></td><td>{{prefixnum}}</td><td><a href='bills.php?bill={{billId}}'>{{title}}</a></td><td>{{status}}</td><td>{{statusNum}}</td><td>{{sponsor}}</td><td>{{introdate}}</td><td>{{updated}}</td></tr>";
-    //var template = "<tr class='row'></td><td><a href='bills.php?bill={{billId}}'>{{prefixnum}}</a></td><td><a href='bills.php?bill={{billId}}'>{{title}}</a></td><td><a href='bills.php?bill={{billId}}'>{{status}}</a></td><td>{{sponsor}}</td><td><a href='bills.php?bill={{billId}}'>{{introdate}}</a></td><td><a href='bills.php?bill={{billId}}'>{{updated}}</a></td></tr>";
             
     //Create the table and the header
 	var html = "<table id='bill-table'><thead><tr role='row'><th width='50'>Bill</th><th>#</th><th>Title</th><th>Status</th><th>Status #</th><th>Sponsor</th><th>Introduced</th><th>Updated</th></tr></thead><tbody>";
-    //var html = "<table id='bill-table' class='wet-boew-tables' data-wet-boew='{ \"aaSorting\": [[5, \"desc\"]], \"iDisplayLength\": 50 }'><thead><tr role='row'><th width='50'>Bill</th><th>Title</th><th>Status</th><th>Sponsor</th><th>Introduced</th><th>Updated</th></tr></thead><tbody>";
     
     // Create a list of sponsors to access their information by their id
     var sponsorIdList = new Array();
@@ -403,7 +401,7 @@ function loadBillList (data, data2) {
 
     // Create and fill in a row for each bill
     for (var i = 0; i < data.results.length; i++) {
-        // Get all the required data from the JSON
+        //Get all the required data from the JSON
         var result, prefixnum, title, up, update, /*sponsor,*/ status, intro, introdate;
     
         result = data.results[i];
@@ -457,12 +455,9 @@ function loadBillList (data, data2) {
 		}
 		
 		//Status bar
-		//TO DO: Figure out how to sort this.
 		status = last_event.status;
 		var progress = "<progress value=\"" + status + "\" max=\"11\" />"
 		
-		
-    
         html += template
             .replace("{{billId}}", billId)
             .replace("{{billId}}", billId)
@@ -506,6 +501,6 @@ function loadBillList (data, data2) {
 			]
 		} );
 	} );
-
-	
 }
+
+

@@ -141,7 +141,7 @@
 							Successful Registration. Please validate your account through the e-mail you provided.
 							<br /> <br />
 							<form action="index.php">
-								<input type="submit" value="Contine">
+								<input type="submit" value="Continue">
 							</form>
 
 						</div>

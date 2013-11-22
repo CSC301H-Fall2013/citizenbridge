@@ -429,21 +429,6 @@
 			</p>
 		</div>
 
-		<!-- sh__Search_box_and_Button -->
-		<!-- LEO Disabling Search for the time being. -->
-		<!--
- 		<section role="search">
-			<div id="wet-srchbx"><h2>Search</h2>
-				<form action="#" method="post">
-					<div id="wet-srchbx-in">
-						<label for="wet-srch">Search website</label>
-						<input id="wet-srch" name="wet-srch" type="search" value="" size="27" maxlength="150" />
-						<input id="wet-srch-submit" name="wet-srch-submit" type="submit" value="Search" data-icon="search" class="button button-accent" />
-					</div>
-				</form>
-			</div>
-		</section> -->
-
 	</div>
 </div>
 
@@ -495,19 +480,19 @@
 							
 							<form action="register.php" method="post"> 
 								First Name:<br /> 
-								<input type="text" name="first" value="<?php echo $s_first; ?>" /> <span id="firstError"></span>
+								<input type="text" name="first" value="<?php echo $s_first; ?>" maxlength="25"/> <span id="firstError"></span>
 								<br /><br />
 								Last Name:<br /> 
-								<input type="text" name="last" value="<?php echo $s_last; ?>" /> <span id="lastError"></span>
+								<input type="text" name="last" value="<?php echo $s_last; ?>" maxlength="25"/> <span id="lastError"></span>
 								<br /><br /> 								
 								E-Mail:<br /> 
-								<input type="text" name="email" value="<?php echo $s_email; ?>" /> <span id="emailError"></span>
+								<input type="text" name="email" value="<?php echo $s_email; ?>" maxlength="25"/> <span id="emailError"></span>
 								<br /><br /> 
 								Password:<br /> 
-								<input type="password" name="password" value="" /> <span id="passError"></span>
+								<input type="password" name="password" value="" maxlength="30"/> <span id="passError"></span>
 								<br /><br />
 								Postal-Code:<br /> 
-								<input type="text" name="postalcode" value="<?php echo $s_postalcode; ?>" /> <span id="postalError"></span>
+								<input type="text" name="postalcode" value="<?php echo $s_postalcode; ?>" maxlength="7"/> <span id="postalError"></span>
 								<br /><br /> 	
 								<input type="submit" value="Register" /> 
 							</form>

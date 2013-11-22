@@ -398,19 +398,19 @@
 							<!-- JIE: Registration Form -->
 							<form action="edit_account.php" method="post"> 
 								First Name:<br /> 
-								<input type="text" name="first" value ="<?php echo htmlentities($_SESSION['user']['first'], ENT_QUOTES, 'UTF-8'); ?>"</> <span id="firstError"></span>
+								<input type="text" name="first" value ="<?php echo htmlentities($_SESSION['user']['first'], ENT_QUOTES, 'UTF-8'); ?>" maxlength="25"/> <span id="firstError"></span>
 								<br /><br />
 								Last Name:<br /> 
-								<input type="text" name="last" value="<?php echo htmlentities($_SESSION['user']['last'], ENT_QUOTES, 'UTF-8'); ?>"</> <span id="lastError"></span>
+								<input type="text" name="last" value="<?php echo htmlentities($_SESSION['user']['last'], ENT_QUOTES, 'UTF-8'); ?>"/ maxlength="25"> <span id="lastError"></span>
 								<br /><br /> 
 								Postal Code:<br /> 
-								<input type="text" name="postalcode" value="<?php echo htmlentities($_SESSION['user']['postalcode'], ENT_QUOTES, 'UTF-8'); ?>"</> <span id="postalError"></span>
+								<input type="text" name="postalcode" value="<?php echo htmlentities($_SESSION['user']['postalcode'], ENT_QUOTES, 'UTF-8'); ?>" maxlength="7"/> <span id="postalError"></span>
 								<br /><br /> 								
 								E-Mail Address:<br /> 
-								<input type="text" name="email" value="<?php echo htmlentities($_SESSION['user']['email'], ENT_QUOTES, 'UTF-8'); ?>" /> <span id="emailError"></span>	
+								<input type="text" name="email" value="<?php echo htmlentities($_SESSION['user']['email'], ENT_QUOTES, 'UTF-8'); ?>" maxlength="25"/> <span id="emailError"></span>	
 								<br /><br /> 
 								Password:<br /> 
-								<input type="password" name="password" value="" /> <br /> <span id="passError"></span>
+								<input type="password" name="password" value="" maxlength="30"/> <br /> <span id="passError"></span>
 								<i>(leave blank if you do not want to change your password)</i> 
 								<br /><br /> 
 								<input type="submit" value="Update Account" /> 
