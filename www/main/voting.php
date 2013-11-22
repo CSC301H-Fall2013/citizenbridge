@@ -10,23 +10,23 @@
 		$id=$_GET["id"];
 		$vote=$_GET["vote"];
 		
+		//Only 1 valid vote at a time; set the rest to invalid
 		$query = "UPDATE votebills SET valid=0 WHERE bid=:bid AND email=:email AND valid=1";
 		
-		
+		//Insert a new valid vote
 		$query1 = "INSERT INTO votebills(bid, vdate, valid, email, vote) VALUES (:bid, :time, 1, :email,:v)";
-		//$query3 = "SELECT vote FROM votebills WHERE bid=5138145";
 		
 		
 		$query_params = array( 
 		':bid' => $id,
-		':email' => $_SESSION['user']['email'], // NOTE:Gets the email, not the users ID. 
+		':email' => $_SESSION['user']['email'] // NOTE:Gets the email, not the users ID. 
 		); 
 		
 		$query_params1 = array( 
 		':bid' => $id,
 		':email' => $_SESSION['user']['email'], // NOTE:Gets the email, not the users ID. 
 		':v' => $vote,
-		':time' => time(), //in ISO format cause I'm lazy like that. And it's easier.
+		':time' => time()
 		); 
 
 		

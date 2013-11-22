@@ -10,7 +10,6 @@
 		$id=$_GET["id"];
 		$vote=$_GET["vote"];
 		if ($vote) {
-			//$query = "INSERT INTO votebills VALUES :id, asdjhkad, 0, 1234567890, 0";
 			$query = "UPDATE vbills SET upvote=upvote+1 WHERE bid=:id";
 		} else {
 			$query = "UPDATE vbills SET downvote=downvote+1 WHERE bid=:id";

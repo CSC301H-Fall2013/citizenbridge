@@ -21,7 +21,7 @@
 
 //billsdown.txt
 //http://api.parliamentdata.ca/bills/
-$json = file_get_contents("billsdown.txt");
+$json = file_get_contents("dBill.txt");
 $json_decode = json_decode($json, true);
 
 //var_dump($json);

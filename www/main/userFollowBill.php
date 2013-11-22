@@ -2,10 +2,6 @@
 
 require("accountDatabase/common.php");
 
-// echo var_dump($_POST) . "<br>";
-// echo var_dump($_SESSION) . "<br>";
-
-
 if (empty($_POST) || empty($_SESSION)) 
 {
 	echo "Please log in before following a bill";
