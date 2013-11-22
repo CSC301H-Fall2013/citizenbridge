@@ -16,7 +16,6 @@ Permissions: Select, Insert, Update
 Use localhost as host
 
 
-
 3: Create Table: Use this SQL code (SQL Tab)
 
 CREATE TABLE `users` (
@@ -32,41 +31,25 @@ CREATE TABLE `users` (
   PRIMARY KEY (`email`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;
 
-CREATE TABLE `validation` (
-	`email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-	`key` char(64) COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB	DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
 CREATE TABLE `fbills` (
   `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `bid` int(10) COLLATE utf8_unicode_ci NOT NULL,
   FOREIGN KEY (`email`) REFERENCES users(`email`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-CREATE TABLE `freps` (
-  `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `rid` int(10) COLLATE utf8_unicode_ci NOT NULL,
-  FOREIGN KEY (`email`) REFERENCES users(`email`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
-
-/* NOTE: No longer being used */
-
-CREATE TABLE `vbills` (
-  `upvote` int(1) COLLATE utf8_unicode_ci NOT NULL,
-  `downvote` int(1) COLLATE utf8_unicode_ci NOT NULL,
+CREATE TABLE `bills` (
   `bid` int(10) COLLATE utf8_unicode_ci NOT NULL,
-  `updatedate` varchar(20) COLLATE utf8_unicode_ci NOT NULL
+  `updatedate` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`bid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-/* NOTE: This is the table that took the place of vbills */
 
 CREATE TABLE `votebills` (
-  `bid` int(10) NOT NULL,
+  `bid` int(10) COLLATE utf8_unicode_ci NOT NULL,
   `vdate` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
-  `valid` int(1) NOT NULL,
+  `valid` int(1) COLLATE utf8_unicode_ci NOT NULL,
   `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `vote` int(1) NOT NULL,
+  `vote` int(1) COLLATE utf8_unicode_ci NOT NULL,
   FOREIGN KEY (`email`) REFERENCES users(`email`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 

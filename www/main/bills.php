@@ -244,8 +244,8 @@ switch ($bill) {
 			<?php
 			if (!empty($_SESSION))
 			{
-				$queryupvote = "SELECT COUNT(vote) FROM votebills WHERE bid=:id AND valid=1 AND vote=1";
-				$querydownvote = "SELECT COUNT(vote) FROM votebills WHERE bid=:id AND valid=1 AND vote=0";
+				$queryupvote = "SELECT COUNT(vote) AS count FROM votebills WHERE bid=:id AND valid=1 AND vote=1";
+				$querydownvote = "SELECT COUNT(vote) AS count FROM votebills WHERE bid=:id AND valid=1 AND vote=0";
 				$query_params = array( 
 					':id' => $bill
 				);
@@ -282,41 +282,41 @@ switch ($bill) {
 		
 		upvote = <?php echo $upvote?>;
 		downvote = <?php echo $downvote?>;
-			loadBill(json, jsonrep, upvote, downvote);
-			<?php
-			if (!empty($_SESSION)) 
+		loadBill(json, jsonrep, upvote, downvote);
+		<?php
+		if (!empty($_SESSION)) 
+		{
+			
+			$userEmail = $_SESSION['user']['email'];
+			//check if user follows bill
+			//check if user+billid is already in the DB. 
+			$sth = $db->prepare('SELECT bid FROM fbills WHERE bid = :bid AND email = :email');
+			$result = $sth->execute(array(':bid' => $bill, ':email' => $userEmail));
+			if (!$result)
 			{
-				
-				$userEmail = $_SESSION['user']['email'];
-				//check if user follows bill
-				//check if user+billid is already in the DB. 
-				$sth = $db->prepare('SELECT bid FROM fbills WHERE bid = :bid AND email = :email');
-				$result = $sth->execute(array(':bid' => $bill, ':email' => $userEmail));
-				if (!$result)
-				{
-					echo "Database access error";
-					die;
-				}
-				$fetchResult = $sth->fetch();
-				// if already following hide follow button
-				if ($fetchResult)
-				{
-					echo "$('#followButton' ).hide();";
-					
-				}
-				// if not following hide unfollow button
-				else
-				{
-					echo "$('#unfollowButton' ).hide()";
-				}
+				echo "Database access error";
+				die;
 			}
-			// if not log in hide follow and unfollow buttons
-			else
+			$fetchResult = $sth->fetch();
+			// if already following hide follow button
+			if ($fetchResult)
 			{
 				echo "$('#followButton' ).hide();";
+				
+			}
+			// if not following hide unfollow button
+			else
+			{
 				echo "$('#unfollowButton' ).hide()";
 			}
-			?>
+		}
+		// if not log in hide follow and unfollow buttons
+		else
+		{
+			echo "$('#followButton' ).hide();";
+			echo "$('#unfollowButton' ).hide()";
+		}
+		?>
 		}
 		</script>
 

@@ -43,7 +43,7 @@ foreach ($json_decode['results'] as $js)
 	
 
 		//if exists in database
-		$sth = $db->prepare('SELECT bid, updatedate FROM vbills WHERE bid = :bid');
+		$sth = $db->prepare('SELECT bid, updatedate FROM bills WHERE bid = :bid');
 		$result = $sth->execute(array(':bid' => $js['id']));
 		if (! $result) 
 		{
@@ -58,7 +58,7 @@ foreach ($json_decode['results'] as $js)
 		if($fetchResult == false)
 		{
 			//Insert bid and date into db. 
-			$insertStatment = $db->prepare('INSERT INTO vbills (bid, updatedate) VALUES (:bid, :last_updated)');
+			$insertStatment = $db->prepare('INSERT INTO bills (bid, updatedate) VALUES (:bid, :last_updated)');
 			$result = $insertStatment->execute(array(':bid' => $js['id'], ':last_updated' => $js['last_updated']));
 		}
 	
@@ -67,7 +67,7 @@ foreach ($json_decode['results'] as $js)
 		if ($fetchResult['updatedate'] != $js['last_updated'])
 		{
 			//if old db entry is out of date, update it with the new one
-			$updateStatement = $db->prepare("UPDATE vbills SET updatedate=:updatedate WHERE bid=:bid");
+			$updateStatement = $db->prepare("UPDATE bills SET updatedate=:updatedate WHERE bid=:bid");
 			$result = $updateStatement->execute(array(':bid' => $js['id'], ':updatedate' => $js['last_updated']));
 			
 			//get all emails that are following the bill

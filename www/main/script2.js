@@ -263,8 +263,11 @@ function loadBill(data, data2, upv, downv) {
 	if (downv != -1) {
 		downvotecount = downv;
 	}
-
-	totalvotecount = upvotecount+ downvotecount;
+	
+	totalvotecount = upvotecount + downvotecount;
+	if (totalvotecount == 0) {
+		totalvotecount = 1;
+	}
 	upvotepercent = parseInt(upvotecount/totalvotecount *100);
 	downvotepercent = parseInt(downvotecount/totalvotecount * 100);
 
