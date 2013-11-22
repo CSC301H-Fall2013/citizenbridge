@@ -8,7 +8,7 @@
 function loadBill(data, data2, upv, downv) {
 
 	//bill name and voting buttons
-	templateMain = "<div class='span-1'><center><h2>{{prefixnum}}</h2><br><h5>Up Votes:</h5><h5>{{upvotes}}</h5><button onclick=\"voteBillUp({{billID}})\">Upvote</button><br><h5>Down Votes:</h5><h5>{{downvotes}}</h5><button onclick=\"voteBillDown({{billID}})\">Downvote</button><br><br><br>";
+	templateMain = "<div class='span-1'><center><h2>{{prefixnum}}</h2><br><h5>Up Votes:</h5><h5>{{upvotes}}%</h5><button onclick=\"voteBillUp({{billID}})\">Upvote</button><br><h5>Down Votes:</h5><h5>{{downvotes}}%</h5><button onclick=\"voteBillDown({{billID}})\">Downvote</button><br><br><br>";
 	
 	//follow button
 	templateMain += "<form id='followButton' action='userFollowBill.php' method='post'> <input type='hidden' name='billToFollow' value='{{billID}}'> <input type='submit' name='follow' value='Follow'> </form>";
@@ -264,6 +264,10 @@ function loadBill(data, data2, upv, downv) {
 		downvotecount = downv;
 	}
 
+	totalvotecount = upvotecount+ downvotecount;
+	upvotepercent = upvotecount/totalvotecount *100;
+	downvotepercent = downvotecount/totalvotecount * 100;
+
 
     html = templateMain
         .replace("{{prefixnum}}", prefixnum)
@@ -283,8 +287,8 @@ function loadBill(data, data2, upv, downv) {
 		.replace("{{votes}}", votes)
 		.replace("{{press}}", pr)
 		.replace("{{links}}", links)
-		.replace("{{upvotes}}", upvotecount)
-		.replace("{{downvotes}}", downvotecount);
+		.replace("{{upvotes}}", upvotepercent)
+		.replace("{{downvotes}}", downvotepercent);
 		
     // Append the html to the web page
     $("#main").html(html);
