@@ -265,8 +265,8 @@ function loadBill(data, data2, upv, downv) {
 	}
 
 	totalvotecount = upvotecount+ downvotecount;
-	upvotepercent = upvotecount/totalvotecount *100;
-	downvotepercent = downvotecount/totalvotecount * 100;
+	upvotepercent = parseInt(upvotecount/totalvotecount *100);
+	downvotepercent = parseInt(downvotecount/totalvotecount * 100);
 
 
     html = templateMain
