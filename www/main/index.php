@@ -146,6 +146,7 @@
 	
     <script type="text/javascript" src="script.js"></script>
     <script type="text/javascript" src="script2.js"></script>
+	<script class="jsbin" src="http://datatables.net/download/build/jquery.dataTables.nightly.js"></script>
 	<style>
 	#components td {vertical-align: middle;}
 	</style>

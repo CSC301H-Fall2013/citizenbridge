@@ -508,7 +508,7 @@ function loadMyBill(data, data2, iddata) {
 	var template = "<tr class='row'></td><td><a href='bills.php?bill={{billId}}'>{{prefix}}</a></td><td>{{prefixnum}}</td><td><a href='bills.php?bill={{billId}}'>{{title}}</a></td><td>{{status}}</td><td>{{statusNum}}</td><td>{{sponsor}}</td><td>{{introdate}}</td><td>{{updated}}</td></tr>";
             
     //Create the table and the header
-	var html = "<table id='bill-table'><thead><tr role='row'><th width='50'>Bill</th><th>#</th><th>Title</th><th>Status</th><th>Status #</th><th>Sponsor</th><th>Introduced</th><th>Updated</th></tr></thead><tbody>";
+	var html = "<table id='bTable'><thead><tr role='row'><th width='50'>Bill</th><th>#</th><th>Title</th><th>Status</th><th>Status #</th><th>Sponsor</th><th>Introduced</th><th>Updated</th></tr></thead><tbody>";
     
     // Create a list of sponsors to access their information by their id
     var sponsorIdList = new Array();
@@ -600,14 +600,9 @@ function loadMyBill(data, data2, iddata) {
             
     // Append the html to the web page
 	$("#fbills").html(html);
-
 	
-	//To sort properly by "C-1, C-2, ...", status, and rep names
-	//Works, but gives error "DataTables warning (table id = 'bill-table'): Cannot reinitialise DataTable."
-	//Need some way to edit original DataTable in table id = 'bill-table'
-	//Comment out below to remove error message
 	$(document).ready( function() {
-		$('#bill-table').dataTable( {
+		$('#bTable').dataTable( {
 			"aaSorting": [[7, "desc"]],
 			"iDisplayLength": 100,
 			"aoColumns": [
