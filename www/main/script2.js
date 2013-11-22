@@ -525,6 +525,8 @@ function loadMyBill(data, data2, iddata) {
 		
         billId = result.id;
 		
+		//If the bill is followed it will be in the iddata structure
+		//Only load bills that are followed
 		if(found(billId, iddata)) {
 			
 			// Number

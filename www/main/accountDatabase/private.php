@@ -10,6 +10,7 @@
 		</ul>
 	<div class='tabs-panel'>
 		<div id='account'>
+			<br /><br />
 			First Name: <?php echo htmlentities($_SESSION['user']['first'], ENT_QUOTES, 'UTF-8'); ?> 
 			<br /><br />
 			Last Name : <?php echo htmlentities($_SESSION['user']['last'], ENT_QUOTES, 'UTF-8'); ?>
