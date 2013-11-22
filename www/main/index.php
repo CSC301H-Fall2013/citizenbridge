@@ -145,7 +145,7 @@
 	<!-- ATHA__Style_sheet  -->
 	
     <script type="text/javascript" src="script.js"></script>
-    
+    <script type="text/javascript" src="script2.js"></script>
 	<style>
 	#components td {vertical-align: middle;}
 	</style>

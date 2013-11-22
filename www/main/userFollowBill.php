@@ -2,8 +2,6 @@
 
 require("accountDatabase/common.php");
 
-
-
 if (empty($_SESSION))
 {
 	echo '-1';

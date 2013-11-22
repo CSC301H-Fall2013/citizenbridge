@@ -387,6 +387,7 @@ function voteBillDown(billID) {
 * Load a table of all bills.
 */
 function loadBillList (data, data2) {
+	
     // Template for bill rows
 	var template = "<tr class='row'></td><td><a href='bills.php?bill={{billId}}'>{{prefix}}</a></td><td>{{prefixnum}}</td><td><a href='bills.php?bill={{billId}}'>{{title}}</a></td><td>{{status}}</td><td>{{statusNum}}</td><td>{{sponsor}}</td><td>{{introdate}}</td><td>{{updated}}</td></tr>";
             
@@ -501,6 +502,135 @@ function loadBillList (data, data2) {
 			]
 		} );
 	} );
+}
+function loadMyBill(data, data2, iddata) {
+    // Template for bill rows
+	var template = "<tr class='row'></td><td><a href='bills.php?bill={{billId}}'>{{prefix}}</a></td><td>{{prefixnum}}</td><td><a href='bills.php?bill={{billId}}'>{{title}}</a></td><td>{{status}}</td><td>{{statusNum}}</td><td>{{sponsor}}</td><td>{{introdate}}</td><td>{{updated}}</td></tr>";
+            
+    //Create the table and the header
+	var html = "<table id='bill-table'><thead><tr role='row'><th width='50'>Bill</th><th>#</th><th>Title</th><th>Status</th><th>Status #</th><th>Sponsor</th><th>Introduced</th><th>Updated</th></tr></thead><tbody>";
+    
+    // Create a list of sponsors to access their information by their id
+    var sponsorIdList = new Array();
+    for (var j = 0; j < data2.results.length; j ++){
+        sponsorIdList[j] = data2.results[j].id;
+    }
+
+    // Create and fill in a row for each bill
+    for (var i = 0; i < data.results.length; i++) {
+        //Get all the required data from the JSON
+        var result, prefixnum, title, up, update, /*sponsor,*/ status, intro, introdate;
+    
+        result = data.results[i];
+		
+        billId = result.id;
+		
+		if(found(billId, iddata)) {
+			
+			// Number
+			prefix = result.prefix + "-" + result.number;
+			prefixnum = result.number;
+			if (result.prefix == "S") {
+				prefixnum += 100000;
+			}
+			
+			// Title
+			title = result.short_title.EN;
+			if (title == null) { //short_title may not always be available.
+				title = result.title.EN; // Hopefully is not null.
+			};
+		
+			// Introduction date
+			intro = new Date(result.introduction * 1000);
+			introdate = (intro.toJSON()).slice(0,10);
+			//introdate = intro.toUTCString();
+			
+			// Updated date
+			up = new Date(result.last_updated);
+			updated = (up.toJSON()).slice(0,10) + " " + up.toLocaleTimeString();
+			//updated = up.toUTCString();
+
+			// Sponsor
+			sponsorId = result.sponsor;					
+			sponsorIndex = sponsorIdList.indexOf(sponsorId);
+			if (sponsorIndex == -1){
+				//Sponsor is no longer a MP and their information is not available
+				sponsor = "-";
+			} else {
+				//Print the first and last name of sponsor
+				sponsor = "<a href='representatives.php?rep=" + sponsorId + "'>" + 
+					data2.results[sponsorIndex].name.given + " " + data2.results[sponsorIndex].name.family + "</a>";
+				//displays the image of the sponsor (disabled/does not work)
+				//sponsor = "http://www.parl.gc.ca/Parlinfo/images/Picture.aspx?Item=" + data2.results[sponsorIndex].image_id;
+
+			}
+
+			// Find the status of a bill by the status of the most recent event
+			last_event = result.events[0];
+			for (var j=0; j < result.events.length; j++) {
+				if (last_event.date < result.events[j].date) {
+					last_event = result.events[j];
+				}
+			}
+			
+			//Status bar
+			status = last_event.status;
+			var progress = "<progress value=\"" + status + "\" max=\"11\" />"
+			
+			html += template
+				.replace("{{billId}}", billId)
+				.replace("{{billId}}", billId)
+				.replace("{{billId}}", billId)
+				.replace("{{billId}}", billId)
+				.replace("{{prefix}}", prefix)
+				.replace("{{prefixnum}}", prefixnum)
+				.replace("{{title}}", title)
+				.replace("{{status}}", progress)
+				.replace("{{statusNum}}", status)
+				.replace("{{sponsor}}", sponsor)
+				.replace("{{introdate}}", introdate)
+				.replace("{{updated}}", updated);
+		}
+    }
+    
+    // Close the table
+    html += "</tbody></table>";
+            
+    // Append the html to the web page
+	$("#fbills").html(html);
+
+	
+	//To sort properly by "C-1, C-2, ...", status, and rep names
+	//Works, but gives error "DataTables warning (table id = 'bill-table'): Cannot reinitialise DataTable."
+	//Need some way to edit original DataTable in table id = 'bill-table'
+	//Comment out below to remove error message
+	$(document).ready( function() {
+		$('#bill-table').dataTable( {
+			"aaSorting": [[7, "desc"]],
+			"iDisplayLength": 100,
+			"aoColumns": [
+				{ "iDataSort": 1 },
+				{ "bVisible": false},
+				null,
+				{ "bVisible": false},
+				{ "iDataSort": 4 },
+				{ "sType": "html" },
+				null,
+				null
+			]
+		} );
+	} );
+}
+
+function found(id, iddata) {
+
+	for (var i = 0; i < iddata.length; i++) {
+		if(id == iddata[i].bid) {
+			return true;
+		}
+	}
+	
+	return false;
 }
 
 
